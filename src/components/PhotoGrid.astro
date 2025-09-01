@@ -1,0 +1,7 @@
+---
+const { photos } = Astro.props;
+const data = JSON.stringify(photos);
+---
+<div>
+  <div id="photo-grid" class="grid-container" data-photos={data}></div>
+</div>

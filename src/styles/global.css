@@ -1,0 +1,60 @@
+:root{
+  --gap: 6px;
+  --bg: #f9fafb; /* like gray-50 */
+  --text: #111827; /* like gray-900 */
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+  background:var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+.container{
+  max-width:1100px;
+  margin:28px auto;
+  padding:0 16px;
+}
+h1{font-size:1.75rem;margin:0 0 18px}
+.grid-container{
+  position:relative;
+  width:100%;
+  /* height set by client layout script */
+}
+.photo{
+  position:absolute;
+  overflow:hidden;
+  border-radius:8px;
+  cursor:pointer;
+  background:#e5e7eb;
+}
+.photo img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  vertical-align:middle;
+}
+.caption{
+  margin-top:8px;
+  font-size:0.95rem;
+  color:#374151;
+}
+
+/* Lightbox */
+.ltbox-overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,0.85);
+  display:flex;align-items:center;justify-content:center;
+  z-index:9999;
+}
+.ltbox-img{max-width:95%;max-height:92%;border-radius:8px}
+.ltbox-btn{
+  position:absolute;top:18px;right:18px;color:#fff;background:transparent;border:none;font-size:20px;cursor:pointer;
+}
+.ltbox-nav{position:absolute;top:50%;transform:translateY(-50%);color:#fff;background:transparent;border:none;font-size:32px;cursor:pointer}
+.ltbox-prev{left:18px}
+.ltbox-next{right:18px}

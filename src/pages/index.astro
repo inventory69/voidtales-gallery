@@ -1,0 +1,57 @@
+---
+import '../styles/global.css';
+import PhotoGrid from '../components/PhotoGrid.astro';
+
+// Load markdown files as raw and parse minimal frontmatter
+const modules = import.meta.glob('../content/photos/*.md', { eager: true, as: 'raw' });
+
+function parseFrontmatter(raw, path){
+  const m = /^---\\s*([\\s\\S]*?)\\s*---/.exec(raw);
+  const fm = {};
+  if (m){
+    const body = m[1];
+    for (const line of body.split(/\\r?\\n/)){
+      const idx = line.indexOf(':');
+      if (idx === -1) continue;
+      const key = line.slice(0, idx).trim();
+      const valRaw = line.slice(idx+1).trim();
+      const val = valRaw.replace(/^["']|["']$/g,'');
+      if (key === 'width' || key === 'height') fm[key] = Number(val);
+      else fm[key] = val;
+    }
+  }
+  if (fm.image){
+    const parts = fm.image.split('/');
+    const fname = parts[parts.length-1];
+    const base = fname.replace(/\\.[^.]+$/, '');
+    fm.thumbBase = `/images/thumbs/${base}`;
+  }
+  fm._srcPath = path;
+  return fm;
+}
+
+const photos = Object.entries(modules).map(([p, raw]) => parseFrontmatter(raw, p));
+---
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>VoidTales Gallery</title>
+  </head>
+  <body>
+    <main class="container">
+      <h1>VoidTales Gallery</h1>
+      <PhotoGrid photos={photos} />
+      <p class="caption">Klicke auf ein Bild, um die Lightbox zu öffnen. Thumbnails können mit <code>pnpm run gen:thumbs</code> erzeugt werden.</p>
+    </main>
+
+    <script>
+      (function(){
+        const load = () => { import('/scripts/photo-grid-client.js'); };
+        if ('requestIdleCallback' in window) requestIdleCallback(load, {timeout:1500});
+        else window.addEventListener('load', () => setTimeout(load, 600));
+      })();
+    </script>
+  </body>
+</html>
