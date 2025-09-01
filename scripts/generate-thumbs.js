@@ -4,7 +4,7 @@ import sharp from 'sharp';
 
 const srcDir = path.resolve('public/images/original');
 const outDir = path.resolve('public/images/thumbs');
-const sizes = [400, 800, 1600];
+const sizes = [200, 400];
 
 fs.mkdirSync(outDir, { recursive: true });
 
@@ -19,10 +19,16 @@ if (!files.length) {
     const name = path.parse(file).name;
     const input = path.join(srcDir, file);
     for (const w of sizes) {
-      const outFile = path.join(outDir, `${name}-${w}.jpg`);
-      await sharp(input).resize({ width: w }).jpeg({ quality: 80 }).toFile(outFile);
-      console.log('wrote', outFile);
+      // // JPG-Thumbnail
+      // const outJpg = path.join(outDir, `${name}-${w}.jpg`);
+      // await sharp(input).resize({ width: w }).jpeg({ quality: 80 }).toFile(outJpg);
+      // console.log('wrote', outJpg);
+
+      // WebP-Thumbnail
+      const outWebp = path.join(outDir, `${name}-${w}.webp`);
+      await sharp(input).resize({ width: w }).webp({ quality: 80 }).toFile(outWebp);
+      console.log('wrote', outWebp);
     }
   }
-  console.log('All thumbnails generated.');
+  console.log('All thumbnails (JPG & WebP) generated.');
 })();

@@ -19,13 +19,12 @@ body{
   padding:0 16px;
 }
 h1{font-size:1.75rem;margin:0 0 18px}
-.grid-container{
-  position:relative;
-  width:100%;
-  /* height set by client layout script */
+.grid-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 .photo{
-  position:absolute;
   overflow:hidden;
   border-radius:8px;
   cursor:pointer;
@@ -42,21 +41,6 @@ h1{font-size:1.75rem;margin:0 0 18px}
   font-size:0.95rem;
   color:#374151;
 }
-
-/* Lightbox */
-.ltbox-overlay{
-  position:fixed;inset:0;
-  background:rgba(0,0,0,0.85);
-  display:flex;align-items:center;justify-content:center;
-  z-index:9999;
-}
-.ltbox-img{max-width:95%;max-height:92%;border-radius:8px}
-.ltbox-btn{
-  position:absolute;top:18px;right:18px;color:#fff;background:transparent;border:none;font-size:20px;cursor:pointer;
-}
-.ltbox-nav{position:absolute;top:50%;transform:translateY(-50%);color:#fff;background:transparent;border:none;font-size:32px;cursor:pointer}
-.ltbox-prev{left:18px}
-.ltbox-next{right:18px}
 
 /* Background layer (dark mode) */
 html.dark::before,

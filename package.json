@@ -7,7 +7,7 @@
     "prepare": "husky",
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build --jobs 1",
+    "build": "pnpm run gen:thumbs &&astro check && astro build --jobs 1",
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check && biome check",
@@ -18,9 +18,11 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
+    "@astrojs/preact": "^4.1.0",
     "@astrojs/sitemap": "^3.4.1",
     "@fancyapps/ui": "^6.0.17",
     "astro": "^5.12.3",
+    "preact": "^10.27.1",
     "smartypants": "^0.2.2",
     "typescript": "^5.8.3"
   },

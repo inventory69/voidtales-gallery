@@ -1,5 +1,7 @@
 import { defineConfig } from 'astro/config';
 
+import preact from '@astrojs/preact';
+
 export default defineConfig({
-  // No integrations required for this vanilla setup
+  integrations: [preact()]
 });
