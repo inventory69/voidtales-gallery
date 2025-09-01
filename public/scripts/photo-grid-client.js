@@ -1,5 +1,7 @@
 /* photo-grid-client.js - simple justified layout + lightbox (vanilla JS) */
 
+console.log('[photo-grid-client] loaded');
+
 function parsePhotosFromContainer(container){
   const raw = container.dataset.photos || '[]';
   try{ return JSON.parse(raw); } catch(e){ return []; }
@@ -64,6 +66,7 @@ function renderGrid(container){
       el.style.height = b.height + 'px';
 
       const img = document.createElement('img');
+      // fallback: use original image if no thumbnail
       const thumb400 = (p.thumbBase ? `${p.thumbBase}-400.jpg` : null);
       img.src = thumb400 || p.image;
       img.loading = 'lazy';
@@ -160,7 +163,14 @@ function closeLightbox(){
 }
 
 /* Initialize for all matching containers */
-document.addEventListener('DOMContentLoaded', () => {
+function initAll() {
   const containers = document.querySelectorAll('#photo-grid.grid-container');
   containers.forEach(c => renderGrid(c));
-});
+}
+
+// If DOM already ready, init immediately; otherwise wait for DOMContentLoaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAll);
+} else {
+  initAll();
+}

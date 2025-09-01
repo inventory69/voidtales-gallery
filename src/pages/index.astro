@@ -1,36 +1,10 @@
 ---
 import '../styles/global.css';
+import Header from '../components/Header.astro';
 import PhotoGrid from '../components/PhotoGrid.astro';
 
-// Load markdown files as raw and parse minimal frontmatter
-const modules = import.meta.glob('../content/photos/*.md', { eager: true, as: 'raw' });
-
-function parseFrontmatter(raw, path){
-  const m = /^---\\s*([\\s\\S]*?)\\s*---/.exec(raw);
-  const fm = {};
-  if (m){
-    const body = m[1];
-    for (const line of body.split(/\\r?\\n/)){
-      const idx = line.indexOf(':');
-      if (idx === -1) continue;
-      const key = line.slice(0, idx).trim();
-      const valRaw = line.slice(idx+1).trim();
-      const val = valRaw.replace(/^["']|["']$/g,'');
-      if (key === 'width' || key === 'height') fm[key] = Number(val);
-      else fm[key] = val;
-    }
-  }
-  if (fm.image){
-    const parts = fm.image.split('/');
-    const fname = parts[parts.length-1];
-    const base = fname.replace(/\\.[^.]+$/, '');
-    fm.thumbBase = `/images/thumbs/${base}`;
-  }
-  fm._srcPath = path;
-  return fm;
-}
-
-const photos = Object.entries(modules).map(([p, raw]) => parseFrontmatter(raw, p));
+const modules = import.meta.glob('../content/photos/*.md', { eager: true });
+const photos = Object.values(modules).map((m) => (m as { frontmatter: unknown })?.frontmatter ?? m);
 ---
 <!doctype html>
 <html lang="de">
@@ -38,17 +12,43 @@ const photos = Object.entries(modules).map(([p, raw]) => parseFrontmatter(raw, p
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>VoidTales Gallery</title>
+    <script>
+      // Early theme setter to prevent FOUC
+      (function() {
+        try {
+          var saved = localStorage.getItem('saved-theme');
+          var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          var theme = saved || system;
+          if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.documentElement.setAttribute('data-color-mode', 'dark');
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.documentElement.setAttribute('saved-theme', 'dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.setAttribute('data-color-mode', 'light');
+            document.documentElement.setAttribute('data-theme', 'light');
+            document.documentElement.setAttribute('saved-theme', 'light');
+          }
+        } catch(e) {}
+      })();
+    </script>
   </head>
   <body>
-    <main class="container">
-      <h1>VoidTales Gallery</h1>
+    <Header />
+    <main class="container" role="main">
       <PhotoGrid photos={photos} />
-      <p class="caption">Klicke auf ein Bild, um die Lightbox zu öffnen. Thumbnails können mit <code>pnpm run gen:thumbs</code> erzeugt werden.</p>
     </main>
 
-    <script>
+    <script type="text/javascript">
       (function(){
-        const load = () => { import('/scripts/photo-grid-client.js'); };
+        const load = () => {
+          const s = document.createElement('script');
+          s.src = '/scripts/photo-grid-client.js';
+          s.type = 'module';
+          s.defer = true;
+          document.body.appendChild(s);
+        };
         if ('requestIdleCallback' in window) requestIdleCallback(load, {timeout:1500});
         else window.addEventListener('load', () => setTimeout(load, 600));
       })();

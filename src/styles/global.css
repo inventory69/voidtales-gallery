@@ -36,7 +36,6 @@ h1{font-size:1.75rem;margin:0 0 18px}
   width:100%;
   height:100%;
   object-fit:cover;
-  vertical-align:middle;
 }
 .caption{
   margin-top:8px;
@@ -58,3 +57,198 @@ h1{font-size:1.75rem;margin:0 0 18px}
 .ltbox-nav{position:absolute;top:50%;transform:translateY(-50%);color:#fff;background:transparent;border:none;font-size:32px;cursor:pointer}
 .ltbox-prev{left:18px}
 .ltbox-next{right:18px}
+
+/* Background layer (dark mode) */
+html.dark::before,
+:root[saved-theme='dark']::before,
+:root[data-color-mode='dark']::before,
+html[data-theme='dark']::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0; /* behind page content but above body painting issues */
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(6, 6, 10, 0.664), rgba(6, 6, 10, 0.644)),
+    radial-gradient(ellipse at center, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.6) 100%),
+    url('/images/index-dark.webp') center/cover no-repeat fixed;
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  will-change: transform;
+}
+
+/* Mobile: remove fixed attachment for dark */
+@media (max-width: 767px) {
+  html.dark::before,
+  :root[saved-theme='dark']::before,
+  :root[data-color-mode='dark']::before,
+  html[data-theme='dark']::before {
+    background-image:
+      linear-gradient(rgba(6, 6, 10, 0.555), rgba(6, 6, 10, 0.562)),
+      radial-gradient(ellipse at center, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.6) 100%),
+      url('/images/index-dark.webp');
+    background-position: center center, center center, center center;
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    background-size: cover, cover, cover;
+    background-attachment: scroll, scroll, scroll;
+    -webkit-backdrop-filter: blur(1px);
+    backdrop-filter: blur(1px);
+  }
+
+  body > * {
+    position: relative;
+    z-index: 10;
+  }
+}
+
+/* Ensure page content renders above the background */
+body > * {
+  position: relative;
+  z-index: 10;
+  background-color: transparent;
+}
+
+/* Ensure header/main/footer above background */
+header,
+main,
+footer,
+#nav-container {
+  position: relative;
+  z-index: 11;
+  background-color: transparent;
+}
+
+/* Light mode layer */
+html:not(.dark)::before,
+:root[saved-theme='light']::before,
+:root[data-color-mode='light']::before,
+html[data-theme='light']::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.87)),
+    radial-gradient(ellipse at center, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.06) 100%),
+    url('/images/index-light.webp') center/cover no-repeat fixed;
+  -webkit-backdrop-filter: blur(1px);
+  backdrop-filter: blur(1px);
+  will-change: transform;
+}
+
+/* Mobile fallback: disable fixed for both modes */
+@media (max-width: 767px) {
+  html.dark::before,
+  :root[saved-theme='dark']::before,
+  :root[data-color-mode='dark']::before,
+  html[data-theme='dark']::before,
+  html:not(.dark)::before,
+  :root[saved-theme='light']::before,
+  :root[data-color-mode='light']::before,
+  html[data-theme='light']::before {
+    background-attachment: scroll;
+    background-position: center;
+    background-size: cover;
+    -webkit-backdrop-filter: blur(1px);
+    backdrop-filter: blur(1px);
+  }
+  body > * { position: relative; z-index: 10; }
+}
+
+:root {
+  /* Light mode (defaults) */
+  --bg: #f9fafb;
+  --text: #111827;
+  --muted: #374151;
+  --surface: rgba(255,255,255,0.6);
+  --surface-strong: #ffffff;
+  --btn-border: rgba(0,0,0,0.06);
+  --accent: #2563eb;
+  --shadow: rgba(2,6,23,0.08);
+}
+
+/* Dark mode overrides */
+html.dark,
+:root[saved-theme='dark'],
+:root[data-color-mode='dark'],
+html[data-theme='dark'] {
+  --bg: #060612;            /* page base behind the ::before layer */
+  --text: #f8fafc;          /* main text (light) */
+  --muted: #cbd5e1;         /* muted/caption text (lighter) */
+  --surface: rgba(0,0,0,0.35);
+  --surface-strong: rgba(0,0,0,0.5);
+  --btn-border: rgba(255,255,255,0.06);
+  --accent: #60a5fa;
+  --shadow: rgba(255,255,255,0.03);
+}
+
+/* Apply to base elements */
+body {
+  background: transparent; /* background handled by ::before layers already */
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* headings, captions, links */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text);
+}
+.caption, .caption a {
+  color: var(--muted);
+}
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover, a:focus {
+  text-decoration: underline;
+}
+
+/* Header / surface elements */
+.site-header {
+  background: transparent;
+  color: var(--text);
+}
+.theme-toggle {
+  background: var(--surface);
+  border: 1px solid var(--btn-border);
+  color: var(--text);
+  box-shadow: 0 2px 6px var(--shadow);
+}
+html.dark .theme-toggle {
+  background: var(--surface); /* already dark surface */
+}
+
+/* Panels / cards (if you have any) */
+.card, .photo, .container-card {
+  background: transparent; /* keep translucency above background */
+  color: var(--text);
+}
+
+/* Ensure photo captions / metadata are readable */
+.photo + .caption, .photo .caption {
+  color: var(--muted);
+}
+
+/* Buttons / controls */
+button, input, select, textarea {
+  color: var(--text);
+  background: transparent;
+  border-radius: 8px;
+}
+
+/* focus states */
+:focus {
+  outline: 3px solid color-mix(in srgb, var(--accent) 50%, transparent);
+  outline-offset: 2px;
+}
+
+/* small mobile tweak in dark: ensure contrast for toggles */
+@media (max-width: 767px) {
+  .theme-toggle {
+    background: var(--surface);
+    border-color: var(--btn-border);
+  }
+}

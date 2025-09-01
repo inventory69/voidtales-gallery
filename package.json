@@ -13,7 +13,8 @@
     "check": "astro check && biome check",
     "check:fix": "astro check && biome check --write",
     "stylelint": "stylelint '**/*.{astro,css}'",
-    "stylelint:fix": "stylelint '**/*.{astro,css}' --fix"
+    "stylelint:fix": "stylelint '**/*.{astro,css}' --fix",
+    "gen:thumbs": "node scripts/generate-thumbs.js"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
