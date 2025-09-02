@@ -29,6 +29,12 @@ h1{font-size:1.75rem;margin:0 0 18px}
   border-radius:8px;
   cursor:pointer;
   background:#e5e7eb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.308);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.photo:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.12);
 }
 .photo img{
   display:block;
@@ -223,16 +229,99 @@ button, input, select, textarea {
   border-radius: 8px;
 }
 
-/* focus states */
-:focus {
-  outline: 3px solid color-mix(in srgb, var(--accent) 50%, transparent);
-  outline-offset: 2px;
+/* Modern Theme Toggle: ALLE Browser-Stile entfernen, dann neu aufbauen */
+.modern-theme-toggle {
+  all: unset; /* Entfernt ALLE Browser-Standard-Stile */
+  background: linear-gradient(135deg, var(--surface-strong, #fff) 60%, var(--accent, #60a5fa) 100%);
+  color: var(--accent, #2563eb);
+  border: none;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  box-shadow: 0 4px 16px rgba(30, 64, 175, 0.10), 0 1.5px 6px rgba(0,0,0,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.7rem;
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s, box-shadow 0.2s, transform 0.15s;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  text-shadow: none;
+  filter: none; /* Entfernt alle Filter-Effekte */
+  -webkit-appearance: none; /* Entfernt WebKit-Button-Stile */
+  -moz-appearance: none; /* Entfernt Mozilla-Button-Stile */
 }
-
-/* small mobile tweak in dark: ensure contrast for toggles */
-@media (max-width: 767px) {
-  .theme-toggle {
-    background: var(--surface);
-    border-color: var(--btn-border);
-  }
+.modern-theme-toggle:hover {
+  background: linear-gradient(135deg, var(--surface-strong, #fff) 80%, var(--accent, #60a5fa) 100%);
+  color: var(--accent, #2563eb);
+  box-shadow: 0 8px 32px rgba(30, 64, 175, 0.10), 0 2px 8px rgba(0,0,0,0.10);
+  transform: scale(1.08) rotate(-6deg);
+}
+.modern-theme-toggle:focus,
+.modern-theme-toggle:focus-visible,
+.modern-theme-toggle:active {
+  outline: none !important;
+  outline-offset: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+  border-radius: 50% !important;
+  text-shadow: none !important;
+  filter: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+}
+.modern-theme-toggle::-moz-focus-inner {
+  border: 0 !important;
+}
+.modern-theme-toggle::-webkit-focus-ring-color {
+  color: transparent !important;
+}
+.toggle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 1.7em;
+  height: 1.7em;
+  text-shadow: none;
+}
+.icon-sun, .icon-moon {
+  position: absolute;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.7em;
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+  transition: opacity 0.35s, transform 0.35s;
+  will-change: opacity, transform;
+  text-shadow: none;
+}
+.icon-hide {
+  opacity: 0;
+  transform: scale(0.6) rotate(30deg);
+  pointer-events: none;
+}
+/* Entfernt ALLE Fokus-Indikatoren für den Theme-Toggle */
+.modern-theme-toggle,
+.modern-theme-toggle:focus,
+.modern-theme-toggle:focus-visible,
+.modern-theme-toggle:active {
+  outline: none !important;
+  outline-offset: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+  border-radius: 50% !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+}
+.modern-theme-toggle::-moz-focus-inner {
+  border: 0 !important;
+}
+.modern-theme-toggle::-webkit-focus-ring-color {
+  color: transparent !important;
 }

@@ -13,23 +13,13 @@ const photos = Object.values(modules).map((m) => (m as { frontmatter: unknown })
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>VoidTales Gallery</title>
     <script>
-      // Early theme setter to prevent FOUC
       (function() {
         try {
-          var saved = localStorage.getItem('saved-theme');
-          var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-          var theme = saved || system;
-          if (theme === 'dark') {
-            document.documentElement.classList.add('dark');
-            document.documentElement.setAttribute('data-color-mode', 'dark');
-            document.documentElement.setAttribute('data-theme', 'dark');
-            document.documentElement.setAttribute('saved-theme', 'dark');
-          } else {
-            document.documentElement.classList.remove('dark');
-            document.documentElement.setAttribute('data-color-mode', 'light');
-            document.documentElement.setAttribute('data-theme', 'light');
-            document.documentElement.setAttribute('saved-theme', 'light');
-          }
+          var saved = localStorage.getItem('theme');
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = saved === 'dark' || (!saved && prefersDark);
+          document.documentElement.classList.toggle('dark', isDark);
+          document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
         } catch(e) {}
       })();
     </script>
