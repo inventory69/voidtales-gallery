@@ -250,6 +250,7 @@ button, input, select, textarea {
   overflow: hidden;
   text-shadow: none;
   filter: none; /* Entfernt alle Filter-Effekte */
+  appearance: none; /* Standard property for compatibility */
   -webkit-appearance: none; /* Entfernt WebKit-Button-Stile */
   -moz-appearance: none; /* Entfernt Mozilla-Button-Stile */
 }
