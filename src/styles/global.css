@@ -20,9 +20,28 @@ body{
 }
 h1{font-size:1.75rem;margin:0 0 18px}
 .grid-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Passt Spalten automatisch an */
+  gap: 1rem; /* Abstand zwischen Bildern */
+  max-width: 1200px; /* Begrenze die Breite für große Bildschirme */
+  margin: 0 auto; /* Zentriere das Grid */
+  padding: 1rem;
+}
+
+/* Responsive Anpassungen */
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Kleinere Bilder auf Tablet */
+    gap: 0.75rem;
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-container {
+    grid-template-columns: 1fr; /* Einzelne Spalte auf Mobile */
+    gap: 0.5rem;
+  }
 }
 .photo{
   overflow:hidden;
@@ -30,11 +49,13 @@ h1{font-size:1.75rem;margin:0 0 18px}
   cursor:pointer;
   background:#e5e7eb;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.308);
-  transition: transform 0.15s, box-shadow 0.15s;
+  aspect-ratio: 4 / 3; /* Feste Proportion (anpassbar, z.B. 1 / 1 für Quadrate) */
+  width: 100%; /* Nimmt die volle Grid-Zelle ein */
 }
 .photo:hover {
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+  transform: translateY(-2px) scale(1.01); /* Noch weniger Bewegung */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08); /* Subtiler Schatten */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Sanftere Transition */
 }
 .photo img{
   display:block;
@@ -196,10 +217,71 @@ a:hover, a:focus {
   text-decoration: underline;
 }
 
-/* Header / surface elements */
+/* Moderner Header-Stil */
 .site-header {
-  background: transparent;
+  position: sticky;
+  top: 0;
+  z-index: 20; /* Above background */
+  background:  rgba(255, 255, 255, 0.308);
+  backdrop-filter: blur(10px); /* Moderner Blur-Effekt */
+  border-bottom: 1px solid var(--btn-border, rgba(0, 0, 0, 0.06));
+  padding: 0.1rem 0;
+  box-shadow: 0 2px 10px var(--shadow, rgba(0, 0, 0, 0.05));
+  transition: background 0.3s ease;
+}
+
+.site-header:hover {
+  background: rgba(255, 255, 255, 0.589); /* Leichter Hover-Effekt */
+}
+
+.site-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem;
+}
+
+.brand .logo {
+  line-height: 0.7; /* Kompakter: Standard ist 1.2, hier 0.9 */
+  font-weight: 600;
+  text-decoration: none;
   color: var(--text);
+  font-size: 1.1rem;
+  transition: color 0.2s ease;
+}
+
+.brand .logo:hover {
+  color: var(--accent);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Responsive Header */
+@media (max-width: 768px) {
+  .site-header {
+    padding: 0.1rem 0;
+  }
+  .site-header-inner {
+    gap: 0.1rem;
+  }
+  .brand .logo {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-header-inner {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .header-actions {
+    width: 100%;
+    justify-content: center;
+  }
 }
 .theme-toggle {
   background: var(--surface);
@@ -236,13 +318,13 @@ button, input, select, textarea {
   color: var(--accent, #2563eb);
   border: none;
   border-radius: 50%;
-  width: 3rem;
-  height: 3rem;
+  width: 1.5rem;
+  height: 1.5rem;
   box-shadow: 0 4px 16px rgba(30, 64, 175, 0.10), 0 1.5px 6px rgba(0,0,0,0.06);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.7rem;
+  font-size: 1rem;
   cursor: pointer;
   transition: background 0.25s, color 0.25s, box-shadow 0.2s, transform 0.15s;
   outline: none;

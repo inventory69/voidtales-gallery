@@ -24,10 +24,15 @@ export default function PhotoGridClient({ photos }: { photos: Photo[] }) {
           href={photo.fullsizePath}
           data-fancybox="gallery"
           data-caption={photo.title}
+          aria-label={`Öffne Vollbild von ${photo.title}`}  // Neu: Für Screenreader
         >
         <picture>
             <source srcSet={photo.thumbPath.replace(/\.jpg$/, ".webp")} type="image/webp" />
-            <img src={photo.thumbPath.replace(/\.jpg$/, ".webp")} alt={photo.title} />
+            <img 
+              src={photo.thumbPath.replace(/\.jpg$/, ".webp")}
+              alt={photo.title}
+              loading="lazy" // Neu: Lazy Loading für bessere Performance
+            />
         </picture>
         </a>
       ))}
