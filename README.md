@@ -10,7 +10,7 @@ No frameworks, no client-side bloat—just your photos, beautifully presented.
 - 🗂️ **Automatic thumbnail generation** (optional, via Node script)  
 - ♿ **Accessible lightbox** and responsive CSS Grid layout with subtle hover effects  
 - 🌗 **Dark mode** with instant, flicker-free theme switching  
-- 🛠️ **No frameworks**: No React, Preact, or Tailwind required  
+- 🛠️ **Minimal frameworks**: Uses Astro for static generation and Preact only for client-side interactions (no heavy frameworks like React or Vue)
 - 📱 **Responsive design**: Optimized for all devices with modern CSS Grid  
 - ⚡ **Performance optimized**: Lazy loading for images and efficient theme toggle  
 - 🎨 **Modern UI**: Transparent header, dynamic positioning, and refined interactions  
