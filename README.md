@@ -8,9 +8,12 @@ No frameworks, no client-side bloat—just your photos, beautifully presented.
 - 🚀 **Lightning-fast** static site generation with Astro  
 - 🖼️ **Markdown-based photo metadata** (`src/content/photos/*.md`)  
 - 🗂️ **Automatic thumbnail generation** (optional, via Node script)  
-- ♿ **Accessible lightbox** and responsive grid layout  
+- ♿ **Accessible lightbox** and responsive CSS Grid layout with subtle hover effects  
 - 🌗 **Dark mode** with instant, flicker-free theme switching  
-- 🛠️ **No frameworks**: No React, Preact, or Tailwind required
+- 🛠️ **No frameworks**: No React, Preact, or Tailwind required  
+- 📱 **Responsive design**: Optimized for all devices with modern CSS Grid  
+- ⚡ **Performance optimized**: Lazy loading for images and efficient theme toggle  
+- 🎨 **Modern UI**: Transparent header, dynamic positioning, and refined interactions  
 
 ---
 
@@ -57,20 +60,20 @@ Visit [http://localhost:4321](http://localhost:4321) to view your gallery.
 │   ├── images/
 │   │   ├── original/   # Your original images
 │   │   └── thumbs/     # Thumbnails (generated)
-│   └── scripts/
-│       └── photo-grid-client.js  # Client-side grid & lightbox logic
 ├── src/
 │   ├── components/
-│   │   ├── Header.astro
-│   │   └── PhotoGrid.astro
+│   │   ├── Header.astro          # Optimized header component
+│   │   ├── PhotoGrid.astro       # Server-side photo grid
+│   │   ├── PhotoGridClient.tsx   # Client-side grid with lightbox
+│   │   └── ThemeToggle.jsx       # Refined theme toggle button
 │   ├── content/
-│   │   └── photos/     # Markdown files for photo metadata
+│   │   └── photos/               # Markdown files for photo metadata
 │   ├── pages/
-│   │   └── index.astro
+│   │   └── index.astro           # Main gallery page
 │   └── styles/
-│       └── global.css
+│       └── global.css            # Global styles with modern optimizations
 ├── scripts/
-│   └── generate-thumbs.js  # Thumbnail generator script
+│   └── generate-thumbs.js        # Thumbnail generator script
 ├── package.json
 └── README.md
 ```
@@ -78,13 +81,35 @@ Visit [http://localhost:4321](http://localhost:4321) to view your gallery.
 ---
 
 ## 📝 Notes
-- The grid and lightbox are handled by `public/scripts/photo-grid-client.js`.  
+- The grid and lightbox are handled by `PhotoGridClient.tsx` with Fancybox for accessibility.  
 - Dark mode is applied instantly on page load to prevent flashes.  
+- Images use lazy loading for better performance.  
+- Header is transparent and dynamically positioned for a modern feel.  
 - No Tailwind, React, or Preact—just Astro, TypeScript, and vanilla CSS/JS.
 
 ---
 
 ## 📜 License
-MIT
+MIT License
 
---- 
+Copyright (c) 2023 inventory69
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
