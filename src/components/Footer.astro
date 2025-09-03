@@ -1,0 +1,24 @@
+---
+// filepath: /home/liq/voidtales-gallery/src/components/Footer.astro
+import { navigationLinks } from '../config/navigation.js';
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-logo">
+      <a href="/">VoidTales Gallery</a>
+    </div>
+    <nav class="footer-nav">
+      <ul>
+        {navigationLinks.map(link => (
+          <li><a href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <div class="footer-copyright">
+      <p>&copy; {currentYear} VoidTales. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
