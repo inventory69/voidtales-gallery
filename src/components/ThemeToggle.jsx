@@ -13,25 +13,22 @@ export default function ThemeToggle() {
     document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
   }, []);
 
-  const toggleTheme = () => {
-    const newDark = !dark;
-    setDark(newDark);
-    document.documentElement.classList.toggle('dark', newDark);
-    document.documentElement.setAttribute('data-theme', newDark ? 'dark' : 'light');
-    localStorage.setItem('theme', newDark ? 'dark' : 'light');
-  };
+const toggleTheme = () => {
+  const newDark = !dark;
+  setDark(newDark);
+  document.documentElement.classList.toggle('dark', newDark); // Konsistent toggle verwenden
+  document.documentElement.setAttribute('data-theme', newDark ? 'dark' : 'light');
+  localStorage.setItem('theme', newDark ? 'dark' : 'light');
+};
 
   return (
     <button
-      aria-label={dark ? "Wechsle zu hellem Modus" : "Wechsle zu dunklem Modus"}
+      aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
       onClick={toggleTheme}
       className="modern-theme-toggle"
       type="button"
     >
-      <span className="toggle-icon" aria-hidden="true">
-        <span className={`icon-sun${dark ? ' icon-hide' : ''}`}>☀️</span>
-        <span className={`icon-moon${dark ? '' : ' icon-hide'}`}>🌙</span>
-      </span>
+      {/* Symbole entfernt – Toggle ist jetzt clean und minimalistisch */}
     </button>
   );
 }

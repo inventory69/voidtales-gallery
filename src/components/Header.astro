@@ -1,19 +1,21 @@
 ---
 // filepath: /home/liq/voidtales-gallery/src/components/Header.astro
 import ThemeToggle from '../components/ThemeToggle.jsx';
+import { navigationLinks } from '../config/navigation.js';
 ---
 <header class="site-header" role="banner">
   <div class="site-header-inner container">
-    <!-- Navigation links links -->
-    <nav class="header-nav" role="navigation" aria-label="Main navigation">
-      <a href="/about" class="nav-link">About</a>
-      <a href="/contact" class="nav-link">Contact</a>
-    </nav>
-
-    <!-- Logo zentriert -->
+    <!-- Logo links -->
     <div class="brand">
       <a href="/" class="logo">VoidTales Gallery</a>
     </div>
+
+    <!-- Navigation links rechts -->
+    <nav class="header-nav" role="navigation" aria-label="Main navigation">
+      {navigationLinks.map(link => (
+        <a href={link.href} class="nav-link">{link.label}</a>
+      ))}
+    </nav>
 
     <!-- Mobile menu button and Theme Toggle -->
     <div class="header-actions">
@@ -33,8 +35,9 @@ import ThemeToggle from '../components/ThemeToggle.jsx';
   <!-- Mobile menu dropdown -->
   <div id="mobile-menu" class="mobile-menu">
     <nav class="mobile-nav" role="navigation" aria-label="Mobile navigation">
-      <a href="/about" class="nav-link">About</a>
-      <a href="/contact" class="nav-link">Contact</a>
+      {navigationLinks.map(link => (
+        <a href={link.href} class="nav-link">{link.label}</a>
+      ))}
     </nav>
     <div class="mobile-actions">
       <ThemeToggle client:load />

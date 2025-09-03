@@ -4,7 +4,7 @@ import sharp from 'sharp';
 
 const srcDir = path.resolve('public/images/original');
 const outDir = path.resolve('public/images/thumbs');
-const sizes = [200, 400];
+const sizes = [200, 400, 800]; // Hochauflösende Größe hinzugefügt (800 für 2x)
 
 fs.mkdirSync(outDir, { recursive: true });
 
