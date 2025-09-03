@@ -472,11 +472,11 @@ button, input, select, textarea {
 /* Hero Section */
 .hero {
   position: relative;
-  height: 60vh; /* Large height for modern look */
+  height: 35vh; /* Größer auf Desktop: Von 25vh auf 35vh */
+  min-height: 250px; /* Höhere Grenze: Von 200px auf 250px, um Button-Abschneiden zu verhindern */
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Remove background: linear-gradient(...) */
   color: var(--text);
   text-align: center;
   overflow: hidden;
@@ -520,12 +520,18 @@ button, input, select, textarea {
 /* Responsive */
 @media (max-width: 768px) {
   .hero {
-    height: 50vh;
+    height: 40vh; /* Etwas größer auf Mobile: Von 35vh auf 40vh */
   }
   .hero-title {
     font-size: 2rem;
   }
   .hero-subtitle {
     font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    height: 45vh; /* Noch größer auf sehr kleinen Bildschirmen, um Abschneiden zu verhindern */
   }
 }
