@@ -18,6 +18,9 @@ Showcase your photos with modern design, automatic sorting, and seamless dark mo
 - ⚡ **Performance-first** – Lazy loading images, efficient CSS, WebP thumbnails via Sharp, and no unnecessary JS
 - 🎨 **Refined UI** – Transparent sticky header with blur, centered logo, mobile menu, and dynamic positioning
 - 🖼️ **Automatic thumbnail generation** – Node script using Sharp for optimized WebP images
+- 🔧 **Config-driven navigation** – Nav-Links über `src/config/navigation.js` steuern und erweitern (z.B. Portal, Wiki, Blog, Forum, Discord, Map)
+- 📐 **High-resolution thumbnail support** – Optimiert für Retina-Displays mit srcset (1x/2x)
+- 🌫️ **Background effects** – Geblurte Bilder mit Overlay für Light/Dark Mode
 
 ---
 
@@ -41,7 +44,7 @@ Run the script to create optimized WebP thumbnails:
 ```bash
 pnpm run gen:thumbs
 ```
-Thumbnails will be saved in `public/images/thumbs/` (sizes: 200px and 400px).
+Thumbnails will be saved in `public/images/thumbs/` (sizes: 200px, 400px, and 800px for high-resolution).
 
 ### 🗂️ 4. Add Photo Metadata
 Create Markdown files in:
@@ -78,24 +81,78 @@ Open [http://localhost:4321](http://localhost:4321) to see your gallery.
 ├── public/
 │   ├── images/
 │   │   ├── original/     # Your full-size images
-│   │   └── thumbs/       # Auto-generated WebP thumbnails (200px, 400px)
+│   │   └── thumbs/       # Auto-generated WebP thumbnails (200px, 400px, 800px)
 ├── src/
 │   ├── components/
 │   │   ├── Header.astro          # Sticky header with nav, centered logo, mobile menu, and theme toggle
 │   │   ├── PhotoGrid.astro       # Server-rendered wrapper for PhotoGridClient
-│   │   ├── PhotoGridClient.tsx   # Client-side grid with Fancybox lightbox and lazy loading
+│   │   ├── PhotoGridClient.tsx   # Client-side grid with Fancybox lightbox, lazy loading, and srcset for high-res
 │   │   └── ThemeToggle.jsx       # Modern theme switcher with CSS animations
+│   ├── config/
+│   │   └── navigation.js         # Config for nav links (Portal, Wiki, Blog, Forum, Discord, Map)
 │   ├── content/
 │   │   └── photos/               # Markdown files with photo metadata (date, paths, etc.)
 │   ├── pages/
 │   │   └── index.astro           # Main page with hero, sorting, and gallery
 │   └── styles/
-│       └── global.css            # Unified styles with CSS variables, dark mode, and responsive design
+│       └── global.css            # Unified styles with CSS variables, dark mode, background blur/overlay
 ├── scripts/
-│   └── generate-thumbs.js        # Sharp-based thumbnail generator for WebP
+│   └── generate-thumbs.js        # Sharp-based thumbnail generator for WebP (now includes 800px for 2x)
 ├── package.json                  # Dependencies: Astro, Preact, @fancyapps/ui, Sharp
 └── README.md
 ```
+
+---
+
+## 🔧 Navigation anpassen
+
+Bearbeite `src/config/navigation.js`, um Nav-Links hinzuzufügen/entfernen. Aktuelle Links:
+
+```javascript
+export const navigationLinks = [
+  { label: 'Portal', href: 'https://portal.voidtales.win' },
+  { label: 'Wiki', href: 'https://wiki.voidtales.win' },
+  { label: 'Blog', href: 'https://blog.voidtales.win' },
+  { label: 'Forum', href: 'https://forum.voidtales.win' },
+  { label: 'Discord', href: 'https://discord.voidtales.win' },
+  { label: 'Map', href: 'https://dynmap.voidtales.win' },
+];
+```
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Here's how to make changes to the repo:
+
+### 🛠️ 1. Fork the Repository
+- Go to [https://github.com/yourusername/voidtales-gallery](https://github.com/yourusername/voidtales-gallery) and click "Fork".
+
+### 🌿 2. Create a Feature Branch
+```bash
+git checkout -b feature/your-feature-name
+```
+
+### 📝 3. Make Your Changes
+- Edit code, add images, or update documentation.
+- Ensure thumbnails are generated: `pnpm run gen:thumbs`.
+- Test your changes: `pnpm run dev`.
+
+### 🔍 4. Preview Deployments
+- Push your branch: `git push origin feature/your-feature-name`.
+- The repo has automatic preview deployments (e.g., via Netlify or Vercel). You'll get a link to preview your changes.
+- Check the preview to ensure everything works.
+
+### 📤 5. Submit a Pull Request
+- Go to your fork and click "New Pull Request".
+- Describe your changes in detail (e.g., "Added new navigation link for Discord").
+- Wait for review and merge.
+
+### 📋 Guidelines
+- Follow the code style (TypeScript).
+- Add tests if possible.
+- Update the README if you add new features.
+- Commits should be descriptive (e.g., "feat: Add Discord link to navigation").
 
 ---
 
@@ -104,10 +161,11 @@ Open [http://localhost:4321](http://localhost:4321) to see your gallery.
 - **Sorting**: Photos are automatically sorted by `date` (newest first, precise to milliseconds). Ensure all Markdown files have a `date` field in ISO format.
 - **Hero Section**: Customizable intro area in `index.astro` – responsive with min-height to prevent button clipping.
 - **Lightbox**: Uses @fancyapps/ui (Fancybox) for accessibility (ARIA labels, keyboard navigation) and performance (lazy loading).
-- **Thumbnails**: Generated via Sharp in WebP format for better compression – run `pnpm run gen:thumbs` after adding images.
+- **Thumbnails**: Generated via Sharp in WebP format for better compression – run `pnpm run gen:thumbs` after adding images. Now includes 800px for high-resolution displays.
 - **Dark Mode**: Applied on load to avoid flashes; stored in localStorage with CSS variables for seamless switching.
 - **Performance**: Images lazy-load; CSS is optimized with variables and utilities; no heavy frameworks.
 - **Header**: Transparent with backdrop-filter blur, centered logo, mobile-friendly menu with vanilla JS.
+- **Background Effects**: Geblurte Bilder mit Overlay für Light/Dark Mode, um einen eleganten Look zu schaffen.
 - **Minimal Frameworks**: Pure Astro + TypeScript + CSS/JS for server-side, Preact only for lightweight client interactions (no React/Vue bloat).
 - **Build**: Includes thumbnail generation in `build` script for production.
 
