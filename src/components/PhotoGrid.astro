@@ -2,12 +2,6 @@
 // filepath: /home/blogadmin/voidtales-gallery/src/components/PhotoGrid.astro
 import PhotoGridClient from "./PhotoGridClient";
 
-type Photo = {
-  fullsizeUrl: string;
-  thumbUrl: string;
-  title: string;
-};
-
 const { photos } = Astro.props;
 ---
 <PhotoGridClient client:load photos={photos} />
