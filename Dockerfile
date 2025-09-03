@@ -43,4 +43,4 @@ COPY --from=build /app/dist /usr/share/nginx/html
 # EXPOSE port 80 to make it accessible outside the container
 EXPOSE 80
 # The commented-out command is for a Node.js server, not for this Nginx image.
-# CMD ["pnpm", "start"]//test
+# CMD ["pnpm", "start"]
