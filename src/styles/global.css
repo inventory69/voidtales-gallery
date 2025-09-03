@@ -225,7 +225,7 @@ a:hover, a:focus {
   background: transparent;
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(229, 231, 235, 0.4);
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1.5rem;
   transition: background 0.3s ease;
 }
 
@@ -302,9 +302,9 @@ html.dark .nav-link:hover {
 }
 
 .mobile-menu-btn:hover {
-  background: var(--accent);
-  color: white;
-  transform: scale(1.05); /* Leichter Hover-Effekt */
+  background: rgba(243, 244, 246, 1); /* Grau statt blau im Light Mode */
+  color: var(--text); /* Text bleibt lesbar */
+  transform: scale(1.05);
 }
 
 html.dark .mobile-menu-btn {
@@ -323,7 +323,7 @@ html.dark .mobile-menu-btn {
   top: 100%;
   left: 0;
   right: 0;
-  background: var(--bg);
+  background: var(--surface);
   border: 1px solid rgba(229, 231, 235, 0.4);
   border-radius: 0.75rem;
   padding: 1rem;
