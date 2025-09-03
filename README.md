@@ -126,7 +126,7 @@ export const navigationLinks = [
 We welcome contributions! Here's how to make changes to the repo:
 
 ### 🛠️ 1. Fork the Repository
-- Go to [https://github.com/yourusername/voidtales-gallery](https://github.com/yourusername/voidtales-gallery) and click "Fork".
+- Go to [https://github.com/inventory69/voidtales-gallery](https://github.com/inventory69/voidtales-gallery) and click "Fork".
 
 ### 🌿 2. Create a Feature Branch
 ```bash
