@@ -1,175 +1,7 @@
-:root{
-  --gap: 6px;
-  --bg: #f9fafb; /* like gray-50 */
-  --text: #111827; /* like gray-900 */
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
-  background:var(--bg);
-  color:var(--text);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-}
-.container{
-  max-width:1100px;
-  margin:28px auto;
-  padding:0 16px;
-}
-h1{font-size:1.75rem;margin:0 0 18px}
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Passt Spalten automatisch an */
-  gap: 1rem; /* Abstand zwischen Bildern */
-  max-width: 1200px; /* Begrenze die Breite für große Bildschirme */
-  margin: 0 auto; /* Zentriere das Grid */
-  padding: 1rem;
-}
-
-/* Responsive Anpassungen */
-@media (max-width: 768px) {
-  .grid-container {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Kleinere Bilder auf Tablet */
-    gap: 0.75rem;
-    padding: 0.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .grid-container {
-    grid-template-columns: 1fr; /* Einzelne Spalte auf Mobile */
-    gap: 0.5rem;
-  }
-}
-.photo{
-  overflow:hidden;
-  border-radius:8px;
-  cursor:pointer;
-  background:#e5e7eb;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.308);
-  aspect-ratio: 4 / 3; /* Feste Proportion (anpassbar, z.B. 1 / 1 für Quadrate) */
-  width: 100%; /* Nimmt die volle Grid-Zelle ein */
-}
-.photo:hover {
-  transform: translateY(-2px) scale(1.01); /* Noch weniger Bewegung */
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08); /* Subtiler Schatten */
-  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Sanftere Transition */
-}
-.photo img{
-  display:block;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-.caption{
-  margin-top:8px;
-  font-size:0.95rem;
-  color:#374151;
-}
-
-/* Background layer (dark mode) */
-html.dark::before,
-:root[saved-theme='dark']::before,
-:root[data-color-mode='dark']::before,
-html[data-theme='dark']::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 0; /* behind page content but above body painting issues */
-  pointer-events: none;
-  background:
-    linear-gradient(rgba(6, 6, 10, 0.664), rgba(6, 6, 10, 0.644)),
-    radial-gradient(ellipse at center, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.6) 100%),
-    url('/images/index-dark.webp') center/cover no-repeat fixed;
-  -webkit-backdrop-filter: blur(2px);
-  backdrop-filter: blur(2px);
-  will-change: transform;
-}
-
-/* Mobile: remove fixed attachment for dark */
-@media (max-width: 767px) {
-  html.dark::before,
-  :root[saved-theme='dark']::before,
-  :root[data-color-mode='dark']::before,
-  html[data-theme='dark']::before {
-    background-image:
-      linear-gradient(rgba(6, 6, 10, 0.555), rgba(6, 6, 10, 0.562)),
-      radial-gradient(ellipse at center, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.6) 100%),
-      url('/images/index-dark.webp');
-    background-position: center center, center center, center center;
-    background-repeat: no-repeat, no-repeat, no-repeat;
-    background-size: cover, cover, cover;
-    background-attachment: scroll, scroll, scroll;
-    -webkit-backdrop-filter: blur(1px);
-    backdrop-filter: blur(1px);
-  }
-
-  body > * {
-    position: relative;
-    z-index: 10;
-  }
-}
-
-/* Ensure page content renders above the background */
-body > * {
-  position: relative;
-  z-index: 10;
-  background-color: transparent;
-}
-
-/* Ensure header/main/footer above background */
-header,
-main,
-footer,
-#nav-container {
-  position: relative;
-  z-index: 11;
-  background-color: transparent;
-}
-
-/* Light mode layer */
-html:not(.dark)::before,
-:root[saved-theme='light']::before,
-:root[data-color-mode='light']::before,
-html[data-theme='light']::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.87)),
-    radial-gradient(ellipse at center, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.06) 100%),
-    url('/images/index-light.webp') center/cover no-repeat fixed;
-  -webkit-backdrop-filter: blur(1px);
-  backdrop-filter: blur(1px);
-  will-change: transform;
-}
-
-/* Mobile fallback: disable fixed for both modes */
-@media (max-width: 767px) {
-  html.dark::before,
-  :root[saved-theme='dark']::before,
-  :root[data-color-mode='dark']::before,
-  html[data-theme='dark']::before,
-  html:not(.dark)::before,
-  :root[saved-theme='light']::before,
-  :root[data-color-mode='light']::before,
-  html[data-theme='light']::before {
-    background-attachment: scroll;
-    background-position: center;
-    background-size: cover;
-    -webkit-backdrop-filter: blur(1px);
-    backdrop-filter: blur(1px);
-  }
-  body > * { position: relative; z-index: 10; }
-}
-
+/* =================== VARIABLES =================== */
 :root {
-  /* Light mode (defaults) */
-  --bg: #f9fafb;
+  --gap: 6px;
+  --bg: #f9fafb; /* Light mode */
   --text: #111827;
   --muted: #374151;
   --surface: rgba(255,255,255,0.6);
@@ -184,9 +16,9 @@ html.dark,
 :root[saved-theme='dark'],
 :root[data-color-mode='dark'],
 html[data-theme='dark'] {
-  --bg: #060612;            /* page base behind the ::before layer */
-  --text: #f8fafc;          /* main text (light) */
-  --muted: #cbd5e1;         /* muted/caption text (lighter) */
+  --bg: #060612;
+  --text: #f8fafc;
+  --muted: #cbd5e1;
   --surface: rgba(0,0,0,0.35);
   --surface-strong: rgba(0,0,0,0.5);
   --btn-border: rgba(255,255,255,0.06);
@@ -194,35 +26,89 @@ html[data-theme='dark'] {
   --shadow: rgba(255,255,255,0.03);
 }
 
-/* Apply to base elements */
+/* =================== BASE =================== */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
 body {
-  background: transparent; /* background handled by ::before layers already */
+  margin: 0;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background: transparent; /* Background handled by ::before layers */
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* headings, captions, links */
 h1, h2, h3, h4, h5, h6 {
   color: var(--text);
 }
-.caption, .caption a {
-  color: var(--muted);
-}
+
 a {
   color: var(--accent);
   text-decoration: none;
 }
+
 a:hover, a:focus {
   text-decoration: underline;
 }
 
-/* Header-Stile */
+/* =================== LAYOUT =================== */
+.container {
+  max-width: 1100px;
+  margin: 28px auto;
+  padding: 0 16px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  max-width: 80rem; /* Same width as header */
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* =================== COMPONENTS =================== */
+.photo {
+  overflow: hidden;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.308);
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.photo:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.caption {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+/* Header */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.103);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(229, 231, 235, 0.4);
   padding: 0.75rem 1.5rem;
@@ -230,6 +116,7 @@ a:hover, a:focus {
 }
 
 html.dark .site-header {
+  background: rgba(0, 0, 0, 0.7);
   border-bottom-color: rgba(55, 65, 81, 0.6);
 }
 
@@ -237,11 +124,11 @@ html.dark .site-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 80rem;
+  max-width: 60rem;
   margin: 0 auto;
-  gap: 1rem;
-  position: relative; /* Für zentriertes Logo */
-  
+  gap: 0.5rem;
+  position: relative;
+  padding: 0 1rem;
 }
 
 .brand .logo {
@@ -252,7 +139,12 @@ html.dark .site-header {
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%); /* Zentriert horizontal und vertikal */
+  transform: translate(-50%, -50%);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* Subtle shadow: From 0.7 to 0.3 */
+}
+
+html.dark .brand .logo {
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5); /* Lighter shadow in dark mode */
 }
 
 .header-nav {
@@ -288,7 +180,7 @@ html.dark .nav-link:hover {
   gap: 0.75rem;
 }
 
-/* Mobile-Menü schön machen */
+/* Mobile Menu */
 .mobile-menu-btn {
   display: none;
   padding: 0.5rem;
@@ -302,14 +194,13 @@ html.dark .nav-link:hover {
 }
 
 .mobile-menu-btn:hover {
-  background: rgba(243, 244, 246, 1); /* Grau statt blau im Light Mode */
-  color: var(--text); /* Text bleibt lesbar */
+  background: rgba(243, 244, 246, 1);
+  color: var(--text);
   transform: scale(1.05);
 }
 
 html.dark .mobile-menu-btn {
   border-color: rgba(75, 85, 99, 0.6);
-  background: var(--surface);
 }
 
 .mobile-menu-btn svg {
@@ -337,7 +228,6 @@ html.dark .mobile-menu-btn {
 
 html.dark .mobile-menu {
   border-color: rgba(55, 65, 81, 0.6);
-  background: var(--surface);
 }
 
 .mobile-menu.open {
@@ -364,61 +254,9 @@ html.dark .mobile-actions {
   border-top-color: rgba(55, 65, 81, 0.6);
 }
 
-/* Responsive: Nur auf Mobile zeigen */
-@media (max-width: 768px) {
-  .header-nav {
-    display: none;
-  }
-  .header-actions .modern-theme-toggle {
-    display: none;
-  }
-  .brand .logo {
-    position: static;
-    transform: none;
-    margin: 0 auto;
-  }
-  .header-actions {
-    position: absolute;
-    right: 1rem;
-  }
-  .site-header-inner {
-    justify-content: center;
-  }
-  .mobile-menu-btn {
-    display: block;
-  }
-}
-.theme-toggle {
-  background: var(--surface);
-  border: 1px solid var(--btn-border);
-  color: var(--text);
-  box-shadow: 0 2px 6px var(--shadow);
-}
-html.dark .theme-toggle {
-  background: var(--surface); /* already dark surface */
-}
-
-/* Panels / cards (if you have any) */
-.card, .photo, .container-card {
-  background: transparent; /* keep translucency above background */
-  color: var(--text);
-}
-
-/* Ensure photo captions / metadata are readable */
-.photo + .caption, .photo .caption {
-  color: var(--muted);
-}
-
-/* Buttons / controls */
-button, input, select, textarea {
-  color: var(--text);
-  background: transparent;
-  border-radius: 8px;
-}
-
-/* Modern Theme Toggle: ALLE Browser-Stile entfernen, dann neu aufbauen */
+/* Theme Toggle */
 .modern-theme-toggle {
-  all: unset; /* Entfernt ALLE Browser-Standard-Stile */
+  all: unset;
   background: linear-gradient(135deg, var(--surface-strong, #fff) 60%, var(--accent, #60a5fa) 100%);
   color: var(--accent, #2563eb);
   border: none;
@@ -436,36 +274,19 @@ button, input, select, textarea {
   position: relative;
   overflow: hidden;
   text-shadow: none;
-  filter: none; /* Entfernt alle Filter-Effekte */
-  appearance: none; /* Standard property for compatibility */
-  -webkit-appearance: none; /* Entfernt WebKit-Button-Stile */
-  -moz-appearance: none; /* Entfernt Mozilla-Button-Stile */
+  filter: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
+
 .modern-theme-toggle:hover {
   background: linear-gradient(135deg, var(--surface-strong, #fff) 80%, var(--accent, #60a5fa) 100%);
   color: var(--accent, #2563eb);
   box-shadow: 0 8px 32px rgba(30, 64, 175, 0.10), 0 2px 8px rgba(0,0,0,0.10);
   transform: scale(1.08) rotate(-6deg);
 }
-.modern-theme-toggle:focus,
-.modern-theme-toggle:focus-visible,
-.modern-theme-toggle:active {
-  outline: none !important;
-  outline-offset: 0 !important;
-  box-shadow: none !important;
-  border: none !important;
-  border-radius: 50% !important;
-  text-shadow: none !important;
-  filter: none !important;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-}
-.modern-theme-toggle::-moz-focus-inner {
-  border: 0 !important;
-}
-.modern-theme-toggle::-webkit-focus-ring-color {
-  color: transparent !important;
-}
+
 .toggle-icon {
   display: flex;
   align-items: center;
@@ -475,6 +296,7 @@ button, input, select, textarea {
   height: 1.7em;
   text-shadow: none;
 }
+
 .icon-sun, .icon-moon {
   position: absolute;
   left: 0; top: 0;
@@ -489,13 +311,142 @@ button, input, select, textarea {
   will-change: opacity, transform;
   text-shadow: none;
 }
+
 .icon-hide {
   opacity: 0;
   transform: scale(0.6) rotate(30deg);
   pointer-events: none;
 }
-/* Entfernt ALLE Fokus-Indikatoren für den Theme-Toggle */
-.modern-theme-toggle,
+
+/* =================== UTILITIES =================== */
+/* Background layers */
+html.dark::before,
+:root[saved-theme='dark']::before,
+:root[data-color-mode='dark']::before,
+html[data-theme='dark']::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(6, 6, 10, 0.664), rgba(6, 6, 10, 0.644)),
+    radial-gradient(ellipse at center, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.6) 100%),
+    url('/images/index-dark.webp') center/cover no-repeat fixed;
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  will-change: transform;
+}
+
+html:not(.dark)::before,
+:root[saved-theme='light']::before,
+:root[data-color-mode='light']::before,
+html[data-theme='light']::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.87)),
+    radial-gradient(ellipse at center, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.06) 100%),
+    url('/images/index-light.webp') center/cover no-repeat fixed;
+  -webkit-backdrop-filter: blur(1px);
+  backdrop-filter: blur(1px);
+  will-change: transform;
+}
+
+/* Ensure content above background */
+body > * {
+  position: relative;
+  z-index: 10;
+  background-color: transparent;
+}
+
+header, main, footer, #nav-container {
+  position: relative;
+  z-index: 11;
+  background-color: transparent;
+}
+
+/* Buttons / controls */
+button, input, select, textarea {
+  color: var(--text);
+  background: transparent;
+  border-radius: 8px;
+}
+
+/* Panels / cards */
+.card, .photo, .container-card {
+  background: transparent;
+  color: var(--text);
+}
+
+/* =================== RESPONSIVE =================== */
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+    padding: 0.5rem;
+  }
+
+  .header-nav {
+    display: none;
+  }
+
+  .header-actions .modern-theme-toggle {
+    display: none;
+  }
+
+  .brand .logo {
+    position: static;
+    transform: none;
+    margin: 0 auto;
+  }
+
+  .header-actions {
+    position: absolute;
+    right: 1rem;
+  }
+
+  .site-header-inner {
+    justify-content: center;
+  }
+
+  .mobile-menu-btn {
+    display: block;
+  }
+
+  /* Mobile background adjustments */
+  html.dark::before,
+  :root[saved-theme='dark']::before,
+  :root[data-color-mode='dark']::before,
+  html[data-theme='dark']::before,
+  html:not(.dark)::before,
+  :root[saved-theme='light']::before,
+  :root[data-color-mode='light']::before,
+  html[data-theme='light']::before {
+    background-attachment: scroll;
+    background-position: center;
+    background-size: cover;
+    -webkit-backdrop-filter: blur(1px);
+    backdrop-filter: blur(1px);
+  }
+
+  body > * {
+    position: relative;
+    z-index: 10;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+/* =================== FOCUS / ACCESSIBILITY =================== */
 .modern-theme-toggle:focus,
 .modern-theme-toggle:focus-visible,
 .modern-theme-toggle:active {
@@ -504,12 +455,77 @@ button, input, select, textarea {
   box-shadow: none !important;
   border: none !important;
   border-radius: 50% !important;
+  text-shadow: none !important;
+  filter: none !important;
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
 }
+
 .modern-theme-toggle::-moz-focus-inner {
   border: 0 !important;
 }
+
 .modern-theme-toggle::-webkit-focus-ring-color {
   color: transparent !important;
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  height: 60vh; /* Large height for modern look */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Remove background: linear-gradient(...) */
+  color: var(--text);
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-content {
+  max-width: 60rem;
+  padding: 2rem;
+  z-index: 1;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.hero-cta {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: var(--accent);
+  color: white;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.hero-cta:hover {
+  background: var(--accent);
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero {
+    height: 50vh;
+  }
+  .hero-title {
+    font-size: 2rem;
+  }
+  .hero-subtitle {
+    font-size: 1rem;
+  }
 }

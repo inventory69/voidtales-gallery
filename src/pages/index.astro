@@ -1,13 +1,27 @@
 ---
+// filepath: /home/liq/voidtales-gallery/src/pages/index.astro
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import PhotoGrid from '../components/PhotoGrid.astro';
 
+type PhotoFrontmatter = {
+  date: string;
+  [key: string]: any;
+};
+
 const modules = import.meta.glob('../content/photos/*.md', { eager: true });
-const photos = Object.values(modules).map((m) => (m as { frontmatter: unknown })?.frontmatter ?? m);
+const photos = Object.values(modules).map((m) => (m as { frontmatter: PhotoFrontmatter })?.frontmatter ?? m) as PhotoFrontmatter[];
+
+// Sort by date and time: Newest first (precise to the second)
+const sortedPhotos = photos.sort((a, b) => {
+  const dateA = new Date(a.date).getTime();  // In milliseconds for precision
+  const dateB = new Date(b.date).getTime();
+  return dateB - dateA;  // Descending: Newest first
+});
 ---
+
 <!doctype html>
-<html lang="de">
+<html lang="en">  <!-- Changed to 'en' for English -->
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -26,8 +40,18 @@ const photos = Object.values(modules).map((m) => (m as { frontmatter: unknown })
   </head>
   <body>
     <Header />
-    <main class="container" role="main">
-      <PhotoGrid photos={photos} />
+    
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">Discover the VoidTales Gallery</h1>
+        <p class="hero-subtitle">The latest images from the world of VoidTales – sorted by date.</p>
+        <a href="#photos" class="hero-cta">To the images</a>
+      </div>
+    </section>
+    
+    <main class="container" role="main" id="photos">
+      <PhotoGrid photos={sortedPhotos} />  <!-- Use sortedPhotos instead of photos -->
     </main>
 
   </body>
