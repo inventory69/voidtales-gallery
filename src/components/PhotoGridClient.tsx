@@ -18,7 +18,7 @@ export default function PhotoGridClient({ photos }: { photos: Photo[] }) {
 
   return (
     <div id="photo-grid" class="grid-container">
-      {photos.map((photo) => (
+      {photos.map((photo, i) => (
         <a
           class="photo"
           href={photo.fullsizePath}
@@ -35,7 +35,7 @@ export default function PhotoGridClient({ photos }: { photos: Photo[] }) {
               src={photo.thumbPath}
               srcSet={`${photo.thumbPath} 1x, ${photo.thumbPath.replace('-400.webp', '-800.webp')} 2x`}
               alt={photo.title}
-              loading="lazy"
+              loading={i < 3 ? "eager" : "lazy"}
             />
         </picture>
         </a>
