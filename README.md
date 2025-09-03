@@ -18,9 +18,9 @@ Showcase your photos with modern design, automatic sorting, and seamless dark mo
 - ⚡ **Performance-first** – Lazy loading images, efficient CSS, WebP thumbnails via Sharp, and no unnecessary JS
 - 🎨 **Refined UI** – Transparent sticky header with blur, centered logo, mobile menu, and dynamic positioning
 - 🖼️ **Automatic thumbnail generation** – Node script using Sharp for optimized WebP images
-- 🔧 **Config-driven navigation** – Nav-Links über `src/config/navigation.js` steuern und erweitern (z.B. Portal, Wiki, Blog, Forum, Discord, Map)
-- 📐 **High-resolution thumbnail support** – Optimiert für Retina-Displays mit srcset (1x/2x)
-- 🌫️ **Background effects** – Geblurte Bilder mit Overlay für Light/Dark Mode
+- 🔧 **Config-driven navigation** – Control and extend nav links via `src/config/navigation.js` (e.g., Portal, Wiki, Blog, Forum, Discord, Map)
+- 📐 **High-resolution thumbnail support** – Optimized for Retina displays with srcset (1x/2x)
+- 🌫️ **Background effects** – Blurred images with overlay for Light/Dark Mode
 
 ---
 
@@ -104,9 +104,9 @@ Open [http://localhost:4321](http://localhost:4321) to see your gallery.
 
 ---
 
-## 🔧 Navigation anpassen
+## 🔧 Customize Navigation
 
-Bearbeite `src/config/navigation.js`, um Nav-Links hinzuzufügen/entfernen. Aktuelle Links:
+Edit `src/config/navigation.js` to add or remove nav links. Current links:
 
 ```javascript
 export const navigationLinks = [
@@ -165,7 +165,7 @@ git checkout -b feature/your-feature-name
 - **Dark Mode**: Applied on load to avoid flashes; stored in localStorage with CSS variables for seamless switching.
 - **Performance**: Images lazy-load; CSS is optimized with variables and utilities; no heavy frameworks.
 - **Header**: Transparent with backdrop-filter blur, centered logo, mobile-friendly menu with vanilla JS.
-- **Background Effects**: Geblurte Bilder mit Overlay für Light/Dark Mode, um einen eleganten Look zu schaffen.
+- **Background Effects**: Blurred images with overlay for Light/Dark Mode to create an elegant look.
 - **Minimal Frameworks**: Pure Astro + TypeScript + CSS/JS for server-side, Preact only for lightweight client interactions (no React/Vue bloat).
 - **Build**: Includes thumbnail generation in `build` script for production.
 
