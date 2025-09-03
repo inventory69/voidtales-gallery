@@ -9,14 +9,15 @@ Showcase your photos with modern design, automatic sorting, and seamless dark mo
 
 - 🚀 **Blazing-fast static generation** with Astro for instant loading
 - 🖼️ **Markdown-driven photo management** – Add metadata like dates for automatic sorting
-- 📅 **Smart sorting** – Photos sorted by date (newest first, precise to the second)
-- 🎯 **Modern hero section** – Eye-catching intro between header and gallery
+- 📅 **Smart sorting** – Photos sorted by `date` (newest first, precise to the millisecond)
+- 🎯 **Modern hero section** – Eye-catching intro between header and gallery with responsive sizing and min-height protection
 - 🛠️ **Minimal stack** – Astro for static sites, Preact only for client interactions (no React/Vue bloat)
-- ♿ **Accessible lightbox** with responsive CSS Grid and smooth hover effects
-- 🌗 **Instant dark mode** – Flicker-free theme switching with local storage
-- 📱 **Fully responsive** – Optimized for desktop, tablet, and mobile
-- ⚡ **Performance-first** – Lazy loading, efficient CSS, and no unnecessary JS
-- 🎨 **Refined UI** – Transparent sticky header, centered logo, mobile menu, and dynamic positioning
+- ♿ **Accessible lightbox** – Powered by @fancyapps/ui (Fancybox v6) for smooth image viewing, lazy loading, and screen reader support
+- 🌗 **Instant dark mode** – Flicker-free theme switching with local storage and CSS variables
+- 📱 **Fully responsive** – Optimized for desktop, tablet, and mobile with CSS Grid and media queries
+- ⚡ **Performance-first** – Lazy loading images, efficient CSS, WebP thumbnails via Sharp, and no unnecessary JS
+- 🎨 **Refined UI** – Transparent sticky header with blur, centered logo, mobile menu, and dynamic positioning
+- 🖼️ **Automatic thumbnail generation** – Node script using Sharp for optimized WebP images
 
 ---
 
@@ -26,6 +27,7 @@ Showcase your photos with modern design, automatic sorting, and seamless dark mo
 ```bash
 pnpm install
 ```
+Key dependencies: Astro, Preact, @fancyapps/ui (for lightbox), Sharp (for thumbnails), and TypeScript.
 
 ### 🖼️ 2. Add Your Images
 Place original images in:
@@ -34,12 +36,12 @@ public/images/original/
 ```
 Example: `public/images/original/photo.jpg`
 
-### 🛠️ 3. Generate Thumbnails (Optional, Recommended)
-Run the script to create optimized thumbnails:
+### 🛠️ 3. Generate Thumbnails (Recommended)
+Run the script to create optimized WebP thumbnails:
 ```bash
-node scripts/generate-thumbs.js
+pnpm run gen:thumbs
 ```
-Thumbnails will be saved in `public/images/thumbs/`.
+Thumbnails will be saved in `public/images/thumbs/` (sizes: 200px and 400px).
 
 ### 🗂️ 4. Add Photo Metadata
 Create Markdown files in:
@@ -53,7 +55,7 @@ Each file needs frontmatter like this:
 ---
 title: "My Photo"
 slug: "my-photo"
-date: "2023-10-01T12:34:56"  # ISO format for sorting
+date: "2023-10-01T12:34:56"  # ISO format for sorting (precise to seconds)
 fullsizePath: "/images/original/photo.webp"
 thumbPath: "/images/thumbs/photo-400.webp"
 width: 1600
@@ -76,22 +78,22 @@ Open [http://localhost:4321](http://localhost:4321) to see your gallery.
 ├── public/
 │   ├── images/
 │   │   ├── original/     # Your full-size images
-│   │   └── thumbs/       # Auto-generated thumbnails
+│   │   └── thumbs/       # Auto-generated WebP thumbnails (200px, 400px)
 ├── src/
 │   ├── components/
-│   │   ├── Header.astro          # Sticky header with logo, nav, and theme toggle
-│   │   ├── PhotoGrid.astro       # Server-rendered photo grid
-│   │   ├── PhotoGridClient.tsx   # Client-side grid with lightbox (Preact)
-│   │   └── ThemeToggle.jsx       # Modern theme switcher
+│   │   ├── Header.astro          # Sticky header with nav, centered logo, mobile menu, and theme toggle
+│   │   ├── PhotoGrid.astro       # Server-rendered wrapper for PhotoGridClient
+│   │   ├── PhotoGridClient.tsx   # Client-side grid with Fancybox lightbox and lazy loading
+│   │   └── ThemeToggle.jsx       # Modern theme switcher with CSS animations
 │   ├── content/
-│   │   └── photos/               # Markdown files with photo metadata
+│   │   └── photos/               # Markdown files with photo metadata (date, paths, etc.)
 │   ├── pages/
-│   │   └── index.astro           # Main page with hero and sorted gallery
+│   │   └── index.astro           # Main page with hero, sorting, and gallery
 │   └── styles/
-│       └── global.css            # Unified, responsive styles
+│       └── global.css            # Unified styles with CSS variables, dark mode, and responsive design
 ├── scripts/
-│   └── generate-thumbs.js        # Thumbnail generator
-├── package.json
+│   └── generate-thumbs.js        # Sharp-based thumbnail generator for WebP
+├── package.json                  # Dependencies: Astro, Preact, @fancyapps/ui, Sharp
 └── README.md
 ```
 
@@ -99,13 +101,15 @@ Open [http://localhost:4321](http://localhost:4321) to see your gallery.
 
 ## 📝 Notes
 
-- **Sorting**: Photos are automatically sorted by `date` (newest first). Ensure all Markdown files have a `date` field.
-- **Hero Section**: Customizable intro area – edit texts in `index.astro`.
-- **Lightbox**: Powered by Fancybox for accessibility and smooth UX.
-- **Dark Mode**: Applied on load to avoid flashes; stored in localStorage.
-- **Performance**: Images lazy-load; CSS is optimized for speed.
-- **Header**: Transparent with blur, centered logo, mobile-friendly menu.
-- **No Frameworks**: Pure Astro + TypeScript + CSS/JS – lightweight and fast.
+- **Sorting**: Photos are automatically sorted by `date` (newest first, precise to milliseconds). Ensure all Markdown files have a `date` field in ISO format.
+- **Hero Section**: Customizable intro area in `index.astro` – responsive with min-height to prevent button clipping.
+- **Lightbox**: Uses @fancyapps/ui (Fancybox) for accessibility (ARIA labels, keyboard navigation) and performance (lazy loading).
+- **Thumbnails**: Generated via Sharp in WebP format for better compression – run `pnpm run gen:thumbs` after adding images.
+- **Dark Mode**: Applied on load to avoid flashes; stored in localStorage with CSS variables for seamless switching.
+- **Performance**: Images lazy-load; CSS is optimized with variables and utilities; no heavy frameworks.
+- **Header**: Transparent with backdrop-filter blur, centered logo, mobile-friendly menu with vanilla JS.
+- **Minimal Frameworks**: Pure Astro + TypeScript + CSS/JS for server-side, Preact only for lightweight client interactions (no React/Vue bloat).
+- **Build**: Includes thumbnail generation in `build` script for production.
 
 ---
 
