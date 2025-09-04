@@ -1,5 +1,6 @@
 ---
 // filepath: /home/liq/voidtales-gallery/src/components/Footer.astro
+import { siteConfig } from '../config/site.js';
 import { navigationLinks } from '../config/navigation.js';
 
 const currentYear = new Date().getFullYear();
@@ -8,7 +9,7 @@ const currentYear = new Date().getFullYear();
 <footer class="footer">
   <div class="footer-container">
     <div class="footer-logo">
-      <a href="/">VoidTales Gallery</a>
+      <a href="/">{siteConfig.name}</a>
     </div>
     <nav class="footer-nav">
       <ul>
@@ -18,7 +19,7 @@ const currentYear = new Date().getFullYear();
       </ul>
     </nav>
     <div class="footer-copyright">
-      <p>&copy; {currentYear} VoidTales. All rights reserved.</p>
+      <p>&copy; {currentYear} {siteConfig.footer.copyright}. All rights reserved.</p>
     </div>
   </div>
 </footer>

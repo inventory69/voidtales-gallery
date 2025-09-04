@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /admin/  # Wenn du einen Admin-Bereich hast
+Sitemap: https://gallery.voidtales.win/sitemap.xml  # Deine Domain

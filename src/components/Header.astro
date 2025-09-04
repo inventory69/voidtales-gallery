@@ -1,13 +1,14 @@
 ---
 // filepath: /home/liq/voidtales-gallery/src/components/Header.astro
 import ThemeToggle from '../components/ThemeToggle.jsx';
+import { siteConfig } from '../config/site.js';
 import { navigationLinks } from '../config/navigation.js';
 ---
 <header class="site-header" role="banner">
   <div class="site-header-inner container">
     <!-- Logo links -->
     <div class="brand">
-      <a href="/" class="logo">VoidTales Gallery</a>
+      <a href="/" class="logo">{siteConfig.name}</a>
     </div>
 
     <!-- Navigation links rechts -->

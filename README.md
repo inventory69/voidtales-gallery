@@ -10,17 +10,13 @@ Showcase your photos with modern design, automatic sorting, and seamless dark mo
 - 🚀 **Blazing-fast static generation** with Astro for instant loading
 - 🖼️ **Markdown-driven photo management** – Add metadata like dates for automatic sorting
 - 📅 **Smart sorting** – Photos sorted by `date` (newest first, precise to the millisecond)
-- 🎯 **Modern hero section** – Eye-catching intro between header and gallery with responsive sizing and min-height protection
-- 🛠️ **Minimal stack** – Astro for static sites, Preact only for client interactions (no React/Vue bloat)
-- ♿ **Accessible lightbox** – Powered by @fancyapps/ui (Fancybox v6) for smooth image viewing, lazy loading, and screen reader support
 - 🌗 **Instant dark mode** – Flicker-free theme switching with local storage and CSS variables
-- 📱 **Fully responsive** – Optimized for desktop, tablet, and mobile with CSS Grid and media queries
-- ⚡ **Performance-first** – Lazy loading images, efficient CSS, WebP thumbnails via Sharp, and no unnecessary JS
-- 🎨 **Refined UI** – Transparent sticky header with blur, centered logo, mobile menu, and dynamic positioning
+- 📱 **Fully responsive** – Optimized for desktop, tablet, and mobile with CSS Grid
+- ⚡ **Performance-first** – Lazy loading images, efficient CSS, and WebP thumbnails
+- ♿ **Accessible lightbox** – Powered by @fancyapps/ui for smooth image viewing and screen reader support
+- 🎨 **Refined UI** – Transparent sticky header with blur, centered logo, and mobile menu
 - 🖼️ **Automatic thumbnail generation** – Node script using Sharp for optimized WebP images
-- 🔧 **Config-driven navigation** – Control and extend nav links via `src/config/navigation.js` (e.g., Portal, Wiki, Blog, Forum, Discord, Map)
-- 📐 **High-resolution thumbnail support** – Optimized for Retina displays with srcset (1x/2x)
-- 🌫️ **Background effects** – Blurred images with overlay for Light/Dark Mode
+- 🔧 **Config-driven site** – Control navigation, meta-tags, hero text, and more via `src/config/`
 
 ---
 
@@ -89,23 +85,33 @@ Open [http://localhost:4321](http://localhost:4321) to see your gallery.
 │   │   ├── PhotoGridClient.tsx   # Client-side grid with Fancybox lightbox, lazy loading, and srcset for high-res
 │   │   └── ThemeToggle.jsx       # Modern theme switcher with CSS animations
 │   ├── config/
-│   │   └── navigation.js         # Config for nav links (Portal, Wiki, Blog, Forum, Discord, Map)
+│   │   ├── navigation.js         # Config for nav links (Portal, Wiki, Blog, Forum, Discord, Map)
+│   │   └── site.js               # Config for site metadata (name, description, URLs, hero text, etc.)
 │   ├── content/
 │   │   └── photos/               # Markdown files with photo metadata (date, paths, etc.)
 │   ├── pages/
 │   │   └── index.astro           # Main page with hero, sorting, and gallery
 │   └── styles/
-│       └── global.css            # Unified styles with CSS variables, dark mode, background blur/overlay
+│       ├── variables.css         # CSS variables and dark mode
+│       ├── base.css              # Reset, typography, links
+│       ├── layout.css            # Container, grid, background effects
+│       ├── components.css        # Photo, header, footer, theme toggle
+│       ├── hero.css              # Hero section styles
+│       ├── responsive.css        # Media queries
+│       └── accessibility.css     # Focus and accessibility
 ├── scripts/
-│   └── generate-thumbs.js        # Sharp-based thumbnail generator for WebP (now includes 800px for 2x)
+│   └── generate-thumbs.js        # Sharp-based thumbnail generator for WebP
 ├── package.json                  # Dependencies: Astro, Preact, @fancyapps/ui, Sharp
 └── README.md
 ```
 
 ---
 
-## 🔧 Customize Navigation
+## 🔧 Customize Site and Navigation
 
+Edit the config files in `src/config/` to customize the site:
+
+### Navigation Links
 Edit `src/config/navigation.js` to add or remove nav links. Current links:
 
 ```javascript
@@ -117,6 +123,28 @@ export const navigationLinks = [
   { label: 'Discord', href: 'https://discord.voidtales.win' },
   { label: 'Map', href: 'https://dynmap.voidtales.win' },
 ];
+```
+
+### Site Metadata and Hero
+Edit `src/config/site.js` for site-wide settings like meta-tags, hero text, and URLs:
+
+```javascript
+export const siteConfig = {
+  name: 'VoidTales Gallery',
+  description: 'A sleek photo gallery...',
+  url: 'https://voidtales.win',
+  ogImage: '/images/og-image.webp',
+  author: 'inventory69',
+  keywords: ['photo gallery', 'Astro', 'VoidTales'],
+  hero: {
+    title: 'Discover the VoidTales Gallery',
+    subtitle: 'The latest images from the world of VoidTales',
+    cta: 'To the images',
+  },
+  footer: {
+    copyright: 'VoidTales',
+  },
+};
 ```
 
 ---
@@ -162,7 +190,7 @@ A link to the preview deployment will appear in the Pull Request, so you and rev
 - **Sorting**: Photos are automatically sorted by `date` (newest first, precise to milliseconds). Ensure all Markdown files have a `date` field in ISO format.
 - **Hero Section**: Customizable intro area in `index.astro` – responsive with min-height to prevent button clipping.
 - **Lightbox**: Uses @fancyapps/ui (Fancybox) for accessibility (ARIA labels, keyboard navigation) and performance (lazy loading).
-- **Thumbnails**: Generated via Sharp in WebP format for better compression – run `pnpm run gen:thumbs` after adding images. Now includes 800px for high-resolution displays.
+- **Thumbnails**: Generated via Sharp in WebP format for better compression – run `pnpm run gen:thumbs` after adding images.
 - **Dark Mode**: Applied on load to avoid flashes; stored in localStorage with CSS variables for seamless switching.
 - **Performance**: Images lazy-load; CSS is optimized with variables and utilities; no heavy frameworks.
 - **Header**: Transparent with backdrop-filter blur, centered logo, mobile-friendly menu with vanilla JS.

@@ -1,5 +1,6 @@
 ---
 // filepath: /home/liq/voidtales-gallery/src/pages/index.astro
+import { siteConfig } from '../config/site.js';
 import '../styles/variables.css';
 import '../styles/base.css';
 import '../styles/layout.css';
@@ -9,7 +10,7 @@ import '../styles/responsive.css';
 import '../styles/accessibility.css';
 import Header from '../components/Header.astro';
 import PhotoGrid from '../components/PhotoGrid.astro';
-import Footer from '../components/Footer.astro'; // Neu hinzugefügt
+import Footer from '../components/Footer.astro';
 
 type PhotoFrontmatter = {
   date: string;
@@ -28,11 +29,21 @@ const sortedPhotos = photos.sort((a, b) => {
 ---
 
 <!doctype html>
-<html lang="en">  <!-- Changed to 'en' for English -->
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>VoidTales Gallery</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
+    <title>{siteConfig.name}</title>
+    <meta name="description" content={siteConfig.description} />
+    <meta name="keywords" content={siteConfig.keywords.join(', ')} />
+    <meta name="author" content={siteConfig.author} />
+    <meta property="og:title" content={siteConfig.name} />
+    <meta property="og:description" content={siteConfig.description} />
+    <meta property="og:image" content={siteConfig.ogImage} />
+    <meta property="og:url" content={siteConfig.url} />
+    <meta name="twitter:card" content="summary_large_image" />
     <script>
       (function() {
         try {
@@ -51,16 +62,16 @@ const sortedPhotos = photos.sort((a, b) => {
     <!-- Hero Section -->
     <section class="hero">
       <div class="hero-content">
-        <h1 class="hero-title">Discover the VoidTales Gallery</h1>
-        <p class="hero-subtitle">The latest images from the world of VoidTales – sorted by date.</p>
-        <a href="#photos" class="hero-cta">To the images</a>
+        <h1 class="hero-title">{siteConfig.hero.title}</h1>
+        <p class="hero-subtitle">{siteConfig.hero.subtitle}</p>
+        <a href="#photos" class="hero-cta">{siteConfig.hero.cta}</a>
       </div>
     </section>
     
     <main class="container" role="main" id="photos">
-      <PhotoGrid photos={sortedPhotos} />  <!-- Use sortedPhotos instead of photos -->
+      <PhotoGrid photos={sortedPhotos} />
     </main>
 
-    <Footer /> <!-- Neu hinzugefügt -->
+    <Footer />
   </body>
 </html>

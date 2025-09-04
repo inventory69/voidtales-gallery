@@ -1,0 +1,16 @@
+{
+  "name": "VoidTales Gallery",
+  "short_name": "VTGallery",
+  "description": "A sleek photo gallery for VoidTales",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
