@@ -51,6 +51,38 @@
     text-align: center;
   }
 
+    /* Hier das Neue einfügen: */
+  #background {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  html:not(.dark) #background,
+  :root[saved-theme='light'] #background,
+  :root[data-color-mode='light'] #background,
+  html[data-theme='light'] #background {
+    background-color: #f5e0a6; /* Fallback-Farbe */
+    background:
+      linear-gradient(rgba(255, 255, 255, 0.336), rgba(255, 255, 255, 0.356)),
+      radial-gradient(ellipse at center, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.06) 100%),
+      url('/images/index-light-blur.webp') center/cover no-repeat;
+  }
+
+  html.dark #background,
+  :root[saved-theme='dark'] #background,
+  :root[data-color-mode='dark'] #background,
+  html[data-theme='dark'] #background {
+    background-color: #111111; /* Fallback-Farbe */
+    background:
+      linear-gradient(rgba(6, 6, 10, 0.315), rgba(6, 6, 10, 0.356)),
+      radial-gradient(ellipse at center, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.322) 100%),
+      url('/images/index-dark-blur.webp') center/cover no-repeat;
+  }
   
 }
 
