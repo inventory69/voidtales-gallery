@@ -21,10 +21,11 @@ html[data-theme='light']::before {
   inset: 0;
   z-index: 0;
   pointer-events: none;
+  will-change: transform;
   background:
     linear-gradient(rgba(255, 255, 255, 0.336), rgba(255, 255, 255, 0.356)),
     radial-gradient(ellipse at center, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.06) 100%),
-    url('/images/index-light-blur.webp') center/cover no-repeat fixed;
+    url('/images/index-light-blur.webp') center/cover no-repeat;
 }
 html.dark::before,
 :root[saved-theme='dark']::before,
@@ -35,10 +36,11 @@ html[data-theme='dark']::before {
   inset: 0;
   z-index: 0;
   pointer-events: none;
+  will-change: transform;
   background:
     linear-gradient(rgba(6, 6, 10, 0.315), rgba(6, 6, 10, 0.356)),
     radial-gradient(ellipse at center, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.322) 100%),
-    url('/images/index-dark-blur.webp') center/cover no-repeat fixed;
+    url('/images/index-dark-blur.webp') center/cover no-repeat;
 }
 body > * { position: relative; z-index: 10; background-color: transparent; }
 header, main, footer, #nav-container { position: relative; z-index: 11; background-color: transparent; }
