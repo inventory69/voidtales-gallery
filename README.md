@@ -153,38 +153,40 @@ export const siteConfig = {
 
 ## 🤝 Contributing
 
-We welcome contributions! Here’s how you can make changes to the repo:
+We welcome contributions to improve VoidTales Gallery! Whether you're fixing bugs, adding features, or enhancing documentation, your help is appreciated. Here's a streamlined guide to get started:
 
-### 🛠️ 1. Fork the Repository
-Go to [https://github.com/inventory69/voidtales-gallery](https://github.com/inventory69/voidtales-gallery) and click "Fork".
+### 🛠️ 1. Fork and Clone the Repository
+- Visit [https://github.com/inventory69/voidtales-gallery](https://github.com/inventory69/voidtales-gallery) and click "Fork".
+- Clone your fork locally: `git clone https://github.com/your-username/voidtales-gallery.git`.
 
-### 🌿 2. Create a Feature Branch
-```bash
-git checkout -b feature/your-feature-name
-```
+### 🌿 2. Set Up Your Development Environment
+- Install dependencies: `pnpm install`.
+- Generate thumbnails if adding images: `pnpm run gen:thumbs`.
+- Start the dev server: `pnpm run dev` and visit [http://localhost:4321](http://localhost:4321).
 
-### 📝 3. Make Your Changes
-- Edit code, add images, or update documentation.
-- Ensure thumbnails are generated: `pnpm run gen:thumbs`.
-- Test your changes: `pnpm run dev`.
-- Stash and Commit your changes: `git add . && git commit -m 'My Feature commit'`.
+### 📝 3. Make and Test Your Changes
+- Create a feature branch: `git checkout -b feature/your-feature-name`.
+- Edit code, add images, or update docs.
+- Test thoroughly: Ensure thumbnails are generated, run `pnpm run dev`, and check responsiveness.
+- Commit changes: `git add . && git commit -m 'feat: Add your feature description'`.
 
-### 📤 4. Submit a Pull Request
+### 📤 4. Submit a Pull Request (PR)
 - Push your branch: `git push origin feature/your-feature-name`.
-- Go to your fork and click "New Pull Request".
-- Describe your changes in detail (e.g., "Added new navigation link for Discord").
+- Open a PR on GitHub with a clear title and description (e.g., "Add Discord link to navigation").
+- Reference any related issues.
 
-**Preview Deployments:**  
-When you open a Pull Request, our Dokploy Server will automatically create a preview deployment for your changes.  
-A link to the preview deployment will appear in the Pull Request, so you and reviewers can test your changes live before merging.
-
-- Wait for review and merge.
+### 🚀 Preview and Review
+- Automated preview deployments are available for PRs with collaboration rights – test your changes live via the provided link.
+- Address reviewer feedback promptly to expedite merging.
 
 ### 📋 Guidelines
-- Follow the code style (TypeScript).
-- Add tests if possible.
-- Update the README if you add new features.
-- Commits should be descriptive (e.g., "feat: Add Discord link to navigation").
+- Follow TypeScript and Astro best practices.
+- Keep commits descriptive and atomic.
+- Update README/docs for new features.
+- Ensure accessibility and performance are maintained.
+- No heavy frameworks; stick to vanilla CSS/JS where possible.
+
+For questions, join our [Discord](https://discord.gg/QEMQsFect6) or open an issue. Thanks for contributing! 🚀
 
 ---
 
