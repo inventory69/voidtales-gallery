@@ -1,5 +1,9 @@
 /* =================== RESPONSIVE =================== */
 @media (max-width: 768px) {
+  body{
+    background-attachment: scroll !important;
+  }
+
   .grid-container {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 0.75rem;
