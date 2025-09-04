@@ -1,0 +1,35 @@
+/* =================== VARIABLES =================== */
+:root {
+  --gap: 6px;
+  --bg: #f9fafb; /* Light mode */
+  --text: #111827;
+  --muted: #374151;
+  --surface: rgba(255, 255, 255, 0.6);
+  --surface-strong: #ffffff;
+  --btn-border: rgba(0, 0, 0, 0.06);
+  --accent: #6b7280; /* Elegant gray for consistency */
+  --shadow: rgba(2, 6, 23, 0.08);
+  /* Footer variables */
+  --color-bg-secondary: hsl(0, 0%, 10%);
+  --color-text-secondary: hsl(0, 0%, 70%);
+  --color-border: hsl(0, 0%, 20%);
+}
+
+/* Dark mode overrides */
+html.dark,
+:root[saved-theme='dark'],
+:root[data-color-mode='dark'],
+html[data-theme='dark'] {
+  --bg: #060612;
+  --text: #f8fafc;
+  --muted: #cbd5e1;
+  --surface: rgba(0, 0, 0, 0.35);
+  --surface-strong: rgba(0, 0, 0, 0.5);
+  --btn-border: rgba(255, 255, 255, 0.06);
+  --accent: #9ca3af; /* Lighter gray for dark mode */
+  --shadow: rgba(255, 255, 255, 0.03);
+  /* Footer variables */
+  --color-bg-secondary: hsl(0, 0%, 10%);
+  --color-text-secondary: hsl(0, 0%, 70%);
+  --color-border: hsl(0, 0%, 20%);
+}

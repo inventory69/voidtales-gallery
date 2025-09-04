@@ -1,0 +1,48 @@
+/* =================== HERO SECTION =================== */
+.hero {
+  position: relative;
+  height: 35vh;
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-content {
+  max-width: 60rem;
+  padding: 2rem;
+  z-index: 1;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.hero-cta {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: var(--accent) !important;
+  color: white;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s, transform 0.2s;
+  border: none;
+}
+
+.hero-cta:hover {
+  background: var(--accent) !important;
+  transform: translateY(-2px);
+}

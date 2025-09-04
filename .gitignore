@@ -5,3 +5,4 @@ public/.cache/
 .env
 .vscode/
 .DS_Store
+public/images/thumbs/
