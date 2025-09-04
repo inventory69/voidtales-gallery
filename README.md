@@ -1,6 +1,6 @@
 # 🎨 VoidTales Gallery
 
-![VoidTales Gallery Banner](https://gallery.voidtales.win/images/githeader.webp)
+![VoidTales Gallery Banner](./public/images/githeader.webp)
 
 A sleek, high-performance photo gallery built with [Astro](https://astro.build/), TypeScript, and vanilla CSS/JS.  
 Showcase your photos with modern design, automatic sorting, and seamless dark mode – no heavy frameworks, just pure speed.
