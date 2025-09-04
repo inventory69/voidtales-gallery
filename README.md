@@ -123,10 +123,10 @@ export const navigationLinks = [
 
 ## 🤝 Contributing
 
-We welcome contributions! Here's how to make changes to the repo:
+We welcome contributions! Here’s how you can make changes to the repo:
 
 ### 🛠️ 1. Fork the Repository
-- Go to [https://github.com/inventory69/voidtales-gallery](https://github.com/inventory69/voidtales-gallery) and click "Fork".
+Go to [https://github.com/inventory69/voidtales-gallery](https://github.com/inventory69/voidtales-gallery) and click "Fork".
 
 ### 🌿 2. Create a Feature Branch
 ```bash
@@ -138,14 +138,15 @@ git checkout -b feature/your-feature-name
 - Ensure thumbnails are generated: `pnpm run gen:thumbs`.
 - Test your changes: `pnpm run dev`.
 
-### 🔍 4. Preview Deployments
+### 📤 4. Submit a Pull Request
 - Push your branch: `git push origin feature/your-feature-name`.
-- The repo has automatic preview deployments (e.g., via Netlify or Vercel). You'll get a link to preview your changes.
-- Check the preview to ensure everything works.
-
-### 📤 5. Submit a Pull Request
 - Go to your fork and click "New Pull Request".
 - Describe your changes in detail (e.g., "Added new navigation link for Discord").
+
+**Preview Deployments:**  
+When you open a Pull Request, our Dokploy Server will automatically create a preview deployment for your changes.  
+A link to the preview deployment will appear in the Pull Request, so you and reviewers can test your changes live before merging.
+
 - Wait for review and merge.
 
 ### 📋 Guidelines

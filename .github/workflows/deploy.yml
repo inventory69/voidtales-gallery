@@ -1,5 +1,8 @@
 name: Build Docker images
 # Name of the workflow as it appears in the GitHub Actions UI
+permissions: # Grant minimal permissions required for this workflow:
+  contents: read # read is needed to check out the repository code
+  pull-requests: write # write is needed if the workflow interacts with pull requests (e.g., status updates)
 
 on:
   push:
