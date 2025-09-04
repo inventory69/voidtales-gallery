@@ -122,7 +122,7 @@ export const navigationLinks = [
   { label: 'Wiki', href: 'https://wiki.voidtales.win' },
   { label: 'Blog', href: 'https://blog.voidtales.win' },
   { label: 'Forum', href: 'https://forum.voidtales.win' },
-  { label: 'Discord', href: 'https://discord.voidtales.win' },
+  { label: 'Discord', href: 'https://discord.gg/QEMQsFect6' },
   { label: 'Map', href: 'https://dynmap.voidtales.win' },
 ];
 ```
@@ -167,6 +167,7 @@ git checkout -b feature/your-feature-name
 - Edit code, add images, or update documentation.
 - Ensure thumbnails are generated: `pnpm run gen:thumbs`.
 - Test your changes: `pnpm run dev`.
+- Stash and Commit your changes: `git add . && git commit -m 'My Feature commit'`.
 
 ### 📤 4. Submit a Pull Request
 - Push your branch: `git push origin feature/your-feature-name`.
