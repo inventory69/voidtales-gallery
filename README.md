@@ -15,7 +15,7 @@ Showcase your photos with modern design, automatic sorting, and seamless dark mo
 - 🌗 **Instant dark mode** – Flicker-free theme switching with local storage and CSS variables
 - 📱 **Fully responsive** – Optimized for desktop, tablet, and mobile with CSS Grid
 - ⚡ **Performance-first** – Lazy loading images, efficient CSS, and WebP thumbnails
-- ♿ **Accessible lightbox** – Powered by @fancyapps/ui for smooth image viewing and screen reader support
+- ♿ **Accessible lightbox** – Powered by Fancybox (@fancyapps/ui) for smooth image viewing and screen reader support
 - 🎨 **Refined UI** – Transparent sticky header with blur, centered logo, and mobile menu
 - 🖼️ **Automatic thumbnail generation** – Node script using Sharp for optimized WebP images
 - 🔧 **Config-driven site** – Control navigation, meta-tags, hero text, and more via `src/config/`
