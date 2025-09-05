@@ -10,7 +10,7 @@ type Photo = {
   author: string;
 };
 
-export default function PhotoGridClient({ photos }: { photos: Photo[] }) {
+export default function PhotoGridClient({ photos, ariaLabelPrefix = "Open fullscreen of" }: { photos: Photo[], ariaLabelPrefix?: string }) {
   useEffect(() => {
     FancyboxUI.Fancybox.bind("[data-fancybox='gallery']", {});
     return () => {
@@ -26,7 +26,7 @@ export default function PhotoGridClient({ photos }: { photos: Photo[] }) {
           href={photo.fullsizePath}
           data-fancybox="gallery"
           data-caption={`<span class='photo-text'>Filename: ${photo.title}<br>Description: ${photo.caption}<br><br>Author: ${photo.author}</span>`}
-          aria-label={`Öffne Vollbild von ${photo.title}`}
+          aria-label={`${ariaLabelPrefix} ${photo.title}`}
         >
         <picture>
             <source 
