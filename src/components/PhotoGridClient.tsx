@@ -6,6 +6,8 @@ type Photo = {
   fullsizePath: string;
   thumbPath: string;
   title: string;
+  caption: string;
+  author: string;
 };
 
 export default function PhotoGridClient({ photos }: { photos: Photo[] }) {
@@ -23,7 +25,7 @@ export default function PhotoGridClient({ photos }: { photos: Photo[] }) {
           class="photo"
           href={photo.fullsizePath}
           data-fancybox="gallery"
-          data-caption={photo.title}
+          data-caption={`<span class='photo-text'>Filename: ${photo.title}<br>Description: ${photo.caption}<br><br>Author: ${photo.author}</span>`}
           aria-label={`Öffne Vollbild von ${photo.title}`}
         >
         <picture>

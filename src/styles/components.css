@@ -371,3 +371,12 @@ html.dark .footer-nav a:hover {
   font-size: 0.9rem;
   color: var(--muted);
 }
+
+/* Author in Fancybox caption */
+.fancybox__caption .photo-text {
+  font-size: 0.95em;
+  color: var(--muted);
+  font-style: italic;
+  display: block;
+  margin-top: 4px;
+}
