@@ -18,14 +18,8 @@ type PhotoFrontmatter = {
   [key: string]: any;
 };
 
-// Import from both locations
-const modulesLocal = import.meta.glob('../content/photos/*.md', { eager: true });
-const modulesExternal = import.meta.glob('/markdown-ext/*.md', { eager: true });
-
-const photos = [
-  ...Object.values(modulesLocal).map((m) => (m as { frontmatter: PhotoFrontmatter })?.frontmatter ?? m),
-  ...Object.values(modulesExternal).map((m) => (m as { frontmatter: PhotoFrontmatter })?.frontmatter ?? m)
-] as PhotoFrontmatter[];
+const modules = import.meta.glob('../content/photos/*.md', { eager: true });
+const photos = Object.values(modules).map((m) => (m as { frontmatter: PhotoFrontmatter })?.frontmatter ?? m) as PhotoFrontmatter[];
 
 // Sort photos by date and time (newest first)
 const sortedPhotos = photos.sort((a, b) => {
