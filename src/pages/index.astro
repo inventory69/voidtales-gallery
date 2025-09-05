@@ -1,6 +1,7 @@
 ---
-// filepath: /home/liq/voidtales-gallery/src/pages/index.astro
+import ThemeToggle from '../components/ThemeToggle.jsx';
 import { siteConfig } from '../config/site.js';
+import { navigationLinks } from '../config/navigation.js';
 import '../styles/variables.css';
 import '../styles/base.css';
 import '../styles/layout.css';
@@ -20,11 +21,11 @@ type PhotoFrontmatter = {
 const modules = import.meta.glob('../content/photos/*.md', { eager: true });
 const photos = Object.values(modules).map((m) => (m as { frontmatter: PhotoFrontmatter })?.frontmatter ?? m) as PhotoFrontmatter[];
 
-// Sort by date and time: Newest first (precise to the second)
+// Sort photos by date and time (newest first)
 const sortedPhotos = photos.sort((a, b) => {
-  const dateA = new Date(a.date).getTime();  // In milliseconds for precision
+  const dateA = new Date(a.date).getTime();
   const dateB = new Date(b.date).getTime();
-  return dateB - dateA;  // Descending: Newest first
+  return dateB - dateA;
 });
 ---
 
@@ -44,6 +45,7 @@ const sortedPhotos = photos.sort((a, b) => {
     <meta property="og:image" content={siteConfig.ogImage} />
     <meta property="og:url" content={siteConfig.url} />
     <meta name="twitter:card" content="summary_large_image" />
+    <!-- Set theme on initial load -->
     <script>
       (function() {
         try {
@@ -59,8 +61,19 @@ const sortedPhotos = photos.sort((a, b) => {
   <body>
     <div id="background"></div>
     <Header />
+    <!-- Mobile menu dropdown -->
+    <div id="mobile-menu" class="mobile-menu">
+      <nav class="mobile-nav" role="navigation" aria-label="Mobile navigation">
+        {navigationLinks.map(link => (
+          <a href={link.href} class="nav-link">{link.label}</a>
+        ))}
+      </nav>
+      <div class="mobile-actions">
+        <ThemeToggle client:load />
+      </div>
+    </div>
     
-    <!-- Hero Section -->
+    <!-- Hero section -->
     <section class="hero">
       <div class="hero-content">
         <h1 class="hero-title">{siteConfig.hero.title}</h1>
@@ -69,10 +82,22 @@ const sortedPhotos = photos.sort((a, b) => {
       </div>
     </section>
     
+    <!-- Main photo grid -->
     <main class="container" role="main" id="photos">
       <PhotoGrid photos={sortedPhotos} />
     </main>
 
     <Footer />
+
+    <!-- Mobile menu toggle script -->
+    <script>
+      const toggle = document.getElementById('mobile-menu-toggle');
+      const menu = document.getElementById('mobile-menu');
+      if (toggle && menu) {
+        toggle.addEventListener('click', () => {
+          menu.classList.toggle('open');
+        });
+      }
+    </script>
   </body>
 </html>

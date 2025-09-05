@@ -1,6 +1,6 @@
 /* =================== COMPONENTS =================== */
 
-/* Photo */
+/* === Photo Card Styles === */
 .photo {
   overflow: hidden;
   border-radius: 8px;
@@ -17,12 +17,13 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.308);
 }
 
+/* Dark mode photo shadow */
 html.dark .photo {
-  box-shadow: 0 1px 4px rgba(255, 255, 255, 0.15); /* Subtilerer Schatten im Dark Mode */
+  box-shadow: 0 1px 4px rgba(255, 255, 255, 0.15);
 }
 
 html.dark .photo:hover {
-  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2); /* Subtilerer Schatten beim Hover */
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
 }
 
 .photo img {
@@ -32,13 +33,14 @@ html.dark .photo:hover {
   object-fit: cover;
 }
 
+/* Photo caption */
 .caption {
   margin-top: 8px;
   font-size: 0.95rem;
   color: var(--muted);
 }
 
-/* Header */
+/* === Header Styles === */
 .site-header {
   position: sticky;
   top: 0;
@@ -50,11 +52,13 @@ html.dark .photo:hover {
   transition: background 0.3s ease;
 }
 
+/* Header dark mode */
 html.dark .site-header {
   background: rgba(0, 0, 0, 0.2);
   border-bottom-color: rgba(55, 65, 81, 0.6);
 }
 
+/* Header inner layout */
 .site-header-inner {
   display: flex;
   align-items: center;
@@ -66,6 +70,7 @@ html.dark .site-header {
   padding: 0 1rem;
 }
 
+/* Logo styles */
 .brand .logo {
   font-weight: 600;
   font-size: 1.1rem;
@@ -80,6 +85,7 @@ html.dark .brand .logo {
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
 }
 
+/* Header navigation links */
 .header-nav {
   display: flex;
   gap: 0.75rem;
@@ -89,6 +95,7 @@ html.dark .brand .logo {
   transform: translate(-50%, -50%);
 }
 
+/* Header actions (right side) */
 .header-actions {
   display: flex;
   align-items: center;
@@ -96,6 +103,7 @@ html.dark .brand .logo {
   position: static;
 }
 
+/* Navigation link styles */
 .nav-link {
   padding: 0.375rem 0.75rem;
   border-radius: 1.4rem;
@@ -104,7 +112,7 @@ html.dark .brand .logo {
   color: var(--text);
   text-decoration: none;
   background: transparent;
-  transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s, border-color 0.3s;
   box-shadow: none;
 }
 
@@ -115,6 +123,7 @@ html.dark .brand .logo {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Navigation link dark mode */
 html.dark .nav-link {
   border-color: rgba(156, 163, 175, 0.3);
   color: var(--text);
@@ -127,27 +136,33 @@ html.dark .nav-link:hover {
   box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
 }
 
-/* Mobile Menu */
+/* === Mobile Menu Button === */
 .mobile-menu-btn {
   display: none;
   padding: 0.5rem;
   border-radius: 0.75rem;
-  border: 1px solid rgba(209, 213, 219, 0.6);
-  background: var(--surface);
   color: var(--text);
   cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
+  transition: background 0.3s, transform 0.15s ease;
   box-shadow: 0 2px 8px var(--shadow);
 }
 
-.mobile-menu-btn:hover {
-  background: rgba(243, 244, 246, 1);
-  color: var(--text);
-  transform: scale(1.05);
+/* Light mode: button background and outline */
+html:not(.dark) .mobile-menu-btn {
+  background: rgba(255, 255, 255, 0.103);
+  border: 1px solid rgba(55, 65, 81, 0.6);
 }
 
+/* Dark mode: button background and outline */
 html.dark .mobile-menu-btn {
-  border-color: rgba(75, 85, 99, 0.6);
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(55, 65, 81, 0.6);
+}
+
+/* Button scale effect on press */
+.mobile-menu-btn:active,
+html.dark .mobile-menu-btn:active {
+  transform: scale(0.95);
 }
 
 .mobile-menu-btn svg {
@@ -155,34 +170,44 @@ html.dark .mobile-menu-btn {
   height: 1rem;
 }
 
+/* === Mobile Menu Overlay === */
 .mobile-menu {
-  display: none;
-  position: absolute;
-  top: 100%;
+  position: fixed;
+  top: 48px; /* Directly below the header */
   left: 0;
   right: 0;
-  background: var(--surface);
+  background: rgba(255, 255, 255, 0.103);
   border: 1px solid rgba(229, 231, 235, 0.4);
-  border-radius: 0.75rem;
+  border-top: none;
+  border-radius: 0 0 0.75rem 0.75rem;
   padding: 1rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(10px);
-  z-index: 60;
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 40;
   opacity: 0;
+  pointer-events: none;
   transform: translateY(-10px);
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
+/* Mobile menu dark mode */
 html.dark .mobile-menu {
+  background: rgba(0, 0, 0, 0.2);
   border-color: rgba(55, 65, 81, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
+/* Show mobile menu when open */
 .mobile-menu.open {
-  display: block;
   opacity: 1;
+  display: block;
+  pointer-events: auto;
   transform: translateY(0);
 }
 
+/* === Mobile Navigation Layout === */
 .mobile-nav {
   display: flex;
   flex-direction: column;
@@ -190,6 +215,7 @@ html.dark .mobile-menu {
   margin-bottom: 1rem;
 }
 
+/* Mobile menu actions (e.g. theme toggle) */
 .mobile-actions {
   display: flex;
   justify-content: center;
@@ -201,7 +227,7 @@ html.dark .mobile-actions {
   border-top-color: rgba(55, 65, 81, 0.6);
 }
 
-/* Theme Toggle */
+/* === Theme Toggle Button === */
 .modern-theme-toggle {
   all: unset;
   background: var(--surface, rgba(255, 255, 255, 0.8));
@@ -238,20 +264,10 @@ html.dark .mobile-actions {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-.modern-theme-toggle:hover {
-  background: var(--surface, rgba(255, 255, 255, 0.9));
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), inset 0 1px 2px rgba(0, 0, 0, 0.05);
-  transform: scale(1.02);
-}
-
+/* Theme toggle dark mode */
 html.dark .modern-theme-toggle {
   background: rgba(255, 255, 255, 0.2);
   box-shadow: 0 1px 3px rgba(255, 255, 255, 0.1), inset 0 1px 2px rgba(255, 255, 255, 0.05);
-}
-
-html.dark .modern-theme-toggle:hover {
-  background: rgba(255, 255, 255, 0.3); /* Subtilerer Hover im Dark Mode */
-  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.05);
 }
 
 html.dark .modern-theme-toggle::before {
@@ -259,37 +275,23 @@ html.dark .modern-theme-toggle::before {
   transform: translateY(-50%) translateX(1.8rem);
 }
 
-/* Override global hover effects for theme toggle */
-.modern-theme-toggle,
-.modern-theme-toggle:hover,
-.modern-theme-toggle:focus,
-.modern-theme-toggle:active {
-  transform: none !important;
-  box-shadow: none !important;
-  filter: none !important;
-  text-decoration: none !important;
-  outline: none !important;
-  border: none !important;
-  /* Background nicht mehr überschrieben, um Hover zu erlauben */
-}
-
-/* Specific hover effects for toggle */
+/* Theme toggle hover effect */
 .modern-theme-toggle:hover {
-  background: var(--surface, rgba(255, 255, 255, 0.9)) !important;
+  background: rgba(255, 255, 255, 0.3) !important;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), inset 0 1px 2px rgba(0, 0, 0, 0.05) !important;
   transform: scale(1.02) !important;
 }
 
 html.dark .modern-theme-toggle:hover {
-  background: rgba(255, 255, 255, 0.3) !important; /* Subtilerer Hover im Dark Mode */
+  background: rgba(255, 255, 255, 0.3) !important;
   box-shadow: 0 2px 6px rgba(255, 255, 255, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.05) !important;
 }
 
-/* Footer */
+/* === Footer Styles === */
 .footer {
   position: relative;
   z-index: 11;
-  background: rgba(255, 255, 255, 0.103); /* Gleicher wie Header für Konsistenz */
+  background: rgba(255, 255, 255, 0.103);
   backdrop-filter: blur(10px);
   border-top: 1px solid rgba(229, 231, 235, 0.4);
   padding: 2rem 0;
@@ -302,6 +304,7 @@ html.dark .footer {
   border-top-color: rgba(55, 65, 81, 0.6);
 }
 
+/* Footer container layout */
 .footer-container {
   max-width: 60rem;
   margin: 0 auto;
@@ -312,6 +315,7 @@ html.dark .footer {
   gap: 1rem;
 }
 
+/* Footer logo styles */
 .footer-logo a {
   font-size: 1.5rem;
   font-weight: bold;
@@ -319,6 +323,7 @@ html.dark .footer {
   text-decoration: none;
 }
 
+/* Footer navigation layout */
 .footer-nav ul {
   list-style: none;
   display: flex;
@@ -327,6 +332,7 @@ html.dark .footer {
   padding: 0;
 }
 
+/* Footer navigation link styles */
 .footer-nav a {
   padding: 0.375rem 0.75rem;
   border-radius: 1.4rem;
@@ -335,7 +341,7 @@ html.dark .footer {
   color: var(--text);
   text-decoration: none;
   background: transparent;
-  transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s, border-color 0.3s;
   box-shadow: none;
 }
 
@@ -346,6 +352,7 @@ html.dark .footer {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Footer navigation link dark mode */
 html.dark .footer-nav a {
   border-color: rgba(156, 163, 175, 0.3);
   color: var(--text);
@@ -358,6 +365,7 @@ html.dark .footer-nav a:hover {
   box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
 }
 
+/* Footer copyright text */
 .footer-copyright p {
   margin: 0;
   font-size: 0.9rem;

@@ -1,4 +1,6 @@
 /* =================== HERO SECTION =================== */
+
+/* Hero section container */
 .hero {
   position: relative;
   height: 35vh;
@@ -11,12 +13,14 @@
   overflow: hidden;
 }
 
+/* Content wrapper inside hero */
 .hero-content {
   max-width: 60rem;
   padding: 2rem;
   z-index: 1;
 }
 
+/* Main title in hero */
 .hero-title {
   font-size: 3rem;
   font-weight: 700;
@@ -24,12 +28,14 @@
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+/* Subtitle in hero */
 .hero-subtitle {
   font-size: 1.2rem;
   margin-bottom: 2rem;
   opacity: 0.9;
 }
 
+/* Call-to-action button in hero */
 .hero-cta {
   display: inline-block;
   padding: 0.75rem 1.5rem;
@@ -42,6 +48,7 @@
   border: none;
 }
 
+/* Hover effect for CTA */
 .hero-cta:hover {
   background: var(--accent) !important;
   transform: translateY(-2px);

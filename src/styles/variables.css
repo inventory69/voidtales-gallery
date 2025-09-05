@@ -1,18 +1,20 @@
 /* =================== VARIABLES =================== */
+
+/* Light mode variables */
 :root {
-  --gap: 6px;
-  --bg: #f9fafb; /* Light mode */
-  --text: #111827;
-  --muted: #374151;
-  --surface: rgba(255, 255, 255, 0.6);
-  --surface-strong: #ffffff;
-  --btn-border: rgba(0, 0, 0, 0.06);
+  --gap: 6px; /* Spacing between elements */
+  --bg: #f9fafb; /* Light mode background */
+  --text: #111827; /* Primary text color */
+  --muted: #374151; /* Muted text color */
+  --surface: rgba(255, 255, 255, 0.6); /* Semi-transparent surface */
+  --surface-strong: #ffffff; /* Strong surface color */
+  --btn-border: rgba(0, 0, 0, 0.06); /* Button border color */
   --accent: #6b7280; /* Elegant gray for consistency */
-  --shadow: rgba(2, 6, 23, 0.08);
+  --shadow: rgba(2, 6, 23, 0.08); /* Shadow color */
   /* Footer variables */
-  --color-bg-secondary: hsl(0, 0%, 10%);
-  --color-text-secondary: hsl(0, 0%, 70%);
-  --color-border: hsl(0, 0%, 20%);
+  --color-bg-secondary: hsl(0, 0%, 10%); /* Secondary background */
+  --color-text-secondary: hsl(0, 0%, 70%); /* Secondary text */
+  --color-border: hsl(0, 0%, 20%); /* Border color */
 }
 
 /* Dark mode overrides */
@@ -20,16 +22,16 @@ html.dark,
 :root[saved-theme='dark'],
 :root[data-color-mode='dark'],
 html[data-theme='dark'] {
-  --bg: #060612;
-  --text: #f8fafc;
-  --muted: #cbd5e1;
-  --surface: rgba(0, 0, 0, 0.35);
-  --surface-strong: rgba(0, 0, 0, 0.5);
-  --btn-border: rgba(255, 255, 255, 0.06);
+  --bg: #060612; /* Dark mode background */
+  --text: #f8fafc; /* Primary text color in dark mode */
+  --muted: #cbd5e1; /* Muted text color in dark mode */
+  --surface: rgba(0, 0, 0, 0.35); /* Semi-transparent surface in dark mode */
+  --surface-strong: rgba(0, 0, 0, 0.5); /* Strong surface color in dark mode */
+  --btn-border: rgba(255, 255, 255, 0.06); /* Button border color in dark mode */
   --accent: #9ca3af; /* Lighter gray for dark mode */
-  --shadow: rgba(255, 255, 255, 0.03);
+  --shadow: rgba(255, 255, 255, 0.03); /* Shadow color in dark mode */
   /* Footer variables */
-  --color-bg-secondary: hsl(0, 0%, 10%);
-  --color-text-secondary: hsl(0, 0%, 70%);
-  --color-border: hsl(0, 0%, 20%);
+  --color-bg-secondary: hsl(0, 0%, 10%); /* Secondary background */
+  --color-text-secondary: hsl(0, 0%, 70%); /* Secondary text */
+  --color-border: hsl(0, 0%, 20%); /* Border color */
 }

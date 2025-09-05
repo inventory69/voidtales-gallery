@@ -1,64 +1,79 @@
 /* =================== RESPONSIVE =================== */
+
+/* Tablet and mobile styles (up to 768px width) */
 @media (max-width: 768px) {
+  /* Adjust grid layout for smaller screens */
   .grid-container {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 0.75rem;
     padding: 0.5rem;
   }
 
+  /* Hide desktop navigation on mobile */
   .header-nav {
     display: none;
   }
 
+  /* Hide theme toggle in header actions on mobile */
   .header-actions .modern-theme-toggle {
     display: none;
   }
 
+  /* Center logo in header */
   .brand .logo {
     position: static;
     transform: none;
     margin: 0 auto;
   }
 
+  /* Position header actions to the right */
   .header-actions {
     position: absolute;
     right: 1rem;
   }
 
+  /* Center header content */
   .site-header-inner {
     justify-content: center;
   }
 
+  /* Show mobile menu button */
   .mobile-menu-btn {
     display: block;
   }
 
+  /* Adjust hero section height */
   .hero {
     height: 40vh;
   }
 
+  /* Increase hero title size */
   .hero-title {
     font-size: 2rem;
   }
 
+  /* Increase hero subtitle size */
   .hero-subtitle {
     font-size: 1rem;
   }
 
+  /* Stack footer navigation vertically */
   .footer-nav ul {
     flex-direction: column;
     gap: 1rem;
     text-align: center;
   }
-  
 }
 
+/* Small mobile styles (up to 480px width) */
 @media (max-width: 480px) {
+  /* Single column grid for very small screens */
   .grid-container {
     grid-template-columns: 1fr;
     gap: 0.5rem;
   }
 
+  /* Adjust hero section height for small screens */
   .hero {
     height: 45vh;
   }

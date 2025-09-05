@@ -1,12 +1,16 @@
 /* =================== BASE =================== */
+
+/* Use border-box for consistent sizing across all elements */
 * {
   box-sizing: border-box;
 }
 
+/* Ensure full height for html and body */
 html, body {
   height: 100%;
 }
 
+/* Base body styles */
 body {
   margin: 0;
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
@@ -16,15 +20,18 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Heading colors */
 h1, h2, h3, h4, h5, h6 {
   color: var(--text);
 }
 
+/* Link styles */
 a {
   color: var(--accent);
   text-decoration: none;
 }
 
+/* Link hover and focus styles */
 a:hover, a:focus {
   text-decoration: none;
 }
