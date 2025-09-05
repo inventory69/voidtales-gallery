@@ -372,11 +372,19 @@ html.dark .footer-nav a:hover {
   color: var(--muted);
 }
 
-/* Author in Fancybox caption */
-.fancybox__caption .photo-text {
-  font-size: 0.95em;
-  color: var(--muted);
-  font-style: italic;
-  display: block;
-  margin-top: 4px;
+/* === Fancybox Caption Styles === */
+/* Center all text in Fancybox caption (f-caption) */
+.f-caption,
+.f-caption .photo-text,
+.f-caption .photo-author {
+  text-align: center !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: block !important;
+}
+
+/* Make caption text bold in Fancybox */
+.f-caption .photo-text {
+  font-weight: bold !important;
 }

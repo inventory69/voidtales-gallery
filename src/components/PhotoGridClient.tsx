@@ -21,27 +21,27 @@ export default function PhotoGridClient({ photos, ariaLabelPrefix = "Open fullsc
   return (
     <div id="photo-grid" class="grid-container">
       {photos.map((photo, i) => (
-        <a
-          class="photo"
-          href={photo.fullsizePath}
-          data-fancybox="gallery"
-          data-caption={`<span class='photo-text'>Filename: ${photo.title}<br>Description: ${photo.caption}<br><br>Author: ${photo.author}</span>`}
-          aria-label={`${ariaLabelPrefix} ${photo.title}`}
-        >
+      <a
+        class="photo"
+        href={photo.fullsizePath}
+        data-fancybox="gallery"
+        data-caption={`<span class='photo-text'>${photo.caption ? photo.caption : photo.title}</span><br><span class='photo-author'>Author: ${photo.author}</span>`}
+        aria-label={`${ariaLabelPrefix} ${photo.title}`}
+      >
         <picture>
-            <source 
-              srcSet={`${photo.thumbPath.replace('-400.webp', '-800.webp')} 2x`} 
-              type="image/webp" 
-            />
-            <img 
-              src={photo.thumbPath}
-              srcSet={`${photo.thumbPath} 1x, ${photo.thumbPath.replace('-400.webp', '-800.webp')} 2x`}
-              alt={photo.title}
-              loading={i < 3 ? "eager" : "lazy"}
-            />
+          <source 
+            srcSet={`${photo.thumbPath.replace('-400.webp', '-800.webp')} 2x`} 
+            type="image/webp" 
+          />
+          <img 
+            src={photo.thumbPath}
+            srcSet={`${photo.thumbPath} 1x, ${photo.thumbPath.replace('-400.webp', '-800.webp')} 2x`}
+            alt={photo.title}
+            loading={i < 3 ? "eager" : "lazy"}
+          />
         </picture>
-        </a>
-      ))}
+      </a>
+    ))}
     </div>
   );
 }
