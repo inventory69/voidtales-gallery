@@ -8,6 +8,7 @@ type Photo = {
   title: string;
   caption: string;
   author: string;
+  body: string;
 };
 
 export default function PhotoGridClient({ photos, ariaLabelPrefix = "Open fullscreen of" }: { photos: Photo[], ariaLabelPrefix?: string }) {
@@ -25,7 +26,13 @@ export default function PhotoGridClient({ photos, ariaLabelPrefix = "Open fullsc
         class="photo"
         href={photo.fullsizePath}
         data-fancybox="gallery"
-        data-caption={`<span class='photo-text'>${photo.caption ? photo.caption : photo.title}</span><br><span class='photo-author'>Author: ${photo.author}</span>`}
+        data-caption={`<span class='photo-text'>${
+        photo.body?.trim()
+          ? photo.body
+          : photo.caption?.trim()
+            ? photo.caption
+            : photo.title
+      }</span><br><span class='photo-author'>Author: ${photo.author}</span>`}
         aria-label={`${ariaLabelPrefix} ${photo.title}`}
       >
         <picture>
