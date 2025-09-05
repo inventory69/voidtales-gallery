@@ -1,14 +1,26 @@
 /* =================== RESPONSIVE =================== */
 
-/* Tablet and mobile styles (up to 768px width) */
-@media (max-width: 768px) {
-  /* Adjust grid layout for smaller screens */
+/* Tablet and mobile styles (up to 900px width) */
+@media (max-width: 900px) {
+  /* Use 2 columns for grid on tablets and small desktops */
   .grid-container {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 0.75rem;
     padding: 0.5rem;
   }
+}
 
+/* Mobile styles (up to 600px width) */
+@media (max-width: 600px) {
+  /* Use single column grid for mobile */
+  .grid-container {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+/* Tablet and mobile styles (up to 768px width) */
+@media (max-width: 768px) {
   /* Hide desktop navigation on mobile */
   .header-nav {
     display: none;
@@ -67,12 +79,6 @@
 
 /* Small mobile styles (up to 480px width) */
 @media (max-width: 480px) {
-  /* Single column grid for very small screens */
-  .grid-container {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-  }
-
   /* Adjust hero section height for small screens */
   .hero {
     height: 45vh;
