@@ -1,7 +1,7 @@
 const fs = require('fs');
    const path = require('path');
 
-   const srcDir = '/var/www/voidtales-gallery-images/markdown/';
+   const srcDir = '/etc/dokploy/mountfiles/markdown/';
    const destDir = './src/content/photos/';
 
    fs.readdirSync(srcDir).forEach(file => {
