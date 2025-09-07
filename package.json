@@ -16,7 +16,7 @@
     "stylelint": "stylelint '**/*.{astro,css}'",
     "stylelint:fix": "stylelint '**/*.{astro,css}' --fix",
     "gen:thumbs": "node scripts/generate-thumbs.js",
-    "gen:thumbs-ext": "node scripts/generate-thumbs.js",
+    "gen:thumbs-ext": "node scripts/generate-thumbs-ext.js",
     "copy:md-files": "node scripts/copy-md-files.cjs"
   },
   "dependencies": {
