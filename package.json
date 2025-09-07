@@ -16,7 +16,7 @@
     "stylelint": "stylelint '**/*.{astro,css}'",
     "stylelint:fix": "stylelint '**/*.{astro,css}' --fix",
     "gen:thumbs": "node scripts/generate-thumbs.js",
-    "copy:md-files": "node scripts/copy-md-files.js"
+    "copy:md-files": "node scripts/copy-md-files.cjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
