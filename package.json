@@ -27,7 +27,7 @@
     "typescript": "^5.8.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.1.2",
+    "@biomejs/biome": "^2.2.3",
     "husky": "^9.1.7",
     "sharp": "^0.34.3",
     "stylelint": "^16.22.0",
