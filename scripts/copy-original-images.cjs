@@ -1,3 +1,9 @@
+const config = require('../config/module.js');
+if (!config.enableCopyOriginalImages) {
+  console.log('Originalbild-Download ist deaktiviert. Überspringe Skript.');
+  process.exit(0);
+}
+
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
@@ -5,7 +11,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 const destDir = './public/images/original/';
-const webserverUrl = 'http://172.19.0.1:8723/original/';
+const webserverUrl = config.originalSourceUrl;
 
 if (!webserverUrl) {
   console.warn('Warnung: EXT_DL_URL_ORIGINAL ist nicht gesetzt. Überspringe das Kopieren der Originalbilder.');

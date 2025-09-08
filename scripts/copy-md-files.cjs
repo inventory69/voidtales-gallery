@@ -1,3 +1,9 @@
+const config = require('../config/module.js');
+if (!config.enableCopyMdFiles) {
+  console.log('Markdown-Download ist deaktiviert. Überspringe Skript.');
+  process.exit(0);
+}
+
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
@@ -5,7 +11,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 const destDir = './src/content/photos/';
-const webserverUrl = 'http://172.19.0.1:8723/markdown/';
+const webserverUrl = config.mdSourceUrl;
 
 if (!webserverUrl) {
   console.warn('Warnung: EXT_DL_URL_MARKDOWN ist nicht gesetzt. Überspringe das Kopieren der Markdown-Dateien.');
