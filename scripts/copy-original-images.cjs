@@ -9,11 +9,18 @@ const destDir = './public/images/original/';
 const internalUrl = config.originalSourceUrlInternal;
 const externalUrl = config.originalSourceUrlExternal;
 
+// Debug: Zeige die geladenen URLs
+console.log('Loaded originalSourceUrlInternal:', internalUrl);
+console.log('Loaded originalSourceUrlExternal:', externalUrl);
+
 async function fetchDirectoryListing(url) {
   try {
-    const res = await axios.get(url, { timeout: 3000 });
+    console.log(`Trying to fetch from: ${url}`);
+    const res = await axios.get(url, { timeout: 5000 }); // Erhöhe Timeout auf 5s
+    console.log(`Success: Fetched HTML from ${url}`);
     return res.data;
   } catch (err) {
+    console.error(`Error fetching ${url}:`, err.message);
     return null;
   }
 }
@@ -27,9 +34,9 @@ async function fetchDirectoryListing(url) {
     html = await fetchDirectoryListing(internalUrl);
     if (html) {
       usedUrl = internalUrl;
-      console.log(`Using internal URL`);
+      console.log(`Using internal URL: ${usedUrl}`);
     } else {
-      console.warn(`Internal URL not reachable`);
+      console.warn(`Internal URL not reachable: ${internalUrl}`);
     }
   }
 
@@ -38,9 +45,9 @@ async function fetchDirectoryListing(url) {
     html = await fetchDirectoryListing(externalUrl);
     if (html) {
       usedUrl = externalUrl;
-      console.log(`Using external URL`);
+      console.log(`Using external URL: ${usedUrl}`);
     } else {
-      console.warn(`External URL not reachable`);
+      console.warn(`External URL not reachable: ${externalUrl}`);
     }
   }
 
@@ -63,6 +70,7 @@ async function fetchDirectoryListing(url) {
     }
   });
 
+  console.log(`Found ${files.length} image files to download.`);
   // Download each file using wget
   files.forEach(file => {
     const url = `${usedUrl}${file}`;
