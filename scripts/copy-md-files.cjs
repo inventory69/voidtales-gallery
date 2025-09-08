@@ -6,8 +6,8 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 const destDir = './src/content/photos/';
-const internalUrl = config.mdSourceUrlInternal;
-const externalUrl = config.mdSourceUrlExternal;
+const internalUrl = config.mdSourceUrlInternal ? config.mdSourceUrlInternal.replace(/'/g, '') : null;
+const externalUrl = config.mdSourceUrlExternal ? config.mdSourceUrlExternal.replace(/'/g, '') : null;
 
 // Debug: Zeige die geladenen URLs
 console.log('Loaded mdSourceUrlInternal:', internalUrl);

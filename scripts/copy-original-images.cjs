@@ -6,8 +6,8 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 const destDir = './public/images/original/';
-const internalUrl = config.originalSourceUrlInternal;
-const externalUrl = config.originalSourceUrlExternal;
+const internalUrl = config.originalSourceUrlInternal ? config.originalSourceUrlInternal.replace(/'/g, '') : null;
+const externalUrl = config.originalSourceUrlExternal ? config.originalSourceUrlExternal.replace(/'/g, '') : null;
 
 // Debug: Zeige die geladenen URLs
 console.log('Loaded originalSourceUrlInternal:', internalUrl);
