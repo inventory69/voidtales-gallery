@@ -13,6 +13,7 @@ jobs:
   build-and-push-dockerfile-image:
     # A single job to build and push the Docker image
     runs-on: ubuntu-latest
+    timeout-minutes: 30  # Erhöhe Timeout auf 30 Minuten
     env:
       # Environment variable for the external download URL of markdown files
       EXT_DL_URL_MARKDOWN: ${{ secrets.EXT_DL_URL_MARKDOWN }}
@@ -44,11 +45,15 @@ jobs:
             downloads-${{ runner.os }}-
 
       - name: 📦 Install dependencies
-        run: npm install -g pnpm && pnpm install --frozen-lockfile
+        run: |
+          echo "Starting pnpm install at $(date)"
+          npm install -g pnpm
+          pnpm install --frozen-lockfile
+          echo "Finished pnpm install at $(date)"
 
       - name: 📥 Download files (if not cached)
         env:
-            # Explicitly set the ENV variables for the download step so that the scripts know the URLs
+          # Explicitly set the ENV variables for the download step so that the scripts know the URLs
           EXT_DL_URL_MARKDOWN: ${{ secrets.EXT_DL_URL_MARKDOWN }}
           EXT_DL_URL_ORIGINAL: ${{ secrets.EXT_DL_URL_ORIGINAL }}
           EXT_DL_URL_MARKDOWN_EXTERNAL: ${{ secrets.EXT_DL_URL_MARKDOWN_EXTERNAL }}
