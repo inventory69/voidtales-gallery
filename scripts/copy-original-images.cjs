@@ -5,7 +5,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 const destDir = './public/images/original/';
-const webserverUrl = 'http://172.19.0.1:8723/original/'; // interne IP und Pfad zum Ordner
+const webserverUrl = process.env.EXT_DL_URL_ORIGINAL;
 
 (async () => {
   // Hole das Directory Listing als HTML
@@ -28,7 +28,7 @@ const webserverUrl = 'http://172.19.0.1:8723/original/'; // interne IP und Pfad 
   files.forEach(file => {
     const url = `${webserverUrl}${file}`;
     const destPath = path.join(destDir, file);
-    console.log(`Downloading ${url} -> ${destPath}`);
+    console.log(`Downloading ${file} -> ${destPath}`);
     execSync(`wget -q -O "${destPath}" "${url}"`);
   });
 })();
