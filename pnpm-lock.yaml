@@ -18,8 +18,8 @@ importers:
         specifier: ^3.4.1
         version: 3.5.1
       '@fancyapps/ui':
-        specifier: ^6.0.27
-        version: 6.0.27
+        specifier: ^6.0.28
+        version: 6.0.28
       astro:
         specifier: ^5.12.3
         version: 5.13.5(@types/node@24.3.0)(rollup@4.50.0)(typescript@5.9.2)(yaml@2.8.1)
@@ -469,8 +469,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@fancyapps/ui@6.0.27':
-    resolution: {integrity: sha512-2/B06nCrVgUO3Fl4oLoaEgp3TnsWxgYvI7HxD+x4vTiB9Eq9EEbwgeamUz5eH+WZ2gqX0R0sMxDyGfXuZ7vbTg==}
+  '@fancyapps/ui@6.0.28':
+    resolution: {integrity: sha512-+DF4x/nBYKlIKt+ChKh70bQAzHFJSNmAqk2BtjZ1d+bcytAxVoiWk1rt71WOo2DVa8mRekjEHlVtj4CZALG9pg==}
 
   '@img/sharp-darwin-arm64@0.33.5':
     resolution: {integrity: sha512-UT4p+iz/2H4twwAoLCqfA9UH5pI6DggwKEGuaPy7nCVQ8ZsiY5PIcrRvD1DzuY3qYL07NtIQcWnBSY/heikIFQ==}
@@ -3140,7 +3140,7 @@ snapshots:
   '@esbuild/win32-x64@0.25.9':
     optional: true
 
-  '@fancyapps/ui@6.0.27': {}
+  '@fancyapps/ui@6.0.28': {}
 
   '@img/sharp-darwin-arm64@0.33.5':
     optionalDependencies:
