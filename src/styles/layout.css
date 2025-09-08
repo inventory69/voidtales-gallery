@@ -79,3 +79,20 @@ body {
 .footer {
   flex-shrink: 0;
 }
+
+/* Fancybox positioning above header and centering */
+.fancybox__container {
+  z-index: 10000 !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+}
+
+/* Firefox-specific offset for header */
+@-moz-document url-prefix() {
+  .fancybox__container {
+    margin-top: 80px !important; /* Adjust header height exactly – test 60px, 100px, etc. */
+  }
+}
