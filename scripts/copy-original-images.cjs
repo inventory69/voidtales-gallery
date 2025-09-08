@@ -9,18 +9,12 @@ const destDir = './public/images/original/';
 const internalUrl = config.originalSourceUrlInternal ? config.originalSourceUrlInternal.replace(/'/g, '') : null;
 const externalUrl = config.originalSourceUrlExternal ? config.originalSourceUrlExternal.replace(/'/g, '') : null;
 
-// Debug: Zeige die geladenen URLs
-console.log('Loaded originalSourceUrlInternal:', internalUrl);
-console.log('Loaded originalSourceUrlExternal:', externalUrl);
-
 async function fetchDirectoryListing(url) {
   try {
-    console.log(`Trying to fetch from: ${url}`);
-    const res = await axios.get(url, { timeout: 5000 }); // Erhöhe Timeout auf 5s
-    console.log(`Success: Fetched HTML from ${url}`);
+    const res = await axios.get(url, { timeout: 5000 });
     return res.data;
   } catch (err) {
-    console.error(`Error fetching ${url}:`, err.message);
+    console.error(`Error fetching source:`, err.message);
     return null;
   }
 }
@@ -34,9 +28,6 @@ async function fetchDirectoryListing(url) {
     html = await fetchDirectoryListing(internalUrl);
     if (html) {
       usedUrl = internalUrl;
-      console.log(`Using internal URL: ${usedUrl}`);
-    } else {
-      console.warn(`Internal URL not reachable: ${internalUrl}`);
     }
   }
 
@@ -45,37 +36,29 @@ async function fetchDirectoryListing(url) {
     html = await fetchDirectoryListing(externalUrl);
     if (html) {
       usedUrl = externalUrl;
-      console.log(`Using external URL: ${usedUrl}`);
-    } else {
-      console.warn(`External URL not reachable: ${externalUrl}`);
     }
   }
 
-  // If neither URL works, skip and exit successfully
+  // If neither URL works, skip
   if (!html) {
-    console.warn('No reachable image source URL found. Skipping original image download.');
+    console.warn('No reachable image source found. Skipping download.');
     process.exit(0);
   }
 
-  // Extract all links to image files
+  // Extract image files
   const $ = cheerio.load(html);
   const files = [];
   $('a').each((_, el) => {
     const href = $(el).attr('href');
-    if (
-      href &&
-      /\.(png|jpe?g|webp|bmp)$/i.test(href)
-    ) {
+    if (href && /\.(png|jpe?g|webp|bmp)$/i.test(href)) {
       files.push(href);
     }
   });
 
-  console.log(`Found ${files.length} image files to download.`);
-  // Download each file using wget
+  // Download files
   files.forEach(file => {
     const url = `${usedUrl}${file}`;
     const destPath = path.join(destDir, file);
-    console.log(`Downloading ${file} -> ${destPath}`);
     execSync(`wget -q -O "${destPath}" "${url}"`);
   });
 })();
