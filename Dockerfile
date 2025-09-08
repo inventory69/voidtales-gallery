@@ -1,5 +1,18 @@
 # Stage 1: Base image for all subsequent stages, using a minimal Node.js environment
 FROM node:20-alpine AS base
+
+# Define build arguments
+ARG EXT_DL_URL_MARKDOWN
+ARG EXT_DL_URL_ORIGINAL
+ARG EXT_DL_URL_MARKDOWN_EXTERNAL
+ARG EXT_DL_URL_ORIGINAL_EXTERNAL
+
+# Set them as environment variables
+ENV EXT_DL_URL_MARKDOWN=$EXT_DL_URL_MARKDOWN
+ENV EXT_DL_URL_ORIGINAL=$EXT_DL_URL_ORIGINAL
+ENV EXT_DL_URL_MARKDOWN_EXTERNAL=$EXT_DL_URL_MARKDOWN_EXTERNAL
+ENV EXT_DL_URL_ORIGINAL_EXTERNAL=$EXT_DL_URL_ORIGINAL_EXTERNAL
+
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 # Enable corepack to manage package managers like pnpm
