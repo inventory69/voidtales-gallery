@@ -16,8 +16,6 @@ COPY . .
 COPY package.json pnpm-lock.yaml ./
 # Install pnpm dependencies with a cache mount for faster builds
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-# Add things for md dl
-RUN pnpm add -D axios cheerio
 # Set environment to production to optimize the build
 ENV NODE_ENV=production
 # Build the application for production
