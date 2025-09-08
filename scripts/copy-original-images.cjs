@@ -12,11 +12,14 @@ const webserverUrl = 'http://172.19.0.1:8723/original/'; // interne IP und Pfad 
   const res = await axios.get(webserverUrl);
   const $ = cheerio.load(res.data);
 
-  // Extrahiere alle Links auf .md-Dateien
+  // Extrahiere alle Links auf Bilddateien
   const files = [];
   $('a').each((_, el) => {
     const href = $(el).attr('href');
-    if (href && href.endsWith('.md')) {
+    if (
+      href &&
+      /\.(png|jpe?g|webp|bmp)$/i.test(href)
+    ) {
       files.push(href);
     }
   });
