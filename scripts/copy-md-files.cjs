@@ -1,4 +1,4 @@
-const config = require('../src/config/module.cjs');
+const config = require('../src/config/externaldownload.cjs');
 if (!config.enableCopyMdFiles) {
   console.log('Markdown-Download ist deaktiviert. Überspringe Skript.');
   process.exit(0);
