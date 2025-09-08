@@ -33,6 +33,30 @@ jobs:
         # Action to check out the repository's code
         uses: actions/checkout@v4  # Updated to v4 for better compatibility
 
+      - name: 🔧 Cache downloaded files
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./src/content/photos/
+            ./public/images/original/
+          key: downloads-${{ runner.os }}-${{ hashFiles('package.json') }}
+          restore-keys: |
+            downloads-${{ runner.os }}-
+
+      - name: 📦 Install dependencies
+        run: npm install -g pnpm && pnpm install --frozen-lockfile
+
+      - name: 📥 Download files (if not cached)
+        env:
+            # Explicitly set the ENV variables for the download step so that the scripts know the URLs
+          EXT_DL_URL_MARKDOWN: ${{ secrets.EXT_DL_URL_MARKDOWN }}
+          EXT_DL_URL_ORIGINAL: ${{ secrets.EXT_DL_URL_ORIGINAL }}
+          EXT_DL_URL_MARKDOWN_EXTERNAL: ${{ secrets.EXT_DL_URL_MARKDOWN_EXTERNAL }}
+          EXT_DL_URL_ORIGINAL_EXTERNAL: ${{ secrets.EXT_DL_URL_ORIGINAL_EXTERNAL }}
+        run: |
+          pnpm run copy:md-files
+          pnpm run copy:original-images
+
       - name: 🔧 Log in to Docker Hub
         # Action to authenticate with Docker Hub using secrets
         uses: docker/login-action@v3  # Updated to v3
@@ -51,7 +75,7 @@ jobs:
           tags: |
             inventory69/voidtales-gallery:latest
           platforms: linux/amd64
-            # Build-Args: Pass the environment variables to the Docker build (if the Dockerfile needs them)
+          # Build-Args: Pass the environment variables to the Docker build (if the Dockerfile needs them)
           build-args: |
             EXT_DL_URL_MARKDOWN=${{ env.EXT_DL_URL_MARKDOWN }}
             EXT_DL_URL_ORIGINAL=${{ env.EXT_DL_URL_ORIGINAL }}

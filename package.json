@@ -7,7 +7,6 @@
     "prepare": "husky",
     "dev": "astro dev",
     "start": "astro dev",
-    "prebuild": "pnpm run copy:md-files && pnpm run copy:original-images",
     "build": "pnpm run gen:thumbs && astro check && astro build --jobs 1",
     "preview": "astro preview",
     "astro": "astro",

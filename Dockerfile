@@ -1,13 +1,13 @@
 # Stage 1: Base image for all subsequent stages, using a minimal Node.js environment
 FROM node:20-alpine AS base
 
-# Define build arguments
+# Define build arguments (if needed for other purposes, but downloads are now in workflow)
 ARG EXT_DL_URL_MARKDOWN
 ARG EXT_DL_URL_ORIGINAL
 ARG EXT_DL_URL_MARKDOWN_EXTERNAL
 ARG EXT_DL_URL_ORIGINAL_EXTERNAL
 
-# Set them as environment variables
+# Set them as environment variables (if needed)
 ENV EXT_DL_URL_MARKDOWN=$EXT_DL_URL_MARKDOWN
 ENV EXT_DL_URL_ORIGINAL=$EXT_DL_URL_ORIGINAL
 ENV EXT_DL_URL_MARKDOWN_EXTERNAL=$EXT_DL_URL_MARKDOWN_EXTERNAL
@@ -23,7 +23,7 @@ RUN corepack enable
 # Stage 2: The build stage, where we install dependencies and build the application
 FROM base AS build
 WORKDIR /app
-# Copy all project files to the container
+# Copy all project files to the container (downloads are already done in workflow)
 COPY . .
 # Copy lock files to leverage caching
 COPY package.json pnpm-lock.yaml ./
@@ -31,7 +31,7 @@ COPY package.json pnpm-lock.yaml ./
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 # Set environment to production to optimize the build
 ENV NODE_ENV=production
-# Build the application for production
+# Build the application for production (downloads are skipped since files are copied)
 RUN pnpm run build
 
 # ---
