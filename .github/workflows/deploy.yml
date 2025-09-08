@@ -40,8 +40,7 @@ jobs:
           path: |
             ./src/content/photos/
             ./public/images/original/
-            ./public/images/thumbs/  # Cache für Thumbnails
-          key: downloads-${{ runner.os }}-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}  # Stable Key
+          key: downloads-${{ runner.os }}-${{ hashFiles('package.json', 'pnwm-lock.yaml') }}  # Only cache inputs
           restore-keys: |
             downloads-${{ runner.os }}-
 
@@ -69,6 +68,15 @@ jobs:
           echo "Checking for existing thumbnails..."
           ls -la ./public/images/thumbs/ || echo "No thumbs directory"
           pnpm run gen:thumbs  # Generate thumbnails after download
+
+      - name: 🔧 Cache thumbnails
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./public/images/thumbs/  # Cache for thumbnails after generation
+          key: thumbs-${{ runner.os }}-${{ hashFiles('package.json', 'pnwm-lock.yaml', 'scripts/generate-thumbs.js') }}  # Separate key for thumbnails
+          restore-keys: |
+            thumbs-${{ runner.os }}-  # Load the last matching cache
 
       - name: 🔧 Log in to Docker Hub
         # Action to authenticate with Docker Hub using secrets
