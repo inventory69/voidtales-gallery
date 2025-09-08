@@ -13,7 +13,7 @@ jobs:
   build-and-push-dockerfile-image:
     # A single job to build and push the Docker image
     runs-on: ubuntu-latest
-    timeout-minutes: 30  # Erhöhe Timeout auf 30 Minuten
+    timeout-minutes: 30 
     env:
       # Environment variable for the external download URL of markdown files
       EXT_DL_URL_MARKDOWN: ${{ secrets.EXT_DL_URL_MARKDOWN }}
@@ -41,7 +41,7 @@ jobs:
             ./src/content/photos/
             ./public/images/original/
             ./public/images/thumbs/  # Cache für Thumbnails
-          key: downloads-${{ runner.os }}-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}  # Stabiler Key
+          key: downloads-${{ runner.os }}-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}  # Stable Key
           restore-keys: |
             downloads-${{ runner.os }}-
 
@@ -65,9 +65,10 @@ jobs:
 
       - name: 🖼️ Generate thumbnails (if not cached)
         run: |
+          mkdir -p ./public/images/thumbs  # Ensure the directory exists
           echo "Checking for existing thumbnails..."
           ls -la ./public/images/thumbs/ || echo "No thumbs directory"
-          pnpm run gen:thumbs  # Generiere Thumbnails nach dem Download
+          pnpm run gen:thumbs  # Generate thumbnails after download
 
       - name: 🔧 Log in to Docker Hub
         # Action to authenticate with Docker Hub using secrets
