@@ -1,4 +1,4 @@
-const config = require('../config/module.js');
+const config = require('../src/config/module.js');
 if (!config.enableCopyMdFiles) {
   console.log('Markdown-Download ist deaktiviert. Überspringe Skript.');
   process.exit(0);

@@ -1,4 +1,4 @@
-const config = require('../config/module.js');
+const config = require('../src/config/module.js');
 if (!config.enableCopyOriginalImages) {
   console.log('Originalbild-Download ist deaktiviert. Überspringe Skript.');
   process.exit(0);
