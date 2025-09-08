@@ -11,7 +11,7 @@ const externalUrl = config.originalSourceUrlExternal ? config.originalSourceUrlE
 
 async function fetchDirectoryListing(url) {
   try {
-    const res = await axios.get(url, { timeout: 5000 });
+    const res = await axios.get(url, { timeout: 10000 });  // Erhöht auf 10s
     return res.data;
   } catch (err) {
     console.error(`Error fetching source:`, err.message);
@@ -39,7 +39,7 @@ async function fetchDirectoryListing(url) {
     }
   }
 
-  // If neither URL works, skip
+  // If neither URL works, skip (ignoriere Timeout)
   if (!html) {
     console.warn('No reachable image source found. Skipping download.');
     process.exit(0);
@@ -63,7 +63,11 @@ async function fetchDirectoryListing(url) {
       console.log(`Skipping ${file} (already exists)`);
     } else {
       console.log(`Downloading ${file}`);
-      execSync(`wget -q -O "${destPath}" "${url}"`);
+      try {
+        execSync(`wget -q -O "${destPath}" "${url}"`, { timeout: 10000 });
+      } catch (e) {
+        console.warn(`Failed to download ${file}, skipping.`);
+      }
     }
   });
 })();

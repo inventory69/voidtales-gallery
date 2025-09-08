@@ -27,8 +27,8 @@ WORKDIR /app
 COPY . .
 # Copy lock files to leverage caching
 COPY package.json pnpm-lock.yaml ./
-# Install pnpm dependencies with a cache mount for faster builds
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+# Install pnpm dependencies without cache mount (to avoid hanging)
+RUN pnpm install --frozen-lockfile
 # Set environment to production to optimize the build
 ENV NODE_ENV=production
 # Build the application for production (downloads are skipped since files are copied)
