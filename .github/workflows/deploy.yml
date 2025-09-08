@@ -14,14 +14,14 @@ jobs:
     # A single job to build and push the Docker image
     runs-on: ubuntu-latest
     env:
-      # External download URL for markdown files
-      EXT_DL_URL_MARKDOWN: ${{ vars.EXT_DL_URL_MARKDOWN }}
-      # External download URL for original files
-      EXT_DL_URL_ORIGINAL: ${{ vars.EXT_DL_URL_ORIGINAL }}
-      # External download URL for markdown files (external source)
-      EXT_DL_URL_MARKDOWN_EXTERNAL: ${{ vars.EXT_DL_URL_MARKDOWN_EXTERNAL }}
-      # External download URL for original files (external source)
-      EXT_DL_URL_ORIGINAL_EXTERNAL: ${{ vars.EXT_DL_URL_ORIGINAL_EXTERNAL }}
+      # Environment variable for the external download URL of markdown files
+      EXT_DL_URL_MARKDOWN: ${{ secrets.EXT_DL_URL_MARKDOWN }}
+      # Environment variable for the external download URL of original files
+      EXT_DL_URL_ORIGINAL: ${{ secrets.EXT_DL_URL_ORIGINAL }}
+      # Environment variable for the external download URL of markdown files from external sources
+      EXT_DL_URL_MARKDOWN_EXTERNAL: ${{ secrets.EXT_DL_URL_MARKDOWN_EXTERNAL }}
+      # Environment variable for the external download URL of original files from external sources
+      EXT_DL_URL_ORIGINAL_EXTERNAL: ${{ secrets.EXT_DL_URL_ORIGINAL_EXTERNAL }}
 
     # 1. Define an Environment for the job
     environment:
@@ -40,14 +40,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }} # Make sure to add the secrets in your repository in -> Settings -> Secrets (Actions) -> New repository secret
           password: ${{ secrets.DOCKERHUB_TOKEN }}    # Make sure to add the secrets in your repository in -> Settings -> Secrets (Actions) -> New repository secret
 
-      # Debug-Schritt: Überprüfe, ob die Environment-Variablen gesetzt sind
-      - name: 🔍 Debug Environment Variables
-        run: |
-          echo "EXT_DL_URL_MARKDOWN: $EXT_DL_URL_MARKDOWN"
-          echo "EXT_DL_URL_ORIGINAL: $EXT_DL_URL_ORIGINAL"
-          echo "EXT_DL_URL_MARKDOWN_EXTERNAL: $EXT_DL_URL_MARKDOWN_EXTERNAL"
-          echo "EXT_DL_URL_ORIGINAL_EXTERNAL: $EXT_DL_URL_ORIGINAL_EXTERNAL"
-
       - name: 🔨 Build and push Docker image
         # Action to build the Docker image and push it to the registry
         uses: docker/build-push-action@v5  # Updated to v5
@@ -59,7 +51,7 @@ jobs:
           tags: |
             inventory69/voidtales-gallery:latest
           platforms: linux/amd64
-          # Build-Args: Übergebe die Environment-Variablen an den Docker-Build (falls das Dockerfile sie braucht)
+            # Build-Args: Pass the environment variables to the Docker build (if the Dockerfile needs them)
           build-args: |
             EXT_DL_URL_MARKDOWN=${{ env.EXT_DL_URL_MARKDOWN }}
             EXT_DL_URL_ORIGINAL=${{ env.EXT_DL_URL_ORIGINAL }}
