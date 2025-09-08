@@ -11,7 +11,7 @@ const externalUrl = config.originalSourceUrlExternal ? config.originalSourceUrlE
 
 async function fetchDirectoryListing(url) {
   try {
-    const res = await axios.get(url, { timeout: 10000 });  // Erhöht auf 10s
+    const res = await axios.get(url, { timeout: 3000 });
     return res.data;
   } catch (err) {
     console.error(`Error fetching source:`, err.message);
