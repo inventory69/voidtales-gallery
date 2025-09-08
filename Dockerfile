@@ -54,6 +54,8 @@ COPY --from=build /app/node_modules ./node_modules
 FROM nginx:alpine
 # Copy the built static files from the 'build' stage to the Nginx web server directory
 COPY --from=build /app/dist /usr/share/nginx/html
+# Copy thumbnail images from the build stage to the Nginx serving directory
+COPY --from=build /app/public/images/thumbs /usr/share/nginx/html/images/thumbs
 # Nginx has a default command, so a `CMD` instruction is not required
 # EXPOSE port 80 to make it accessible outside the container
 EXPOSE 80
