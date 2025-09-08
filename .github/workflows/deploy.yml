@@ -40,8 +40,9 @@ jobs:
           path: |
             ./src/content/photos/
             ./public/images/original/
-          key: downloads-${{ runner.os }}-${{ hashFiles('package.json') }}
+          key: downloads-${{ runner.os }}-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}-${{ github.run_number }}
           restore-keys: |
+            downloads-${{ runner.os }}-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}
             downloads-${{ runner.os }}-
 
       - name: 📦 Install dependencies
