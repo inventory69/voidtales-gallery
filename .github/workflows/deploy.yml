@@ -63,6 +63,15 @@ jobs:
           pnpm run copy:md-files
           pnpm run copy:original-images
 
+      - name: 🔧 Save downloaded files cache
+        if: success()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ./src/content/photos/
+            ./public/images/original/
+          key: downloads-${{ runner.os }}-${{ hashFiles('package.json', 'pnwm-lock.yaml', 'src/content/photos/**', 'public/images/original/**') }}
+
       - name: 🔧 Restore thumbnails cache
         uses: actions/cache/restore@v4
         with:
