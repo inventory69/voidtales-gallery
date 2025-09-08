@@ -5,11 +5,11 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 const destDir = './src/content/photos/';
-const webserverUrl = process.env.EXT_DL_URL_MARKDOWN;
+const webserverUrl = 'http://172.19.0.1:8723/markdown/';
 
 if (!webserverUrl) {
-  console.error('Fehler: EXT_DL_URL_MARKDOWN ist nicht gesetzt!');
-  process.exit(1);
+  console.warn('Warnung: EXT_DL_URL_MARKDOWN ist nicht gesetzt. Überspringe das Kopieren der Markdown-Dateien.');
+  process.exit(0); // Erfolgreich beenden, Build läuft weiter
 }
 
 (async () => {

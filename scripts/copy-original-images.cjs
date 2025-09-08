@@ -5,11 +5,11 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 const destDir = './public/images/original/';
-const webserverUrl = process.env.EXT_DL_URL_ORIGINAL;
+const webserverUrl = 'http://172.19.0.1:8723/original/';
 
 if (!webserverUrl) {
-  console.error('Fehler: EXT_DL_URL_ORIGINAL ist nicht gesetzt!');
-  process.exit(1);
+  console.warn('Warnung: EXT_DL_URL_ORIGINAL ist nicht gesetzt. Überspringe das Kopieren der Originalbilder.');
+  process.exit(0); // Erfolgreich beenden, Build läuft weiter
 }
 
 (async () => {
