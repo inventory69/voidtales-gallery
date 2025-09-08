@@ -7,8 +7,8 @@
     "prepare": "husky",
     "dev": "astro dev",
     "start": "astro dev",
-    "prebuild": "pnpm run copy:md-files",
-    "build": "pnpm run gen:thumbs && pnpm run gen:thumbs-ext && astro check && astro build --jobs 1",
+    "prebuild": "pnpm run copy:md-files && pnpm run copy:original-images",
+    "build": "pnpm run gen:thumbs && astro check && astro build --jobs 1",
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check && biome check",
@@ -16,8 +16,8 @@
     "stylelint": "stylelint '**/*.{astro,css}'",
     "stylelint:fix": "stylelint '**/*.{astro,css}' --fix",
     "gen:thumbs": "node scripts/generate-thumbs.js",
-    "gen:thumbs-ext": "node scripts/generate-thumbs-ext.js",
-    "copy:md-files": "node scripts/copy-md-files.cjs"
+    "copy:md-files": "node scripts/copy-md-files.cjs",
+    "copy:original-images": "node scripts/copy-original-images.cjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
