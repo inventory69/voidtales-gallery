@@ -43,7 +43,7 @@ jobs:
             ./public/images/thumbs/  # Cache für Thumbnails
           key: downloads-${{ runner.os }}-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}  # Stabiler Key: Nur bei Code-Änderungen invalidieren
           restore-keys: |
-            downloads-${{ runner.os }}-  # Lädt den letzten passenden Cache, auch bei neuen Bildern
+            downloads-${{ runner.os }}-
 
       - name: 📦 Install dependencies
         run: |
