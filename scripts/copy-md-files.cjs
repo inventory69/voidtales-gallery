@@ -59,6 +59,7 @@ async function fetchDirectoryListing(url) {
   files.forEach(file => {
     const url = `${usedUrl}${file}`;
     const destPath = path.join(destDir, file);
+    console.log(`Downloading ${file}`);
     execSync(`wget -q -O "${destPath}" "${url}"`);
   });
 })();
