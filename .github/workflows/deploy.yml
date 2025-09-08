@@ -41,10 +41,9 @@ jobs:
             ./src/content/photos/
             ./public/images/original/
             ./public/images/thumbs/  # Cache für Thumbnails
-          key: downloads-${{ runner.os }}-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}-${{ github.run_number }}  # Vereinfacht: Nur Code-Änderungen prüfen
+          key: downloads-${{ runner.os }}-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}  # Stabiler Key: Nur bei Code-Änderungen invalidieren
           restore-keys: |
-            downloads-${{ runner.os }}-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}
-            downloads-${{ runner.os }}-
+            downloads-${{ runner.os }}-  # Lädt den letzten passenden Cache, auch bei neuen Bildern
 
       - name: 📦 Install dependencies
         run: |
@@ -63,6 +62,10 @@ jobs:
         run: |
           pnpm run copy:md-files
           pnpm run copy:original-images
+
+      - name: 🖼️ Generate thumbnails (if not cached)
+        run: |
+          pnpm run gen:thumbs  # Generiere Thumbnails nach dem Download, damit sie gecached werden
 
       - name: 🔧 Log in to Docker Hub
         # Action to authenticate with Docker Hub using secrets
