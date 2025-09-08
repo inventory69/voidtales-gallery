@@ -36,7 +36,7 @@
     "@biomejs/biome": "^2.2.3",
     "husky": "^9.1.7",
     "sharp": "^0.34.3",
-    "stylelint": "^16.22.0",
+    "stylelint": "^16.24.0",
     "stylelint-config-astro": "^1.0.4",
     "stylelint-config-standard": "^39.0.0"
   }
