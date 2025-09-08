@@ -7,6 +7,7 @@
     "prepare": "husky",
     "dev": "astro dev",
     "start": "astro dev",
+    "prebuild": "pnpm run copy:md-files && pnpm run copy:original-images",
     "build": "pnpm run gen:thumbs && astro check && astro build --jobs 1",
     "preview": "astro preview",
     "astro": "astro",
@@ -14,7 +15,9 @@
     "check:fix": "astro check && biome check --write",
     "stylelint": "stylelint '**/*.{astro,css}'",
     "stylelint:fix": "stylelint '**/*.{astro,css}' --fix",
-    "gen:thumbs": "node scripts/generate-thumbs.js"
+    "gen:thumbs": "node scripts/generate-thumbs.js",
+    "copy:md-files": "node scripts/copy-md-files.cjs",
+    "copy:original-images": "node scripts/copy-original-images.cjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
@@ -22,6 +25,9 @@
     "@astrojs/sitemap": "^3.4.1",
     "@fancyapps/ui": "^6.0.27",
     "astro": "^5.12.3",
+    "axios": "^1.11.0",
+    "cheerio": "^1.1.2",
+    "dotenv": "^17.2.2",
     "preact": "^10.27.1",
     "smartypants": "^0.2.2",
     "typescript": "^5.8.3"

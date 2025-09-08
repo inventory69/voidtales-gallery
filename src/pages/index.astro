@@ -83,11 +83,12 @@ const sortedPhotos = photos.sort((a, b) => {
     </section>
     
     <!-- Main photo grid -->
-    <main class="container" role="main" id="photos">
-      <PhotoGrid photos={sortedPhotos} />
-    </main>
-
-    <Footer />
+    <div class="page-wrapper">
+      <main class="container" role="main" id="photos">
+        <PhotoGrid photos={sortedPhotos} />
+      </main>
+      <Footer />
+    </div>
 
     <!-- Mobile menu toggle script -->
     <script>

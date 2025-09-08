@@ -3,8 +3,8 @@
 /* Hero section container */
 .hero {
   position: relative;
-  height: 35vh;
-  min-height: 250px;
+  /* Changed from height: 35vh to min-height: 100vh to prevent shrinking with flexbox footer layout */
+  min-height: 45vh; /* Ensures hero takes at least full viewport height */
   display: flex;
   align-items: center;
   justify-content: center;
