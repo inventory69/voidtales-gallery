@@ -1,6 +1,6 @@
 const config = require('../src/config/externaldownload.cjs');
 if (!config.enableCopyOriginalImages) {
-  console.log('Originalbild-Download ist deaktiviert. Überspringe Skript.');
+  console.log('Original image download is disabled. Skipping script.');
   process.exit(0);
 }
 
@@ -14,16 +14,16 @@ const destDir = './public/images/original/';
 const webserverUrl = config.originalSourceUrl;
 
 if (!webserverUrl) {
-  console.warn('Warnung: EXT_DL_URL_ORIGINAL ist nicht gesetzt. Überspringe das Kopieren der Originalbilder.');
-  process.exit(0); // Erfolgreich beenden, Build läuft weiter
+  console.warn('Warning: EXT_DL_URL_ORIGINAL is not set. Skipping original image download.');
+  process.exit(0); // Exit successfully, build continues
 }
 
 (async () => {
-  // Hole das Directory Listing als HTML
+  // Fetch the directory listing as HTML
   const res = await axios.get(webserverUrl);
   const $ = cheerio.load(res.data);
 
-  // Extrahiere alle Links auf Bilddateien
+  // Extract all links to image files
   const files = [];
   $('a').each((_, el) => {
     const href = $(el).attr('href');
@@ -35,7 +35,7 @@ if (!webserverUrl) {
     }
   });
 
-  // Lade jede Datei per wget herunter
+  // Download each file using wget
   files.forEach(file => {
     const url = `${webserverUrl}${file}`;
     const destPath = path.join(destDir, file);

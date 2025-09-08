@@ -1,6 +1,6 @@
 const config = require('../src/config/externaldownload.cjs');
 if (!config.enableCopyMdFiles) {
-  console.log('Markdown-Download ist deaktiviert. Überspringe Skript.');
+  console.log('Markdown download is disabled. Skipping script.');
   process.exit(0);
 }
 
@@ -14,16 +14,16 @@ const destDir = './src/content/photos/';
 const webserverUrl = config.mdSourceUrl;
 
 if (!webserverUrl) {
-  console.warn('Warnung: EXT_DL_URL_MARKDOWN ist nicht gesetzt. Überspringe das Kopieren der Markdown-Dateien.');
-  process.exit(0); // Erfolgreich beenden, Build läuft weiter
+  console.warn('Warning: EXT_DL_URL_MARKDOWN is not set. Skipping markdown file download.');
+  process.exit(0); // Exit successfully, build continues
 }
 
 (async () => {
-  // Hole das Directory Listing als HTML
+  // Fetch the directory listing as HTML
   const res = await axios.get(webserverUrl);
   const $ = cheerio.load(res.data);
 
-  // Extrahiere alle Links auf .md-Dateien
+  // Extract all links to .md files
   const files = [];
   $('a').each((_, el) => {
     const href = $(el).attr('href');
@@ -32,7 +32,7 @@ if (!webserverUrl) {
     }
   });
 
-  // Lade jede Datei per wget herunter
+  // Download each file using wget
   files.forEach(file => {
     const url = `${webserverUrl}${file}`;
     const destPath = path.join(destDir, file);
