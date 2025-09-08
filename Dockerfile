@@ -27,8 +27,10 @@ WORKDIR /app
 COPY . .
 # Copy lock files to leverage caching
 COPY package.json pnpm-lock.yaml ./
-# Install pnpm dependencies with --yes to skip interactive prompts
-RUN pnpm install --frozen-lockfile --yes
+# Set CI environment to enable non-interactive mode
+ENV CI=true
+# Install pnpm dependencies
+RUN pnpm install --frozen-lockfile
 # Set environment to production to optimize the build
 ENV NODE_ENV=production
 # Build the application for production (downloads are skipped since files are copied)

@@ -64,7 +64,7 @@ async function fetchDirectoryListing(url) {
     } else {
       console.log(`Downloading ${file}`);
       try {
-        execSync(`wget -q -O "${destPath}" "${url}"`, { timeout: 10000 });
+        execSync(`wget -q -O "${destPath}" "${url}"`, { timeout: 3000 });
       } catch (e) {
         console.warn(`Failed to download ${file}, skipping.`);
       }
