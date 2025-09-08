@@ -41,7 +41,7 @@ jobs:
           path: |
             ./src/content/photos/
             ./public/images/original/
-          key: downloads-${{ runner.os }}-${{ hashFiles('package.json', 'pnwm-lock.yaml') }}  # Only cache inputs
+          key: downloads-${{ runner.os }}-${{ hashFiles('package.json', 'pnwm-lock.yaml', 'src/content/photos/**', 'public/images/original/**') }}  # Only cache inputs
           restore-keys: |
             downloads-${{ runner.os }}-  # Load the last matching cache
 
@@ -74,15 +74,16 @@ jobs:
         id: gen_thumbs
         run: |
           mkdir -p ./public/images/thumbs
-          pnpm run gen:thumbs
+          pnpm run gen:thumbs | tee gen_thumbs.log
+          grep -q '^wrote ' gen_thumbs.log && touch thumbs_changed
 
       - name: 🔧 Save thumbnails cache
-        if: steps.gen_thumbs.outcome == 'success' && !cancelled()
+        if: success() && hashFiles('thumbs_changed') != ''
         uses: actions/cache/save@v4
         with:
           path: ./public/images/thumbs/
-          key: thumbs-${{ runner.os }}-${{ hashFiles('package.json', 'pnwm-lock.yaml', 'scripts/generate-thumbs.js') }}
-          
+          key: thumbs-${{ runner.os }}-${{ hashFiles('package.json', 'pnwm-lock.yaml', 'scripts/generate-thumbs.js', 'public/images/thumbs/**') }}
+
       - name: 🔧 Log in to Docker Hub
         # Action to authenticate with Docker Hub using secrets
         uses: docker/login-action@v3  # Updated to v3
