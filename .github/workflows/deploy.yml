@@ -13,6 +13,15 @@ jobs:
   build-and-push-dockerfile-image:
     # A single job to build and push the Docker image
     runs-on: ubuntu-latest
+    env:
+      # External download URL for markdown files
+      EXT_DL_URL_MARKDOWN: ${{ vars.EXT_DL_URL_MARKDOWN }}
+      # External download URL for original files
+      EXT_DL_URL_ORIGINAL: ${{ vars.EXT_DL_URL_ORIGINAL }}
+      # External download URL for markdown files (external source)
+      EXT_DL_URL_MARKDOWN_EXTERNAL: ${{ vars.EXT_DL_URL_MARKDOWN_EXTERNAL }}
+      # External download URL for original files (external source)
+      EXT_DL_URL_ORIGINAL_EXTERNAL: ${{ vars.EXT_DL_URL_ORIGINAL_EXTERNAL }}
 
     # 1. Define an Environment for the job
     environment:
