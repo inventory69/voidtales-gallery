@@ -27,9 +27,9 @@ async function fetchDirectoryListing(url) {
     html = await fetchDirectoryListing(internalUrl);
     if (html) {
       usedUrl = internalUrl;
-      console.log(`Using internal URL: ${internalUrl}`);
+      console.log(`Using internal URL`);
     } else {
-      console.warn(`Internal URL not reachable: ${internalUrl}`);
+      console.warn(`Internal URL not reachable`);
     }
   }
 
@@ -38,9 +38,9 @@ async function fetchDirectoryListing(url) {
     html = await fetchDirectoryListing(externalUrl);
     if (html) {
       usedUrl = externalUrl;
-      console.log(`Using external URL: ${externalUrl}`);
+      console.log(`Using external URL`);
     } else {
-      console.warn(`External URL not reachable: ${externalUrl}`);
+      console.warn(`External URL not reachable`);
     }
   }
 
