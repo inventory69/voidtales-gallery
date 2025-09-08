@@ -5,7 +5,12 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 const destDir = './src/content/photos/';
-const webserverUrl = process.env.EXT_DL_URL_MARKDOWN; // interne IP und Pfad zum Ordner
+const webserverUrl = process.env.EXT_DL_URL_MARKDOWN;
+
+if (!webserverUrl) {
+  console.error('Fehler: EXT_DL_URL_MARKDOWN ist nicht gesetzt!');
+  process.exit(1);
+}
 
 (async () => {
   // Hole das Directory Listing als HTML

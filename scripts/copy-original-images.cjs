@@ -7,6 +7,11 @@ const cheerio = require('cheerio');
 const destDir = './public/images/original/';
 const webserverUrl = process.env.EXT_DL_URL_ORIGINAL;
 
+if (!webserverUrl) {
+  console.error('Fehler: EXT_DL_URL_ORIGINAL ist nicht gesetzt!');
+  process.exit(1);
+}
+
 (async () => {
   // Hole das Directory Listing als HTML
   const res = await axios.get(webserverUrl);
