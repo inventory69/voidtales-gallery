@@ -388,7 +388,3 @@ html.dark .footer-nav a:hover {
 .f-caption .photo-text {
   font-weight: bold !important;
 }
-
-.fancybox__container {
-  z-index: 9999 !important;
-}
