@@ -31,18 +31,26 @@ jobs:
     steps:
       - name: 📥 Checkout repo
         # Action to check out the repository's code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4  # Updated to v4 for better compatibility
 
       - name: 🔧 Log in to Docker Hub
         # Action to authenticate with Docker Hub using secrets
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3  # Updated to v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }} # Make sure to add the secrets in your repository in -> Settings -> Secrets (Actions) -> New repository secret
           password: ${{ secrets.DOCKERHUB_TOKEN }}    # Make sure to add the secrets in your repository in -> Settings -> Secrets (Actions) -> New repository secret
 
+      # Debug-Schritt: Überprüfe, ob die Environment-Variablen gesetzt sind
+      - name: 🔍 Debug Environment Variables
+        run: |
+          echo "EXT_DL_URL_MARKDOWN: $EXT_DL_URL_MARKDOWN"
+          echo "EXT_DL_URL_ORIGINAL: $EXT_DL_URL_ORIGINAL"
+          echo "EXT_DL_URL_MARKDOWN_EXTERNAL: $EXT_DL_URL_MARKDOWN_EXTERNAL"
+          echo "EXT_DL_URL_ORIGINAL_EXTERNAL: $EXT_DL_URL_ORIGINAL_EXTERNAL"
+
       - name: 🔨 Build and push Docker image
         # Action to build the Docker image and push it to the registry
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5  # Updated to v5
         with:
           context: .
           file: ./Dockerfile
@@ -51,6 +59,12 @@ jobs:
           tags: |
             inventory69/voidtales-gallery:latest
           platforms: linux/amd64
+          # Build-Args: Übergebe die Environment-Variablen an den Docker-Build (falls das Dockerfile sie braucht)
+          build-args: |
+            EXT_DL_URL_MARKDOWN=${{ env.EXT_DL_URL_MARKDOWN }}
+            EXT_DL_URL_ORIGINAL=${{ env.EXT_DL_URL_ORIGINAL }}
+            EXT_DL_URL_MARKDOWN_EXTERNAL=${{ env.EXT_DL_URL_MARKDOWN_EXTERNAL }}
+            EXT_DL_URL_ORIGINAL_EXTERNAL=${{ env.EXT_DL_URL_ORIGINAL_EXTERNAL }}
       
       # Add this step at the end of your existing workflow
       - name: 🚀 Trigger Dokploy Deployment
