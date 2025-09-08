@@ -70,11 +70,13 @@ jobs:
           restore-keys: thumbs-${{ runner.os }}-
 
       - name: 🖼️ Generate thumbnails (if not cached)
+        id: gen_thumbs
         run: |
           mkdir -p ./public/images/thumbs
           pnpm run gen:thumbs
 
       - name: 🔧 Save thumbnails cache
+        if: steps.gen_thumbs.outcome == 'success' && !cancelled()
         uses: actions/cache/save@v4
         with:
           path: ./public/images/thumbs/
