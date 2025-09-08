@@ -79,19 +79,22 @@ If you want to automatically download markdown files and images from external so
 
 - Configure the download behavior in `src/config/externaldownload.cjs`:
   ```javascript
-  // filepath: /home/liq/voidtales-gallery/src/config/externaldownload.cjs
   // External download configuration file: Defines settings for downloading external markdown files and images.
   // Uses environment variables for URLs and enables/disables download scripts during build.
-  
-  require('dotenv').config(); // Load environment variables from .env file
-  
+
+  require('dotenv').config(); // Load environment variables from .env file as fallback option
+
   module.exports = {
     // Flag to enable/disable markdown file download script
-    enableCopyMdFiles: true,
+    enableCopyMdFiles: true, // -> Customizable: set to true or false as needed
     
     // Flag to enable/disable original image download script
-    enableCopyOriginalImages: true,
+    enableCopyOriginalImages: true, // -> Customizable: set to true or false as needed
     
+    // ===========================================
+    // DONT TOUCH THIS BELOW //
+    // ===========================================
+
     // Internal URL for markdown files (from environment variable)
     mdSourceUrlInternal: process.env.EXT_DL_URL_MARKDOWN,
     

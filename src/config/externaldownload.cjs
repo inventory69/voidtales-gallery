@@ -1,7 +1,7 @@
 // External download configuration file: Defines settings for downloading external markdown files and images.
 // Uses environment variables for URLs and enables/disables download scripts during build.
 
-require('dotenv').config(); // Load environment variables from .env file
+require('dotenv').config(); // Load environment variables from .env file as fallback option
 
 module.exports = {
   // Flag to enable/disable markdown file download script
@@ -10,6 +10,10 @@ module.exports = {
   // Flag to enable/disable original image download script
   enableCopyOriginalImages: true,
   
+  // ===========================================
+  // DONT TOUCH THIS BELOW //
+  // ===========================================
+
   // Internal URL for markdown files (from environment variable)
   mdSourceUrlInternal: process.env.EXT_DL_URL_MARKDOWN,
   

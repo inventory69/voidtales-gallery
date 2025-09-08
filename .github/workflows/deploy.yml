@@ -40,7 +40,8 @@ jobs:
           path: |
             ./src/content/photos/
             ./public/images/original/
-          key: downloads-${{ runner.os }}-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}-${{ github.run_number }}
+            ./public/images/thumbs/  # Cache für Thumbnails
+          key: downloads-${{ runner.os }}-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}-${{ github.run_number }}  # Vereinfacht: Nur Code-Änderungen prüfen
           restore-keys: |
             downloads-${{ runner.os }}-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}
             downloads-${{ runner.os }}-
