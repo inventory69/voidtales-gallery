@@ -23,12 +23,12 @@ RUN corepack enable
 # Stage 2: The build stage, where we install dependencies and build the application
 FROM base AS build
 WORKDIR /app
-# Copy all project files to the container (downloads are already done in workflow)
+# Copy all project files to the container (node_modules is excluded via .dockerignore)
 COPY . .
 # Copy lock files to leverage caching
 COPY package.json pnpm-lock.yaml ./
-# Install pnpm dependencies without cache mount (to avoid hanging)
-RUN pnpm install --frozen-lockfile
+# Install pnpm dependencies with --yes to skip interactive prompts
+RUN pnpm install --frozen-lockfile --yes
 # Set environment to production to optimize the build
 ENV NODE_ENV=production
 # Build the application for production (downloads are skipped since files are copied)
