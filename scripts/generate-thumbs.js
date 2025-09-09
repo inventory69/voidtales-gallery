@@ -2,12 +2,24 @@ import fs from 'fs';
 import path from 'path';
 import sharp from 'sharp';
 
+// Source and output directories
 const srcDir = path.resolve('public/images/original');
 const outDir = path.resolve('public/images/thumbs');
-const sizes = [200, 400, 800]; // Hochauflösende Größe hinzugefügt (800 für 2x)
+const marker = path.resolve('.thumbs_generated');
 
+// Thumbnail sizes (px)
+const sizes = [200, 400, 800]; // 800px for high-res (2x)
+
+// Skip generation if marker file exists
+if (fs.existsSync(marker)) {
+  console.log('Thumbnails already generated. Skipping.');
+  process.exit(0);
+}
+
+// Ensure output directory exists
 fs.mkdirSync(outDir, { recursive: true });
 
+// Get all supported image files from source directory
 const files = fs.readdirSync(srcDir).filter(f => /\.(jpe?g|png|webp)$/i.test(f));
 if (!files.length) {
   console.log('No source images found in', srcDir);
@@ -19,7 +31,7 @@ if (!files.length) {
     const name = path.parse(file).name;
     const input = path.join(srcDir, file);
     for (const w of sizes) {
-      // WebP-Thumbnail
+      // Generate WebP thumbnail if it doesn't exist
       const outWebp = path.join(outDir, `${name}-${w}.webp`);
       if (fs.existsSync(outWebp)) {
         console.log('skip', outWebp, '(already exists)');
@@ -29,5 +41,7 @@ if (!files.length) {
       console.log('wrote', outWebp);
     }
   }
-  console.log('All thumbnails (Only WebP) generated.');
+  // Write marker file after successful generation
+  fs.writeFileSync(marker, 'Thumbnails generated');
+  console.log('All thumbnails (WebP only) generated. Marker file written.');
 })();

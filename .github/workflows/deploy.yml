@@ -72,26 +72,28 @@ jobs:
             ./public/images/original/
           key: downloads-${{ runner.os }}-${{ hashFiles('package.json', 'pnwm-lock.yaml', 'src/content/photos/**', 'public/images/original/**') }}
 
-      - name: 🔧 Restore thumbnails cache
-        uses: actions/cache/restore@v4
+      - name: 🗑️ Remove thumbnail marker
+        run: rm -f .thumbs_generated
+
+      - name: 🔧 Cache thumbnails
+        uses: actions/cache@v4
         with:
           path: ./public/images/thumbs/
-          key: thumbs-${{ runner.os }}-${{ hashFiles('package.json', 'pnwm-lock.yaml', 'scripts/generate-thumbs.js') }}
-          restore-keys: thumbs-${{ runner.os }}-
+          key: thumbs-${{ runner.os }}-${{ hashFiles('package.json', 'pnwm-lock.yaml', 'scripts/generate-thumbs.js', 'public/images/original/**') }}
+          restore-keys: |
+            thumbs-${{ runner.os }}-
 
       - name: 🖼️ Generate thumbnails (if not cached)
         id: gen_thumbs
         run: |
           mkdir -p ./public/images/thumbs
-          pnpm run gen:thumbs | tee gen_thumbs.log
-          grep -q '^wrote ' gen_thumbs.log && touch thumbs_changed
+          pnpm run gen:thumbs
 
       - name: 🔧 Save thumbnails cache
-        if: success() && hashFiles('thumbs_changed') != ''
         uses: actions/cache/save@v4
         with:
           path: ./public/images/thumbs/
-          key: thumbs-${{ runner.os }}-${{ hashFiles('package.json', 'pnwm-lock.yaml', 'scripts/generate-thumbs.js', 'public/images/thumbs/**') }}
+          key: thumbs-${{ runner.os }}-${{ hashFiles('package.json', 'pnwm-lock.yaml', 'scripts/generate-thumbs.js', 'public/images/original/**') }}
 
       - name: 🔧 Log in to Docker Hub
         # Action to authenticate with Docker Hub using secrets
