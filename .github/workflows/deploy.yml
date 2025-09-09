@@ -35,6 +35,11 @@ jobs:
         # Action to check out the repository's code
         uses: actions/checkout@v4  # Updated to v4 for better compatibility
 
+      - name: 🗑️ Remove download markers
+        run: |
+          rm -f ./src/content/photos/.downloads_synced
+          rm -f ./public/images/original/.downloads_synced
+
       - name: 🔧 Cache downloaded files
         uses: actions/cache@v4
         with:
