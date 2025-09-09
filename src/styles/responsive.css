@@ -118,3 +118,21 @@
     font-size: 0.7rem;
   }
 }
+
+/* Vertically center on mobile devices */
+@media (max-width: 600px) {
+  .fancybox__slide {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 100vh !important;
+    padding: 0 !important;
+  }
+  .fancybox__slide img {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: auto !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+}
