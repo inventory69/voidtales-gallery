@@ -29,7 +29,7 @@ jobs:
 
       - name: 📦 Install dependencies for cache key generation
         run: |
-          pnpm install axios cheerio
+          npm install axios cheerio
         shell: bash
 
       - name: 🔑 Generate dynamic cache key from remote files
