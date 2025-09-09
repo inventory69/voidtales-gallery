@@ -88,3 +88,84 @@ jobs:
           rm -f public/images/original/.downloads_synced
 
       # ... (Der Rest des Workflows bleibt unverändert)
+
+      # --- Cache-Restore verwendet jetzt den dynamischen Schlüssel ---
+      - name: 🔧 Restore downloaded files cache
+        id: cache-restore
+        uses: actions/cache@v4
+        with:
+          path: |
+            src/content/photos
+            public/images/original
+          key: ${{ runner.os }}-downloads-${{ steps.remote-key-gen.outputs.cache-key }}
+          restore-keys: |
+            ${{ runner.os }}-downloads-
+
+      - name: 📦 Install dependencies
+        run: |
+          npm install -g pnpm
+          pnpm install --frozen-lockfile
+
+      - name: 📥 Download files (if not cached)
+        env:
+          EXT_DL_URL_MARKDOWN: ${{ secrets.EXT_DL_URL_MARKDOWN }}
+          EXT_DL_URL_ORIGINAL: ${{ secrets.EXT_DL_URL_ORIGINAL }}
+          EXT_DL_URL_MARKDOWN_EXTERNAL: ${{ secrets.EXT_DL_URL_MARKDOWN_EXTERNAL }}
+          EXT_DL_URL_ORIGINAL_EXTERNAL: ${{ secrets.EXT_DL_URL_ORIGINAL_EXTERNAL }}
+        run: |
+          pnpm run copy:md-files
+          pnpm run copy:original-images
+          
+      - name: 🗑️ Remove thumbnail marker
+        run: rm -f .thumbs_generated
+
+      - name: 🔧 Cache thumbnails
+        uses: actions/cache@v4
+        with:
+          path: public/images/thumbs
+          key: thumbs-${{ runner.os }}-${{ hashFiles('package.json', 'pnwm-lock.yaml', 'scripts/generate-thumbs.js', 'public/images/original/**') }}
+          restore-keys: |
+            thumbs-${{ runner.os }}-
+
+      - name: 🖼️ Generate thumbnails (if not cached)
+        run: |
+          mkdir -p public/images/thumbs
+          pnpm run gen:thumbs
+
+      - name: 🔧 Save thumbnails cache
+        uses: actions/cache/save@v4
+        with:
+          path: public/images/thumbs
+          key: thumbs-${{ runner.os }}-${{ hashFiles('package.json', 'pnwm-lock.yaml', 'scripts/generate-thumbs.js', 'public/images/original/**') }}
+
+      - name: 🔧 Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: 🔨 Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            inventory69/voidtales-gallery:latest
+          platforms: linux/amd64
+          build-args: |
+            EXT_DL_URL_MARKDOWN=${{ env.EXT_DL_URL_MARKDOWN }}
+            EXT_DL_URL_ORIGINAL=${{ env.EXT_DL_URL_ORIGINAL }}
+            EXT_DL_URL_MARKDOWN_EXTERNAL=${{ env.EXT_DL_URL_MARKDOWN_EXTERNAL }}
+            EXT_DL_URL_ORIGINAL_EXTERNAL=${{ env.EXT_DL_URL_ORIGINAL_EXTERNAL }}
+
+      - name: 🚀 Trigger Dokploy Deployment
+        run: |
+          curl -X POST \
+          -H "Authorization: Bearer ${{ secrets.DOKPLOY_API_TOKEN }}" \
+          -H "Content-Type: application/json" \
+          -d '{ "image_tag": "inventory69/voidtales-gallery:latest" }' \
+          "${{ secrets.API_HOST }}/api/deploy/${{ secrets.DOKPLOY_APP_ID }}"
+        env:
+          DOKPLOY_API_TOKEN: ${{ secrets.DOKPLOY_API_TOKEN }}
+          DOKPLOY_APP_ID: ${{ secrets.DOKPLOY_APP_ID }}
