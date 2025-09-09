@@ -20,6 +20,22 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Fix: Dark mode body background for IME space on mobile */
+html.dark body,
+:root[saved-theme='dark'] body,
+:root[data-color-mode='dark'] body,
+html[data-theme='dark'] body {
+  background: #060612 !important;
+}
+
+/* Optional: Light mode fallback for IME space */
+html:not(.dark) body,
+:root[saved-theme='light'] body,
+:root[data-color-mode='light'] body,
+html[data-theme='light'] body {
+  background: #f9fafb !important;
+}
+
 /* Heading colors */
 h1, h2, h3, h4, h5, h6 {
   color: var(--text);
