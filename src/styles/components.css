@@ -1,6 +1,6 @@
 /* =================== COMPONENTS =================== */
 
-/* === Photo Card Styles === */
+/* Photo Card Styles */
 .photo {
   overflow: hidden;
   border-radius: 8px;
@@ -40,7 +40,7 @@ html.dark .photo:hover {
   color: var(--muted);
 }
 
-/* === Header Styles === */
+/* Header Styles */
 .site-header {
   position: sticky;
   top: 0;
@@ -48,17 +48,16 @@ html.dark .photo:hover {
   background: rgba(255, 255, 255, 0.103);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(229, 231, 235, 0.4);
-  padding: 0.75rem 1.5rem;
+  padding: 1.5rem 1.5rem;
+  min-height: 80px;
   transition: background 0.3s ease;
 }
 
-/* Header dark mode */
 html.dark .site-header {
   background: rgba(0, 0, 0, 0.2);
   border-bottom-color: rgba(55, 65, 81, 0.6);
 }
 
-/* Header inner layout */
 .site-header-inner {
   display: flex;
   align-items: center;
@@ -123,7 +122,6 @@ html.dark .brand .logo {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Navigation link dark mode */
 html.dark .nav-link {
   border-color: rgba(156, 163, 175, 0.3);
   color: var(--text);
@@ -136,7 +134,7 @@ html.dark .nav-link:hover {
   box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
 }
 
-/* === Mobile Menu Button === */
+/* Mobile Menu Button */
 .mobile-menu-btn {
   display: none;
   padding: 0.5rem;
@@ -147,19 +145,16 @@ html.dark .nav-link:hover {
   box-shadow: 0 2px 8px var(--shadow);
 }
 
-/* Light mode: button background and outline */
 html:not(.dark) .mobile-menu-btn {
   background: rgba(255, 255, 255, 0.103);
   border: 1px solid rgba(55, 65, 81, 0.6);
 }
 
-/* Dark mode: button background and outline */
 html.dark .mobile-menu-btn {
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(55, 65, 81, 0.6);
 }
 
-/* Button scale effect on press */
 .mobile-menu-btn:active,
 html.dark .mobile-menu-btn:active {
   transform: scale(0.95);
@@ -170,10 +165,10 @@ html.dark .mobile-menu-btn:active {
   height: 1rem;
 }
 
-/* === Mobile Menu Overlay === */
+/* Mobile Menu Overlay */
 .mobile-menu {
   position: fixed;
-  top: 48px; /* Directly below the header */
+  top: 80px; /* Match the new header height */
   left: 0;
   right: 0;
   background: rgba(255, 255, 255, 0.103);
@@ -191,7 +186,6 @@ html.dark .mobile-menu-btn:active {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Mobile menu dark mode */
 html.dark .mobile-menu {
   background: rgba(0, 0, 0, 0.2);
   border-color: rgba(55, 65, 81, 0.6);
@@ -199,7 +193,6 @@ html.dark .mobile-menu {
   -webkit-backdrop-filter: blur(10px);
 }
 
-/* Show mobile menu when open */
 .mobile-menu.open {
   opacity: 1;
   display: block;
@@ -207,7 +200,7 @@ html.dark .mobile-menu {
   transform: translateY(0);
 }
 
-/* === Mobile Navigation Layout === */
+/* Mobile Navigation Layout */
 .mobile-nav {
   display: flex;
   flex-direction: column;
@@ -215,7 +208,7 @@ html.dark .mobile-menu {
   margin-bottom: 1rem;
 }
 
-/* Mobile menu actions (e.g. theme toggle) */
+/* Mobile menu actions */
 .mobile-actions {
   display: flex;
   justify-content: center;
@@ -227,7 +220,7 @@ html.dark .mobile-actions {
   border-top-color: rgba(55, 65, 81, 0.6);
 }
 
-/* === Theme Toggle Button === */
+/* Theme Toggle Button */
 .modern-theme-toggle {
   all: unset;
   background: var(--surface, rgba(255, 255, 255, 0.8));
@@ -264,7 +257,6 @@ html.dark .mobile-actions {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-/* Theme toggle dark mode */
 html.dark .modern-theme-toggle {
   background: rgba(255, 255, 255, 0.2);
   box-shadow: 0 1px 3px rgba(255, 255, 255, 0.1), inset 0 1px 2px rgba(255, 255, 255, 0.05);
@@ -275,7 +267,6 @@ html.dark .modern-theme-toggle::before {
   transform: translateY(-50%) translateX(1.8rem);
 }
 
-/* Theme toggle hover effect */
 .modern-theme-toggle:hover {
   background: rgba(255, 255, 255, 0.3) !important;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), inset 0 1px 2px rgba(0, 0, 0, 0.05) !important;
@@ -287,7 +278,7 @@ html.dark .modern-theme-toggle:hover {
   box-shadow: 0 2px 6px rgba(255, 255, 255, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.05) !important;
 }
 
-/* === Footer Styles === */
+/* Footer Styles */
 .footer {
   position: relative;
   z-index: 11;
@@ -304,7 +295,6 @@ html.dark .footer {
   border-top-color: rgba(55, 65, 81, 0.6);
 }
 
-/* Footer container layout */
 .footer-container {
   max-width: 60rem;
   margin: 0 auto;
@@ -315,7 +305,6 @@ html.dark .footer {
   gap: 1rem;
 }
 
-/* Footer logo styles */
 .footer-logo a {
   font-size: 1.5rem;
   font-weight: bold;
@@ -323,7 +312,6 @@ html.dark .footer {
   text-decoration: none;
 }
 
-/* Footer navigation layout */
 .footer-nav ul {
   list-style: none;
   display: flex;
@@ -332,7 +320,6 @@ html.dark .footer {
   padding: 0;
 }
 
-/* Footer navigation link styles */
 .footer-nav a {
   padding: 0.375rem 0.75rem;
   border-radius: 1.4rem;
@@ -352,7 +339,6 @@ html.dark .footer {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Footer navigation link dark mode */
 html.dark .footer-nav a {
   border-color: rgba(156, 163, 175, 0.3);
   color: var(--text);
@@ -365,26 +351,64 @@ html.dark .footer-nav a:hover {
   box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
 }
 
-/* Footer copyright text */
 .footer-copyright p {
   margin: 0;
   font-size: 0.9rem;
   color: var(--muted);
 }
 
-/* === Fancybox Caption Styles === */
-/* Center all text in Fancybox caption (f-caption) */
-.f-caption,
-.f-caption .photo-text,
-.f-caption .photo-author {
+/* GLightbox: Caption area transparent and white text */
+.gslide-description {
+  background: transparent !important;
+  color: #fff !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  margin: 0 auto !important;
+  max-width: 90vw !important;
   text-align: center !important;
-  width: 100% !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  display: block !important;
 }
 
-/* Make caption text bold in Fancybox */
-.f-caption .photo-text {
+/* GLightbox: Title (photo text) large and white */
+.gslide-title {
+  display: block !important;
+  font-size: 1.5rem !important;
   font-weight: bold !important;
+  color: #fff !important;
+  text-align: center !important;
+  margin-bottom: 0.5em !important;
+  margin-top: 0.5em !important;
+}
+
+/* GLightbox: Description (author) small and gray */
+.gslide-desc {
+  display: block !important;
+  font-size: 1rem !important;
+  color: #ccc !important;
+  font-weight: normal !important;
+  text-align: center !important;
+  margin-bottom: 0.5em !important;
+}
+
+/* Navigation arrows for image gallery */
+.gnext, .gprev {
+  display: flex !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  width: 44px !important;
+  height: 44px !important;
+  background: rgba(0,0,0,0.4) !important;
+  border-radius: 50% !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 10 !important;
+  align-items: center;
+  justify-content: center;
+  border: none !important;
+}
+
+.gnext svg, .gprev svg {
+  fill: #fff !important;
+  width: 28px !important;
+  height: 28px !important;
 }

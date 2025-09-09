@@ -22,11 +22,11 @@
     "@astrojs/check": "^0.9.4",
     "@astrojs/preact": "^4.1.0",
     "@astrojs/sitemap": "^3.4.1",
-    "@fancyapps/ui": "^6.0.28",
     "astro": "^5.12.3",
     "axios": "^1.11.0",
     "cheerio": "^1.1.2",
     "dotenv": "^17.2.2",
+    "glightbox": "^3.3.1",
     "preact": "^10.27.1",
     "smartypants": "^0.2.2",
     "typescript": "^5.8.3"

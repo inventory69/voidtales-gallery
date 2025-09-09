@@ -17,9 +17,6 @@ importers:
       '@astrojs/sitemap':
         specifier: ^3.4.1
         version: 3.5.1
-      '@fancyapps/ui':
-        specifier: ^6.0.28
-        version: 6.0.28
       astro:
         specifier: ^5.12.3
         version: 5.13.5(@types/node@24.3.0)(rollup@4.50.0)(typescript@5.9.2)(yaml@2.8.1)
@@ -32,6 +29,9 @@ importers:
       dotenv:
         specifier: ^17.2.2
         version: 17.2.2
+      glightbox:
+        specifier: ^3.3.1
+        version: 3.3.1
       preact:
         specifier: ^10.27.1
         version: 10.27.1
@@ -468,9 +468,6 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
-
-  '@fancyapps/ui@6.0.28':
-    resolution: {integrity: sha512-+DF4x/nBYKlIKt+ChKh70bQAzHFJSNmAqk2BtjZ1d+bcytAxVoiWk1rt71WOo2DVa8mRekjEHlVtj4CZALG9pg==}
 
   '@img/sharp-darwin-arm64@0.33.5':
     resolution: {integrity: sha512-UT4p+iz/2H4twwAoLCqfA9UH5pI6DggwKEGuaPy7nCVQ8ZsiY5PIcrRvD1DzuY3qYL07NtIQcWnBSY/heikIFQ==}
@@ -1453,6 +1450,9 @@ packages:
 
   github-slugger@2.0.0:
     resolution: {integrity: sha512-IaOQ9puYtjrkq7Y0Ygl9KDZnrf/aiUJYUpVf89y8kyaxbRG7Y1SrX/jaumrv81vc61+kiMempujsM3Yw7w5qcw==}
+
+  glightbox@3.3.1:
+    resolution: {integrity: sha512-nXoKfJRnQTDaAFAw5799hjpfAAHx5aLvOLG0SIGudeMCwtHgO3P2/avNYapJ+SL4UEZxO2YNBPtq6pzMhSx42g==}
 
   glob-parent@5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
@@ -3140,8 +3140,6 @@ snapshots:
   '@esbuild/win32-x64@0.25.9':
     optional: true
 
-  '@fancyapps/ui@6.0.28': {}
-
   '@img/sharp-darwin-arm64@0.33.5':
     optionalDependencies:
       '@img/sharp-libvips-darwin-arm64': 1.0.4
@@ -4159,6 +4157,8 @@ snapshots:
       es-object-atoms: 1.1.1
 
   github-slugger@2.0.0: {}
+
+  glightbox@3.3.1: {}
 
   glob-parent@5.1.2:
     dependencies:

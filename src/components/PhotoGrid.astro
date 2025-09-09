@@ -4,4 +4,4 @@ import PhotoGridClient from "./PhotoGridClient";
 
 const { photos } = Astro.props;
 ---
-<PhotoGridClient client:load photos={photos} />
+<PhotoGridClient client:only="preact" photos={photos} ariaLabelPrefix="Open fullscreen of" />

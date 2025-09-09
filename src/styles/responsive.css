@@ -2,7 +2,6 @@
 
 /* Tablet and mobile styles (up to 900px width) */
 @media (max-width: 900px) {
-  /* Use 2 columns for grid on tablets and small desktops */
   .grid-container {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.75rem;
@@ -12,64 +11,53 @@
 
 /* Mobile styles (up to 600px width) */
 @media (max-width: 600px) {
-  /* Use single column grid for mobile */
   .grid-container {
     grid-template-columns: 1fr;
     gap: 0.5rem;
+  }
+
+  /* GLightbox: Keep image in viewport on mobile */
+  .glightbox-slide img {
+    max-width: 100vw !important;
+    max-height: 80vh !important;
+    object-fit: contain !important;
+    margin: 0 auto !important;
+    display: block !important;
   }
 }
 
 /* Tablet and mobile styles (up to 768px width) */
 @media (max-width: 768px) {
-  /* Hide desktop navigation on mobile */
   .header-nav {
     display: none;
   }
-
-  /* Hide theme toggle in header actions on mobile */
   .header-actions .modern-theme-toggle {
     display: none;
   }
-
-  /* Center logo in header */
   .brand .logo {
     position: static;
     transform: none;
     margin: 0 auto;
   }
-
-  /* Position header actions to the right */
   .header-actions {
     position: absolute;
     right: 1rem;
   }
-
-  /* Center header content */
   .site-header-inner {
     justify-content: center;
   }
-
-  /* Show mobile menu button */
   .mobile-menu-btn {
     display: block;
   }
-
-  /* Adjust hero section height */
   .hero {
     height: 40vh;
   }
-
-  /* Increase hero title size */
   .hero-title {
     font-size: 2rem;
   }
-
-  /* Increase hero subtitle size */
   .hero-subtitle {
     font-size: 1rem;
   }
-
-  /* Stack footer navigation vertically */
   .footer-nav ul {
     flex-direction: column;
     gap: 1rem;
@@ -79,7 +67,6 @@
 
 /* Small mobile styles (up to 480px width) */
 @media (max-width: 480px) {
-  /* Adjust hero section height for small screens */
   .hero {
     height: 45vh;
   }
@@ -116,23 +103,5 @@
   }
   .hero-subtitle {
     font-size: 0.7rem;
-  }
-}
-
-/* Vertically center on mobile devices */
-@media (max-width: 600px) {
-  .fancybox__slide {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    min-height: 100vh !important;
-    padding: 0 !important;
-  }
-  .fancybox__slide img {
-    width: 100vw !important;
-    max-width: 100vw !important;
-    height: auto !important;
-    margin: 0 !important;
-    border-radius: 0 !important;
   }
 }
