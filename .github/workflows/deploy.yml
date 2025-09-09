@@ -27,12 +27,55 @@ jobs:
       - name: 📥 Checkout repo
         uses: actions/checkout@v4
 
+      # --- Neuer Schritt zum Generieren eines dynamischen Cache-Schlüssels ---
+      - name: 🔑 Generate dynamic cache key from remote files
+        id: remote-key-gen
+        run: |
+          # Use Node.js to fetch the directory listing and create a hash
+          const axios = require('axios');
+          const cheerio = require('cheerio');
+          const crypto = require('crypto');
+
+          async function getFileNames(url, regex) {
+            try {
+              const res = await axios.get(url);
+              const $ = cheerio.load(res.data);
+              const files = [];
+              $('a').each((_, el) => {
+                const href = $(el).attr('href');
+                if (href && regex.test(href)) {
+                  files.push(href);
+                }
+              });
+              return files.sort().join('|');
+            } catch (error) {
+              console.error(`Error fetching files from ${url}:`, error.message);
+              return '';
+            }
+          }
+
+          (async () => {
+            const mdFiles = await getFileNames(process.env.EXT_DL_URL_MARKDOWN_EXTERNAL, /\.md$/);
+            const originalFiles = await getFileNames(process.env.EXT_DL_URL_ORIGINAL_EXTERNAL, /\.(png|jpe?g|webp|bmp)$/i);
+            
+            const combinedString = mdFiles + '|' + originalFiles;
+            const hash = crypto.createHash('sha256').update(combinedString).digest('hex');
+            
+            console.log(`Generated cache key: ${hash}`);
+            console.log(`cache-key=${hash}`);
+            console.log(`cache-key=${hash}` + " >> $GITHUB_OUTPUT");
+          })();
+        shell: node
+        env:
+          EXT_DL_URL_MARKDOWN_EXTERNAL: ${{ secrets.EXT_DL_URL_MARKDOWN_EXTERNAL }}
+          EXT_DL_URL_ORIGINAL_EXTERNAL: ${{ secrets.EXT_DL_URL_ORIGINAL_EXTERNAL }}
+      
       - name: 🗑️ Remove download markers
         run: |
           rm -f src/content/photos/.downloads_synced
           rm -f public/images/original/.downloads_synced
 
-      # Restore cache with last known key (from previous run)
+      # --- Cache-Restore verwendet jetzt den dynamischen Schlüssel ---
       - name: 🔧 Restore downloaded files cache
         id: cache-restore
         uses: actions/cache@v4
@@ -40,9 +83,9 @@ jobs:
           path: |
             src/content/photos
             public/images/original
-          key: downloads-${{ runner.os }}-latest
+          key: ${{ runner.os }}-downloads-${{ steps.remote-key-gen.outputs.cache-key }}
           restore-keys: |
-            downloads-${{ runner.os }}-
+            ${{ runner.os }}-downloads-
 
       - name: 📦 Install dependencies
         run: |
@@ -58,24 +101,7 @@ jobs:
         run: |
           pnpm run copy:md-files
           pnpm run copy:original-images
-
-      # Calculate new cache key after download (hash of all files)
-      - name: Calculate cache key (after download)
-        id: cache-key-after
-        run: |
-          echo "key=$(find src/content/photos public/images/original -type f | sort | sha256sum | cut -d' ' -f1)" >> $GITHUB_OUTPUT
-
-      # Save cache with new key (always overwrite "latest")
-      - name: 🔧 Save downloaded files cache
-        uses: actions/cache/save@v4
-        with:
-          path: |
-            src/content/photos
-            public/images/original
-          key: downloads-${{ runner.os }}-latest
-          # Optionally also save with hash key for debugging:
-          # key: downloads-${{ runner.os }}-${{ steps.cache-key-after.outputs.key }}
-
+          
       - name: 🗑️ Remove thumbnail marker
         run: rm -f .thumbs_generated
 
