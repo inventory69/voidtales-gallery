@@ -15,7 +15,7 @@ Showcase your photos with modern design, automatic sorting, and seamless dark mo
 - 🌗 **Instant dark mode** – Flicker-free theme switching with local storage and CSS variables
 - 📱 **Fully responsive** – Optimized for desktop, tablet, and mobile with CSS Grid
 - ⚡ **Performance-first** – Lazy loading images, efficient CSS, and WebP thumbnails
-- ♿ **Accessible lightbox** – Powered by Fancybox (@fancyapps/ui) for smooth image viewing and screen reader support
+- ♿ **Accessible lightbox** – Powered by GLightbox for smooth image viewing and screen reader support
 - 🎨 **Refined UI** – Transparent sticky header with blur, centered logo, and mobile menu
 - 🖼️ **Automatic thumbnail generation** – Node script using Sharp for optimized WebP images
 - 🔧 **Config-driven site** – Control navigation, meta-tags, hero text, and more via `src/config/`
@@ -29,7 +29,7 @@ Showcase your photos with modern design, automatic sorting, and seamless dark mo
 ```bash
 pnpm install
 ```
-Key dependencies: Astro, Preact, @fancyapps/ui (for lightbox), Sharp (for thumbnails), dotenv (for environment variables), and TypeScript.
+Key dependencies: Astro, Preact, GLightbox (for lightbox), Sharp (for thumbnails), dotenv (for environment variables), and TypeScript.
 
 ### 🖼️ 2. Add Your Images
 Place original images in:
@@ -130,7 +130,7 @@ Open [http://localhost:4321](http://localhost:4321) to see your gallery.
 │   ├── components/
 │   │   ├── Header.astro          # Sticky header with nav, centered logo, mobile menu, and theme toggle
 │   │   ├── PhotoGrid.astro       # Server-rendered wrapper for PhotoGridClient
-│   │   ├── PhotoGridClient.tsx   # Client-side grid with Fancybox lightbox, lazy loading, and srcset for high-res
+│   │   ├── PhotoGridClient.tsx   # Client-side grid with GLightbox lightbox
 │   │   └── ThemeToggle.jsx       # Modern theme switcher with CSS animations
 │   ├── config/
 │   │   ├── externaldownload.cjs  # Config for external downloads (enable/disable, URLs via env vars)
@@ -152,7 +152,7 @@ Open [http://localhost:4321](http://localhost:4321) to see your gallery.
 │   ├── copy-md-files.cjs         # Script to download markdown files from internal/external URLs
 │   ├── copy-original-images.cjs  # Script to download images from internal/external URLs
 │   ├── generate-thumbs.js        # Sharp-based thumbnail generator for WebP
-├── package.json                  # Dependencies: Astro, Preact, @fancyapps/ui, Sharp, dotenv
+├── package.json                  # Dependencies: Astro, Preact, GLightbox, Sharp, dotenv
 └── README.md
 ```
 
@@ -306,18 +306,17 @@ For questions, join our [Discord](https://discord.gg/QEMQsFect6) or open an issu
 
 ## 📝 Notes
 
-- **Sorting**: Photos are automatically sorted by `date` (newest first, precise to milliseconds). Ensure all Markdown files have a `date` field in ISO format.
-- **Hero Section**: Customizable intro area in `index.astro` – responsive with min-height to prevent button clipping.
-- **Lightbox**: Uses @fancyapps/ui (Fancybox) for accessibility (ARIA labels, keyboard navigation) and performance (lazy loading).
-- **Thumbnails**: Generated via Sharp in WebP format for better compression – run `pnpm run gen:thumbs` after adding images.
-- **Dark Mode**: Applied on load to avoid flashes; stored in localStorage with CSS variables for seamless switching.
-- **Performance**: Images lazy-load; CSS is optimized with variables and utilities; no heavy frameworks.
-- **Header**: Transparent with backdrop-filter blur, centered logo, mobile-friendly menu with vanilla JS.
+- **Sorting**: Photos are automatically sorted by `date` (newest first, precise to milliseconds).
+- **Hero Section**: Customizable intro area in `index.astro`.
+- **Lightbox**: Uses GLightbox for accessibility and performance.
+- **Thumbnails**: Generated via Sharp in WebP format.
+- **Dark Mode**: Flicker-free, stored in localStorage, uses CSS variables.
+- **Performance**: Images lazy-load; CSS is optimized.
+- **Header**: Transparent, sticky, with blur and mobile menu.
 - **Background Effects**: Blurred images with overlay for Light/Dark Mode to create an elegant look.
-- **Minimal Frameworks**: Pure Astro + TypeScript + CSS/JS for server-side, Preact only for lightweight client interactions (no React/Vue bloat).
+- **Minimal Frameworks**: Pure Astro + TypeScript + CSS/JS, Preact only for lightweight client interactions.
 - **Build**: Includes thumbnail generation in `build` script for production.
 - **External Downloads**: Optional feature for fetching content from internal/external servers. Configure via environment variables and `src/config/externaldownload.cjs`. If disabled or no URLs set, the build runs normally without downloads.
-
 ---
 
 ## 📜 License
