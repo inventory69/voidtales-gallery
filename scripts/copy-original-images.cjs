@@ -22,28 +22,6 @@ async function fetchDirectoryListing(url) {
 (async () => {
   const marker = path.join(destDir, '.downloads_synced');
 
-  // Prüfe, ob Marker existiert und alle Dateien vorhanden sind
-  if (fs.existsSync(marker)) {
-    // Extrahiere die aktuelle Dateiliste wie unten
-    let html = null;
-    let usedUrl = null;
-    if (internalUrl) html = await fetchDirectoryListing(internalUrl), usedUrl = internalUrl;
-    if (!html && externalUrl) html = await fetchDirectoryListing(externalUrl), usedUrl = externalUrl;
-    if (!html) process.exit(0);
-    const $ = cheerio.load(html);
-    const files = [];
-    $('a').each((_, el) => {
-      const href = $(el).attr('href');
-      if (href && /\.(png|jpe?g|webp|bmp)$/i.test(href)) files.push(href);
-    });
-    // Prüfe, ob alle Dateien vorhanden sind
-    const allPresent = files.every(file => fs.existsSync(path.join(destDir, file)));
-    if (allPresent) {
-      console.log('All original images already synced. Skipping download.');
-      process.exit(0);
-    }
-  }
-
   let html = null;
   let usedUrl = null;
 
@@ -79,25 +57,32 @@ async function fetchDirectoryListing(url) {
     }
   });
 
-  // Download files
+  // Download only missing files
+  let downloaded = false;
   files.forEach(file => {
-    const url = `${usedUrl}${file}`;
     const destPath = path.join(destDir, file);
     if (fs.existsSync(destPath)) {
       console.log(`Skipping ${file} (already exists)`);
     } else {
+      const url = `${usedUrl}${file}`;
       console.log(`Downloading ${file}`);
       try {
         execSync(`wget -q -O "${destPath}" "${url}"`, { timeout: 3000 });
+        downloaded = true;
       } catch (e) {
         console.warn(`Failed to download ${file}, skipping.`);
       }
     }
   });
+
   // Schreibe Marker, wenn alle Dateien vorhanden sind
   const allPresent = files.every(file => fs.existsSync(path.join(destDir, file)));
   if (allPresent) {
     fs.writeFileSync(marker, 'Downloads synced');
     console.log('All original images synced. Marker file written.');
+  } else {
+    if (!downloaded) {
+      console.log('No new images downloaded. Some files may be missing.');
+    }
   }
 })();
