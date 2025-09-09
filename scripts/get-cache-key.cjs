@@ -1,11 +1,14 @@
+const config = require('../src/config/externaldownload.cjs');
 const axios = require('axios');
 const cheerio = require('cheerio');
 const crypto = require('crypto');
 const fs = require('fs');
 
+const externalUrlmd = config.mdSourceUrlExternal ? config.mdSourceUrlExternal.replace(/'/g, '') : null;
+const externalUrlog = config.originalSourceUrlExternal ? config.originalSourceUrlExternal.replace(/'/g, '') : null;
+
 async function getFileNames(url, regex) {
   try {
-    // Fügen Sie diese Zeile hinzu, um die URL zu protokollieren
     console.log(`Debug: Attempting to fetch from URL: '${url}'`);
 
     if (!url) {
@@ -29,12 +32,11 @@ async function getFileNames(url, regex) {
 }
 
 (async () => {
-  // Fügen Sie diese Zeilen hinzu, um die Umgebungsvariablen zu protokollieren
-  console.log(`Debug: ENV_VAR_MD: '${process.env.EXT_DL_URL_MARKDOWN_EXTERNAL}'`);
-  console.log(`Debug: ENV_VAR_ORIG: '${process.env.EXT_DL_URL_ORIGINAL_EXTERNAL}'`);
+  console.log(`Debug: Using externalUrlmd: '${externalUrlmd}'`);
+  console.log(`Debug: Using externalUrlog: '${externalUrlog}'`);
 
-  const mdFiles = await getFileNames(process.env.EXT_DL_URL_MARKDOWN_EXTERNAL, /\.md$/);
-  const originalFiles = await getFileNames(process.env.EXT_DL_URL_ORIGINAL_EXTERNAL, /\.(png|jpe?g|webp|bmp)$/i);
+  const mdFiles = await getFileNames(externalUrlmd, /\.md$/);
+  const originalFiles = await getFileNames(externalUrlog, /\.(png|jpe?g|webp|bmp)$/i);
 
   const combinedString = mdFiles + '|' + originalFiles;
   const hash = crypto.createHash('sha256').update(combinedString).digest('hex');
