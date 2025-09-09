@@ -28,12 +28,12 @@ html[data-theme='dark'] body {
   background: #060612 !important;
 }
 
-/* Optional: Light mode fallback for IME space */
+/* Light mode fallback for IME space */
 html:not(.dark) body,
 :root[saved-theme='light'] body,
 :root[data-color-mode='light'] body,
 html[data-theme='light'] body {
-  background: #f9fafb !important;
+  background: #eeeade !important;
 }
 
 /* Heading colors */
