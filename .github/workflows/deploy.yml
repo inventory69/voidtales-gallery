@@ -40,8 +40,8 @@ jobs:
           rm -f ./src/content/photos/.downloads_synced
           rm -f ./public/images/original/.downloads_synced
 
-      - name: Calculate cache key
-        id: cache-key
+      - name: Calculate cache key (before download)
+        id: cache-key-before
         run: |
           echo "key=$(find src/content/photos public/images/original -type f | sort | sha256sum | cut -d' ' -f1)" >> $GITHUB_OUTPUT
 
@@ -51,7 +51,7 @@ jobs:
           path: |
             ./src/content/photos/
             ./public/images/original/
-          key: downloads-${{ runner.os }}-${{ steps.cache-key.outputs.key }}
+          key: downloads-${{ runner.os }}-${{ steps.cache-key-before.outputs.key }}
           restore-keys: |
             downloads-${{ runner.os }}-
 
@@ -73,6 +73,11 @@ jobs:
           pnpm run copy:md-files
           pnpm run copy:original-images
 
+      - name: Calculate cache key (after download)
+        id: cache-key-after
+        run: |
+          echo "key=$(find src/content/photos public/images/original -type f | sort | sha256sum | cut -d' ' -f1)" >> $GITHUB_OUTPUT
+
       - name: 🔧 Save downloaded files cache
         if: success()
         uses: actions/cache/save@v4
@@ -80,7 +85,7 @@ jobs:
           path: |
             ./src/content/photos/
             ./public/images/original/
-          key: downloads-${{ runner.os }}-${{ steps.cache-key.outputs.key }}
+          key: downloads-${{ runner.os }}-${{ steps.cache-key-after.outputs.key }}
 
       - name: 🗑️ Remove thumbnail marker
         run: rm -f .thumbs_generated
