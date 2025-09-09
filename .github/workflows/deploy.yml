@@ -34,6 +34,9 @@ jobs:
 
       - name: 🔑 Generate dynamic cache key from remote files
         id: remote-key-gen
+        env:
+          EXT_DL_URL_MARKDOWN_EXTERNAL: ${{ secrets.EXT_DL_URL_MARKDOWN_EXTERNAL }}
+          EXT_DL_URL_ORIGINAL_EXTERNAL: ${{ secrets.EXT_DL_URL_ORIGINAL_EXTERNAL }}
         run: |
           # Write the JavaScript code to a temporary file with a .cjs extension
           cat <<EOF > get-cache-key.cjs
@@ -76,9 +79,6 @@ jobs:
           # Execute the script with node, specifying the .cjs file
           node get-cache-key.cjs
         shell: bash
-        env:
-          EXT_DL_URL_MARKDOWN_EXTERNAL: ${{ secrets.EXT_DL_URL_MARKDOWN_EXTERNAL }}
-          EXT_DL_URL_ORIGINAL_EXTERNAL: ${{ secrets.EXT_DL_URL_ORIGINAL_EXTERNAL }}
           
       - name: 🗑️ Remove download markers
         run: |
