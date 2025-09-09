@@ -29,15 +29,12 @@ jobs:
 
       - name: 📦 Install dependencies for cache key generation
         run: |
-          npm install axios cheerio
+          pnpm install axios cheerio
         shell: bash
 
       - name: 🔑 Generate dynamic cache key from remote files
         id: remote-key-gen
         run: node scripts/get-cache-key.cjs
-        env:
-          EXT_DL_URL_MARKDOWN_EXTERNAL: ${{ secrets.EXT_DL_URL_MARKDOWN_EXTERNAL }}
-          EXT_DL_URL_ORIGINAL_EXTERNAL: ${{ secrets.EXT_DL_URL_ORIGINAL_EXTERNAL }}
           
       - name: 🗑️ Remove download markers
         run: |

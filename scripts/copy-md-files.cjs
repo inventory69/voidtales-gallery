@@ -14,7 +14,7 @@ async function fetchDirectoryListing(url) {
     const res = await axios.get(url, { timeout: 3000 });
     return res.data;
   } catch (err) {
-    console.error(`Error fetching source:`, err.message);
+    //console.error(`Error fetching source:`, err.message);
     return null;
   }
 }
