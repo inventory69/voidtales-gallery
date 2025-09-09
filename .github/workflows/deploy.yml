@@ -1,70 +1,56 @@
 name: Build Docker images
-# Name of the workflow as it appears in the GitHub Actions UI
-permissions: # Grant minimal permissions required for this workflow:
-  contents: read # read is needed to check out the repository code
-  pull-requests: write # write is needed if the workflow interacts with pull requests (e.g., status updates)
+
+permissions:
+  contents: read
+  pull-requests: write
 
 on:
   push:
     branches: ["main"]
   workflow_dispatch: {}
-# The workflow is triggered on every push to the 'main' branch
 
 jobs:
   build-and-push-dockerfile-image:
-    # A single job to build and push the Docker image
     runs-on: ubuntu-latest
-    timeout-minutes: 30 
+    timeout-minutes: 30
     env:
-      # Environment variable for the external download URL of markdown files
       EXT_DL_URL_MARKDOWN: ${{ secrets.EXT_DL_URL_MARKDOWN }}
-      # Environment variable for the external download URL of original files
       EXT_DL_URL_ORIGINAL: ${{ secrets.EXT_DL_URL_ORIGINAL }}
-      # Environment variable for the external download URL of markdown files from external sources
       EXT_DL_URL_MARKDOWN_EXTERNAL: ${{ secrets.EXT_DL_URL_MARKDOWN_EXTERNAL }}
-      # Environment variable for the external download URL of original files from external sources
       EXT_DL_URL_ORIGINAL_EXTERNAL: ${{ secrets.EXT_DL_URL_ORIGINAL_EXTERNAL }}
 
-    # 1. Define an Environment for the job
     environment:
       name: production
       url: https://gallery.voidtales.win/
 
     steps:
       - name: 📥 Checkout repo
-        # Action to check out the repository's code
-        uses: actions/checkout@v4  # Updated to v4 for better compatibility
+        uses: actions/checkout@v4
 
       - name: 🗑️ Remove download markers
         run: |
-          rm -f ./src/content/photos/.downloads_synced
-          rm -f ./public/images/original/.downloads_synced
+          rm -f src/content/photos/.downloads_synced
+          rm -f public/images/original/.downloads_synced
 
-      - name: Calculate cache key (before download)
-        id: cache-key-before
-        run: |
-          echo "key=$(find src/content/photos public/images/original -type f | sort | sha256sum | cut -d' ' -f1)" >> $GITHUB_OUTPUT
-
-      - name: 🔧 Cache downloaded files
+      # Restore cache with last known key (from previous run)
+      - name: 🔧 Restore downloaded files cache
+        id: cache-restore
         uses: actions/cache@v4
         with:
           path: |
-            ./src/content/photos/
-            ./public/images/original/
-          key: downloads-${{ runner.os }}-${{ steps.cache-key-before.outputs.key }}
+            src/content/photos
+            public/images/original
+          key: downloads-${{ runner.os }}-latest
           restore-keys: |
             downloads-${{ runner.os }}-
 
       - name: 📦 Install dependencies
         run: |
-          echo "Starting pnpm install at $(date)"
           npm install -g pnpm
           pnpm install --frozen-lockfile
-          echo "Finished pnpm install at $(date)"
 
       - name: 📥 Download files (if not cached)
         env:
-          # Explicitly set the ENV variables for the download step so that the scripts know the URLs
           EXT_DL_URL_MARKDOWN: ${{ secrets.EXT_DL_URL_MARKDOWN }}
           EXT_DL_URL_ORIGINAL: ${{ secrets.EXT_DL_URL_ORIGINAL }}
           EXT_DL_URL_MARKDOWN_EXTERNAL: ${{ secrets.EXT_DL_URL_MARKDOWN_EXTERNAL }}
@@ -73,19 +59,22 @@ jobs:
           pnpm run copy:md-files
           pnpm run copy:original-images
 
+      # Calculate new cache key after download (hash of all files)
       - name: Calculate cache key (after download)
         id: cache-key-after
         run: |
           echo "key=$(find src/content/photos public/images/original -type f | sort | sha256sum | cut -d' ' -f1)" >> $GITHUB_OUTPUT
 
+      # Save cache with new key (always overwrite "latest")
       - name: 🔧 Save downloaded files cache
-        if: success()
         uses: actions/cache/save@v4
         with:
           path: |
-            ./src/content/photos/
-            ./public/images/original/
-          key: downloads-${{ runner.os }}-${{ steps.cache-key-after.outputs.key }}
+            src/content/photos
+            public/images/original
+          key: downloads-${{ runner.os }}-latest
+          # Optionally also save with hash key for debugging:
+          # key: downloads-${{ runner.os }}-${{ steps.cache-key-after.outputs.key }}
 
       - name: 🗑️ Remove thumbnail marker
         run: rm -f .thumbs_generated
@@ -93,58 +82,50 @@ jobs:
       - name: 🔧 Cache thumbnails
         uses: actions/cache@v4
         with:
-          path: ./public/images/thumbs/
+          path: public/images/thumbs
           key: thumbs-${{ runner.os }}-${{ hashFiles('package.json', 'pnwm-lock.yaml', 'scripts/generate-thumbs.js', 'public/images/original/**') }}
           restore-keys: |
             thumbs-${{ runner.os }}-
 
       - name: 🖼️ Generate thumbnails (if not cached)
-        id: gen_thumbs
         run: |
-          mkdir -p ./public/images/thumbs
+          mkdir -p public/images/thumbs
           pnpm run gen:thumbs
 
       - name: 🔧 Save thumbnails cache
         uses: actions/cache/save@v4
         with:
-          path: ./public/images/thumbs/
+          path: public/images/thumbs
           key: thumbs-${{ runner.os }}-${{ hashFiles('package.json', 'pnwm-lock.yaml', 'scripts/generate-thumbs.js', 'public/images/original/**') }}
 
       - name: 🔧 Log in to Docker Hub
-        # Action to authenticate with Docker Hub using secrets
-        uses: docker/login-action@v3  # Updated to v3
+        uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }} # Make sure to add the secrets in your repository in -> Settings -> Secrets (Actions) -> New repository secret
-          password: ${{ secrets.DOCKERHUB_TOKEN }}    # Make sure to add the secrets in your repository in -> Settings -> Secrets (Actions) -> New repository secret
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: 🔨 Build and push Docker image
-        # Action to build the Docker image and push it to the registry
-        uses: docker/build-push-action@v5  # Updated to v5
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
           push: true
-          # Define the image tag to be pushed, replacing with your own namespace
           tags: |
             inventory69/voidtales-gallery:latest
           platforms: linux/amd64
-          # Build-Args: Pass the environment variables to the Docker build (if the Dockerfile needs them)
           build-args: |
             EXT_DL_URL_MARKDOWN=${{ env.EXT_DL_URL_MARKDOWN }}
             EXT_DL_URL_ORIGINAL=${{ env.EXT_DL_URL_ORIGINAL }}
             EXT_DL_URL_MARKDOWN_EXTERNAL=${{ env.EXT_DL_URL_MARKDOWN_EXTERNAL }}
             EXT_DL_URL_ORIGINAL_EXTERNAL=${{ env.EXT_DL_URL_ORIGINAL_EXTERNAL }}
-      
-      # Add this step at the end of your existing workflow
+
       - name: 🚀 Trigger Dokploy Deployment
-        id: 'laststep'
-        # Action to send a POST request to a deployment service
         run: |
-            curl -X POST \
-            -H "Authorization: Bearer ${{ secrets.DOKPLOY_API_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d '{ "image_tag": "inventory69/voidtales-gallery:latest" }' \
-            "${{ secrets.API_HOST }}/api/deploy/${{ secrets.DOKPLOY_APP_ID }}"
+          curl -X POST \
+          -H "Authorization: Bearer ${{ secrets.DOKPLOY_API_TOKEN }}" \
+          -H "Content-Type: application/json" \
+          -d '{ "image_tag": "inventory69/voidtales-gallery:latest" }' \
+          "${{ secrets.API_HOST }}/api/deploy/${{ secrets.DOKPLOY_APP_ID }}"
         env:
-            DOKPLOY_API_TOKEN: ${{ secrets.DOKPLOY_API_TOKEN }}
-            DOKPLOY_APP_ID: ${{ secrets.DOKPLOY_APP_ID }}
+          DOKPLOY_API_TOKEN: ${{ secrets.DOKPLOY_API_TOKEN }}
+          DOKPLOY_APP_ID: ${{ secrets.DOKPLOY_APP_ID }}
