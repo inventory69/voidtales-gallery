@@ -26,36 +26,36 @@ jobs:
     steps:
       - name: 📥 Checkout repo
         uses: actions/checkout@v4
-      
-      # Install required packages for the cache key generation step
+
       - name: 📦 Install dependencies for cache key generation
         run: |
-          npm install axios cheerio crypto-js # crypto-js is more reliable as crypto is built-in but can be tricky
+          npm install axios cheerio
         shell: bash
 
       - name: 🔑 Generate dynamic cache key from remote files
         id: remote-key-gen
         run: |
-          # Use Node.js to fetch the directory listing and create a hash
-          node -e "
+          # Write the JavaScript code to a temporary file
+          cat <<EOF > get-cache-key.js
             const axios = require('axios');
             const cheerio = require('cheerio');
             const crypto = require('crypto');
+            const fs = require('fs');
 
             async function getFileNames(url, regex) {
               try {
                 const res = await axios.get(url, { timeout: 5000 });
-                const $ = cheerio.load(res.data);
+                const \$ = cheerio.load(res.data);
                 const files = [];
-                $('a').each((_, el) => {
-                  const href = $(el).attr('href');
+                \$('a').each((_, el) => {
+                  const href = \$(el).attr('href');
                   if (href && regex.test(href)) {
                     files.push(href);
                   }
                 });
                 return files.sort().join('|');
               } catch (error) {
-                console.error(\`Error fetching files from ${url}:\`, error.message);
+                console.error(\`Error fetching files from \${url}:\`, error.message);
                 return '';
               }
             }
@@ -68,15 +68,13 @@ jobs:
               const hash = crypto.createHash('sha256').update(combinedString).digest('hex');
               
               console.log(\`Generated cache key: \${hash}\`);
-              console.log(\`cache-key=\${hash}\`);
               
-              // Set the output for the next steps
-              console.log(\`cache-key=\${hash}\`);
-              
-              // We need to write the output to a file that can be read by a subsequent step
-              require('fs').writeFileSync(process.env.GITHUB_OUTPUT, \`cache-key=\${hash}\`);
+              fs.writeFileSync(process.env.GITHUB_OUTPUT, \`cache-key=\${hash}\`);
             })();
-          "
+          EOF
+          
+          # Execute the script with node
+          node get-cache-key.js
         shell: bash
         env:
           EXT_DL_URL_MARKDOWN_EXTERNAL: ${{ secrets.EXT_DL_URL_MARKDOWN_EXTERNAL }}
@@ -87,9 +85,6 @@ jobs:
           rm -f src/content/photos/.downloads_synced
           rm -f public/images/original/.downloads_synced
 
-      # ... (Der Rest des Workflows bleibt unverändert)
-
-      # --- Cache-Restore verwendet jetzt den dynamischen Schlüssel ---
       - name: 🔧 Restore downloaded files cache
         id: cache-restore
         uses: actions/cache@v4
@@ -107,11 +102,6 @@ jobs:
           pnpm install --frozen-lockfile
 
       - name: 📥 Download files (if not cached)
-        env:
-          EXT_DL_URL_MARKDOWN: ${{ secrets.EXT_DL_URL_MARKDOWN }}
-          EXT_DL_URL_ORIGINAL: ${{ secrets.EXT_DL_URL_ORIGINAL }}
-          EXT_DL_URL_MARKDOWN_EXTERNAL: ${{ secrets.EXT_DL_URL_MARKDOWN_EXTERNAL }}
-          EXT_DL_URL_ORIGINAL_EXTERNAL: ${{ secrets.EXT_DL_URL_ORIGINAL_EXTERNAL }}
         run: |
           pnpm run copy:md-files
           pnpm run copy:original-images
@@ -123,7 +113,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: public/images/thumbs
-          key: thumbs-${{ runner.os }}-${{ hashFiles('package.json', 'pnwm-lock.yaml', 'scripts/generate-thumbs.js', 'public/images/original/**') }}
+          key: thumbs-${{ runner.os }}-${{ hashFiles('package.json', 'pnpm-lock.yaml', 'scripts/generate-thumbs.js', 'public/images/original/**') }}
           restore-keys: |
             thumbs-${{ runner.os }}-
 
@@ -136,7 +126,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: public/images/thumbs
-          key: thumbs-${{ runner.os }}-${{ hashFiles('package.json', 'pnwm-lock.yaml', 'scripts/generate-thumbs.js', 'public/images/original/**') }}
+          key: thumbs-${{ runner.os }}-${{ hashFiles('package.json', 'pnpm-lock.yaml', 'scripts/generate-thumbs.js', 'public/images/original/**') }}
 
       - name: 🔧 Log in to Docker Hub
         uses: docker/login-action@v3
