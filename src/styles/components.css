@@ -372,7 +372,7 @@ html.dark .footer-nav a:hover {
 /* GLightbox: Title (photo text) large and white */
 .gslide-title {
   display: block !important;
-  font-size: 1.5rem !important;
+  font-size: 1.1rem !important;
   font-weight: bold !important;
   color: #fff !important;
   text-align: center !important;
@@ -428,5 +428,9 @@ html.dark .footer-nav a:hover {
   .glightbox-open .gdesc-inner {
     margin-bottom: 0 !important;
     padding-bottom: 0 !important;
+  }
+
+  .glightbox-container .gslide-description {
+    overflow: none !important;
   }
 }
