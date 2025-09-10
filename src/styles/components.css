@@ -414,18 +414,18 @@ html.dark .footer-nav a:hover {
 }
 
 @media (max-width: 600px) {
-  .gslide-description.description-bottom {
-    bottom: 2vh !important;      /* Move caption closer to the image */
+  .glightbox-open .gslide-description.description-bottom {
+    bottom: 10vh !important; /* Try a higher value, e.g. 10vh or 15vh */
     position: absolute !important;
     left: 0 !important;
     right: 0 !important;
     width: 100% !important;
     margin: 0 !important;
     padding-bottom: 0 !important;
-    /* Optional: Remove extra padding if present */
     padding-top: 0 !important;
+    z-index: 100 !important;
   }
-  .gdesc-inner {
+  .glightbox-open .gdesc-inner {
     margin-bottom: 0 !important;
     padding-bottom: 0 !important;
   }
