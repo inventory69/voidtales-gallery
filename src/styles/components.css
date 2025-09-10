@@ -115,11 +115,23 @@ html.dark .brand .logo {
   box-shadow: none;
 }
 
-.nav-link:hover {
-  background: var(--accent);
+.nav-link:hover,
+.nav-link:focus {
+  background: linear-gradient(50deg, #16b1ee67, #002fff8f);
   color: white;
-  border-color: var(--accent);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(67, 206, 162, 0.25), 0 2px 8px rgba(0,0,0,0.12);
+  transform: translateY(-2px) scale(1.04);
+  outline: none;
+}
+
+/* Dark mode for nav-link hover/focus */
+html.dark .nav-link:hover,
+html.dark .nav-link:focus {
+  background: linear-gradient(50deg, #7334bb56, #ff00c870);
+  color: white;
+  box-shadow: 0 8px 32px rgba(190, 67, 206, 0.25), 0 2px 8px rgba(0,0,0,0.22);
+  transform: translateY(-2px) scale(1.04);
+  outline: none;
 }
 
 html.dark .nav-link {
@@ -127,12 +139,6 @@ html.dark .nav-link {
   color: var(--text);
 }
 
-html.dark .nav-link:hover {
-  background: var(--accent);
-  color: var(--text);
-  border-color: var(--accent);
-  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
-}
 
 /* Mobile Menu Button */
 .mobile-menu-btn {
@@ -332,23 +338,22 @@ html.dark .footer {
   box-shadow: none;
 }
 
-.footer-nav a:hover {
-  background: var(--accent);
+.footer-nav a:hover,
+.footer-nav a:focus {
+  background: linear-gradient(50deg, #16b1ee67, #002fff8f);
   color: white;
-  border-color: var(--accent);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(67, 206, 162, 0.25), 0 2px 8px rgba(0,0,0,0.12);
+  transform: translateY(-2px) scale(1.04);
+  outline: none;
 }
 
-html.dark .footer-nav a {
-  border-color: rgba(156, 163, 175, 0.3);
-  color: var(--text);
-}
-
-html.dark .footer-nav a:hover {
-  background: var(--accent);
+html.dark .footer-nav a:hover,
+html.dark .footer-nav a:focus {
+  background: linear-gradient(50deg, #7334bb56, #ff00c870);
   color: white;
-  border-color: var(--accent);
-  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(190, 67, 206, 0.25), 0 2px 8px rgba(0,0,0,0.22);
+  transform: translateY(-2px) scale(1.04);
+  outline: none;
 }
 
 .footer-copyright p {
