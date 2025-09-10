@@ -23,33 +23,91 @@
 /* Main title in hero */
 .hero-title {
   font-size: 3rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  font-family: 'Macondo', cursive;
+  font-weight: 400;
+  font-style: normal;
+  text-align: center;
 }
 
 /* Subtitle in hero */
 .hero-subtitle {
   font-size: 1.2rem;
-  margin-bottom: 2rem;
-  opacity: 0.9;
+  font-family: 'Macondo', cursive;
+  font-weight: 400;
+  font-style: normal;
+  text-align: center;
+}
+
+/* Dark mode: glowing effect */
+html.dark .hero-title {
+  color: #fff;
+  text-shadow:
+    0 0 8px #ff00c82c,
+    0 0 16px #ff00c833,
+    0 0 32px #be43ce6c,
+    0 0 2px #fff;
+}
+
+html.dark .hero-subtitle {
+  color: #fff;
+  text-shadow:
+    0 0 4px #a920dfa9,
+    0 0 8px #9d1896d5;
+}
+
+/* Light mode: softer colors */
+html:not(.dark) .hero-title {
+  color: #222;
+  text-shadow:
+    0 0 8px #80d0f041,
+    0 0 16px #9dbff360,
+    0 0 32px #b3e1ffa0,
+    0 0 2px #222222;
+}
+
+html:not(.dark) .hero-subtitle {
+  color: #222;
+  text-shadow:
+    0 0 4px #b3f6ff52,
+    0 0 8px #5dc0fa3a;
 }
 
 /* Call-to-action button in hero */
 .hero-cta {
   display: inline-block;
-  padding: 0.75rem 1.5rem;
-  background: var(--accent) !important;
-  color: white;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  font-weight: 600;
-  transition: background 0.3s, transform 0.2s;
+  padding: 0.85rem 2rem;
+  font-size: 1.1rem;
+  font-family: 'Macondo', cursive;
+  font-weight: 500;
+  border-radius: 2rem;
   border: none;
+  background: linear-gradient(50deg, #16b1ee2a, #002fff63);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(67, 206, 162, 0.15), 0 1px 4px rgba(0,0,0,0.08);
+  text-decoration: none;
+  transition: background 0.3s, box-shadow 0.2s, transform 0.15s;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.03em;
 }
 
 /* Hover effect for CTA */
-.hero-cta:hover {
-  background: var(--accent) !important;
-  transform: translateY(-2px);
+.hero-cta:hover,
+.hero-cta:focus {
+  background: linear-gradient(50deg, #16b1ee67, #002fff8f);
+  box-shadow: 0 8px 32px rgba(67, 206, 162, 0.25), 0 2px 8px rgba(0,0,0,0.12);
+  transform: translateY(-2px) scale(1.04);
+  outline: none;
+}
+
+html.dark .hero-cta {
+  background: linear-gradient(50deg, #7334bb2a, #ff00c82d);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(190, 67, 206, 0.15), 0 1px 4px rgba(0,0,0,0.18);
+}
+
+html.dark .hero-cta:hover,
+html.dark .hero-cta:focus {
+  background: linear-gradient(50deg, #7334bb56, #ff00c870);
+  box-shadow: 0 8px 32px rgba(190, 67, 206, 0.25), 0 2px 8px rgba(0,0,0,0.22);
 }
