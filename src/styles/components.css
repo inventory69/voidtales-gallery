@@ -321,7 +321,7 @@ html.dark .footer {
 .footer-nav ul {
   list-style: none;
   display: flex;
-  gap: 1.5rem;
+  gap: 0.75rem; /* Same gap as header navigation */
   margin: 0;
   padding: 0;
 }
@@ -432,6 +432,94 @@ html.dark .footer-nav a:focus {
   display: block;
   margin: 0 auto;
   touch-action: manipulation;
+}
+
+.glightbox-share-btn {
+  position: absolute;
+  top: 11px;
+  right: 60px;
+  z-index: 9999;
+  background: rgba(0,0,0,0.4) !important; /* Transparent background like navigation arrows */
+  color: #fff;
+  border: none;
+  border-radius: 50% !important; /* Round like navigation arrows */
+  width: 44px !important;
+  height: 44px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: background 0.2s;
+}
+
+.glightbox-share-btn:hover {
+  background: rgba(0,0,0,0.6) !important; /* Darker on hover */
+}
+
+.glightbox-share-btn svg {
+  fill: none !important; /* Remove fill to make it outline only */
+  stroke: #fff !important; /* Ensure stroke is white */
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.glightbox-view-btn {
+  position: absolute;
+  top: 11px;
+  right: 105 px; /* Position next to share button */
+  z-index: 9999;
+  background: rgba(0,0,0,0.4) !important; /* Transparent background like navigation arrows */
+  color: #fff;
+  border: none;
+  border-radius: 50% !important; /* Round like navigation arrows */
+  width: 44px !important;
+  height: 44px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: background 0.2s;
+}
+
+.glightbox-view-btn:hover {
+  background: rgba(0,0,0,0.6) !important; /* Darker on hover */
+}
+
+.glightbox-view-btn svg {
+  fill: none !important; /* Remove fill to make it outline only */
+  stroke: #fff !important; /* Ensure stroke is white */
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.glightbox-notification {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  z-index: 10000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.glightbox-notification.show {
+  opacity: 1;
+}
+
+.glightbox-notification-success {
+  background: rgba(167, 67, 206, 0.466); /* voidtales purple for success */
+}
+
+.glightbox-notification-error {
+  background: rgba(206, 67, 67, 0.568); /* Red for error */
 }
 
 @media (max-width: 600px) {
