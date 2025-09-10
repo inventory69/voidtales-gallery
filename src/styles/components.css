@@ -396,7 +396,7 @@ html.dark .footer-nav a:hover {
   font-style: normal;
 }
 
-/* Navigation arrows for image gallery */
+/* Navigation arrows for image galleryTEST */
 .gnext, .gprev {
   display: flex !important;
   opacity: 1 !important;
