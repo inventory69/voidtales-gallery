@@ -439,10 +439,10 @@ html.dark .footer-nav a:focus {
   top: 11px;
   right: 60px;
   z-index: 9999;
-  background: rgba(0,0,0,0.4) !important; /* Transparent background like navigation arrows */
+  background: rgba(0,0,0,0.4) !important;
   color: #fff;
   border: none;
-  border-radius: 50% !important; /* Round like navigation arrows */
+  border-radius: 50% !important;
   width: 44px !important;
   height: 44px !important;
   display: flex;
@@ -454,12 +454,12 @@ html.dark .footer-nav a:focus {
 }
 
 .glightbox-share-btn:hover {
-  background: rgba(0,0,0,0.6) !important; /* Darker on hover */
+  background: rgba(0,0,0,0.6) !important;
 }
 
 .glightbox-share-btn svg {
-  fill: none !important; /* Remove fill to make it outline only */
-  stroke: #fff !important; /* Ensure stroke is white */
+  fill: none !important;
+  stroke: #fff !important;
   width: 20px !important;
   height: 20px !important;
 }
@@ -467,12 +467,12 @@ html.dark .footer-nav a:focus {
 .glightbox-view-btn {
   position: absolute;
   top: 11px;
-  right: 105 px; /* Position next to share button */
+  right: 105px;
   z-index: 9999;
-  background: rgba(0,0,0,0.4) !important; /* Transparent background like navigation arrows */
+  background: rgba(0,0,0,0.4) !important;
   color: #fff;
   border: none;
-  border-radius: 50% !important; /* Round like navigation arrows */
+  border-radius: 50% !important;
   width: 44px !important;
   height: 44px !important;
   display: flex;
@@ -484,12 +484,12 @@ html.dark .footer-nav a:focus {
 }
 
 .glightbox-view-btn:hover {
-  background: rgba(0,0,0,0.6) !important; /* Darker on hover */
+  background: rgba(0,0,0,0.6) !important;
 }
 
 .glightbox-view-btn svg {
-  fill: none !important; /* Remove fill to make it outline only */
-  stroke: #fff !important; /* Ensure stroke is white */
+  fill: none !important;
+  stroke: #fff !important;
   width: 20px !important;
   height: 20px !important;
 }
@@ -543,3 +543,23 @@ html.dark .footer-nav a:focus {
     overflow: none !important;
   }
 }
+
+/* Custom GLightbox buttons container */
+.custom-glightbox-btns {
+  transition: opacity 0.3s;
+  position: absolute;
+  top: 0px;
+  right: 8px; 
+  z-index: 9999;
+  display: flex;
+  gap: 16px;
+  pointer-events: auto;
+  opacity: 1;
+}
+
+/* Hide buttons when GLightbox is closing (sync with arrows/close) */
+.glightbox-closing .custom-glightbox-btns {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
