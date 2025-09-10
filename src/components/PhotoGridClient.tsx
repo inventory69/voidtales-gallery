@@ -22,7 +22,7 @@ export default function PhotoGridClient({ photos, ariaLabelPrefix = "Open fullsc
     const lightbox = GLightbox({
       selector: ".photo",
       touchNavigation: true,
-      zoomable: false,
+      zoomable: true, // <-- Enable zooming!
       openEffect: "fade",
       closeEffect: "fade",
       slideEffect: "fade",
