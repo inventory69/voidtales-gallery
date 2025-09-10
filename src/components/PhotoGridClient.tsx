@@ -40,7 +40,13 @@ export default function PhotoGridClient({ photos, ariaLabelPrefix = "Open fullsc
           class="photo"
           href={photo.fullsizePath}
           data-gallery="gallery"
-          data-title={photo.body?.trim() ? photo.body : photo.caption?.trim() ? photo.caption : ""}
+          data-title={
+            photo.body?.trim()
+              ? photo.body
+              : photo.caption?.trim()
+          ? photo.caption
+          : photo.title?.trim()
+          }
           data-description={`Author: ${photo.author}`}
           aria-label={`${ariaLabelPrefix} ${photo.title}`}
         >

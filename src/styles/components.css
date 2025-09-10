@@ -378,6 +378,9 @@ html.dark .footer-nav a:hover {
   text-align: center !important;
   margin-bottom: 0.5em !important;
   margin-top: 0.5em !important;
+  font-family: 'Macondo', cursive !important;
+  font-weight: 400;
+  font-style: normal;
 }
 
 /* GLightbox: Description (author) small and gray */
@@ -388,6 +391,9 @@ html.dark .footer-nav a:hover {
   font-weight: normal !important;
   text-align: center !important;
   margin-bottom: 0.5em !important;
+  font-family: 'Macondo', cursive !important;
+  font-weight: 400;
+  font-style: normal;
 }
 
 /* Navigation arrows for image gallery */
