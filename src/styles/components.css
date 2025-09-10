@@ -412,3 +412,21 @@ html.dark .footer-nav a:hover {
   width: 28px !important;
   height: 28px !important;
 }
+
+@media (max-width: 600px) {
+  .gslide-description.description-bottom {
+    bottom: 2vh !important;      /* Move caption closer to the image */
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding-bottom: 0 !important;
+    /* Optional: Remove extra padding if present */
+    padding-top: 0 !important;
+  }
+  .gdesc-inner {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
