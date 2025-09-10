@@ -413,6 +413,16 @@ html.dark .footer-nav a:hover {
   height: 28px !important;
 }
 
+.gslide-image img.zoomable {
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100vw !important;
+  max-height: 80vh !important;
+  display: block;
+  margin: 0 auto;
+  touch-action: manipulation;
+}
+
 @media (max-width: 600px) {
   .glightbox-open .gslide-description.description-bottom {
     bottom: 10vh !important; /* Try a higher value, e.g. 10vh or 15vh */
