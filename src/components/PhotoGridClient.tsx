@@ -97,7 +97,7 @@ export default function PhotoGridClient({
     }
   }
 
-  // Initialize GLightbox and handle custom buttons
+  // Initialize GLightbox and handle custom buttons // Test for discord changelog output
   useEffect(() => {
     const lightbox = GLightbox({
       selector: ".photo",
