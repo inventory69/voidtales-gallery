@@ -23,7 +23,7 @@
 /* Main title in hero */
 .hero-title {
   font-size: 3rem;
-  font-family: 'Macondo', cursive;
+  font-family: var(--site-font-family);
   font-weight: 400;
   font-style: normal;
   text-align: center;
@@ -32,7 +32,7 @@
 /* Subtitle in hero */
 .hero-subtitle {
   font-size: 1.2rem;
-  font-family: 'Macondo', cursive;
+  font-family: var(--site-font-family);
   font-weight: 400;
   font-style: normal;
   text-align: center;
@@ -77,7 +77,7 @@ html:not(.dark) .hero-subtitle {
   display: inline-block;
   padding: 0.85rem 2rem;
   font-size: 1.1rem;
-  font-family: 'Macondo', cursive;
+  font-family: var(--site-font-family);
   font-weight: 500;
   border-radius: 2rem;
   border: none;

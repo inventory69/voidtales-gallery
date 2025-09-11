@@ -9,7 +9,7 @@ const destDir = './src/content/photos/';
 const internalUrl = config.mdSourceUrlInternal ? config.mdSourceUrlInternal.replace(/'/g, '') : null;
 const externalUrl = config.mdSourceUrlExternal ? config.mdSourceUrlExternal.replace(/'/g, '') : null;
 
-/*
+/**
  * Fetches the HTML directory listing from the given URL.
  * @param {string} url - The URL to fetch.
  * @returns {Promise<string|null>} - The HTML content or null if failed.

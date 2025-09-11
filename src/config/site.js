@@ -1,6 +1,26 @@
 // Site configuration file: Defines global settings for the VoidTales Gallery site.
 // Used across the application for metadata, SEO, and UI elements like hero and footer.
 
+/**
+ * Configuration object for the VoidTales Gallery website.
+ *
+ * @typedef {Object} SiteConfig
+ * @property {string} name - Site name, displayed in browser title and meta tags.
+ * @property {string} description - Site description for SEO and social media previews.
+ * @property {string} url - Base URL of the site, used for canonical links and sitemaps.
+ * @property {string} ogImage - Path to the Open Graph image for social media previews.
+ * @property {string} author - Name of the site creator or maintainer.
+ * @property {string[]} keywords - Array of keywords for SEO and meta tags.
+ * @property {string[]} fonts - Array of font URLs to be loaded for the site.
+ * @property {string} manifest - Path to the web app manifest file.
+ * @property {string} favicon - Path to the site favicon.
+ * @property {Object} hero - Configuration for the homepage hero section.
+ * @property {string} hero.title - Main headline for the hero section.
+ * @property {string} hero.subtitle - Subtitle text for the hero section.
+ * @property {string} hero.cta - Call-to-action button text in the hero section.
+ * @property {Object} footer - Configuration for the site footer.
+ * @property {string} footer.copyright - Copyright text displayed in the footer.
+ */
 export const siteConfig = {
   // Site name: Displayed in the browser title and meta tags
   name: 'VoidTales Gallery',
@@ -19,6 +39,18 @@ export const siteConfig = {
   
   // Keywords: Array of keywords for SEO and meta tags
   keywords: ['photo gallery', 'Astro', 'VoidTales', 'images', 'modern web'],
+
+  // Fonts: Array of font URLs to be loaded for the site
+  fonts: [
+    'https://fonts.googleapis.com/css2?family=Macondo&family=Macondo+Swash+Caps&display=swap'
+  ],
+
+  // Main font family for the site
+  fontFamily: "'Macondo', cursive",
+
+  // Paths to manifest and favicon files in the public directory
+  manifest: '/manifest.json',
+  favicon: '/favicon.ico',
   
   // Hero section configuration: Defines content for the main hero area on the homepage
   hero: {

@@ -9,7 +9,7 @@ const destDir = './public/images/original/';
 const internalUrl = config.originalSourceUrlInternal ? config.originalSourceUrlInternal.replace(/'/g, '') : null;
 const externalUrl = config.originalSourceUrlExternal ? config.originalSourceUrlExternal.replace(/'/g, '') : null;
 
-/*
+/**
  * Fetches the HTML directory listing from a given URL.
  * @param {string} url - The URL to fetch.
  * @returns {Promise<string|null>} - The HTML content or null if failed.

@@ -383,7 +383,7 @@ html.dark .footer-nav a:focus {
   text-align: center !important;
   margin-bottom: 0.5em !important;
   margin-top: 0.5em !important;
-  font-family: 'Macondo', cursive !important;
+  font-family: var(--site-font-family) !important;
   font-weight: 400;
   font-style: normal;
 }
@@ -396,7 +396,7 @@ html.dark .footer-nav a:focus {
   font-weight: normal !important;
   text-align: center !important;
   margin-bottom: 0.5em !important;
-  font-family: 'Macondo', cursive !important;
+  font-family: var(--site-font-family) !important;
   font-weight: 400;
   font-style: normal;
 }
