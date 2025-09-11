@@ -1,25 +1,35 @@
 ---
-// filepath: /home/liq/voidtales-gallery/src/components/Footer.astro
+// Import site and navigation configuration
 import { siteConfig } from '../config/site.js';
 import { navigationLinks } from '../config/navigation.js';
 
+// Get the current year for copyright
 const currentYear = new Date().getFullYear();
 ---
 
 <footer class="footer">
   <div class="footer-container">
+    {/* Site logo and link to homepage */}
     <div class="footer-logo">
       <a href="/">{siteConfig.name}</a>
     </div>
+    {/* Footer navigation links */}
     <nav class="footer-nav">
       <ul>
         {navigationLinks.map(link => (
-          <li><a href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a></li>
+          <li>
+            <a href={link.href} target="_blank" rel="noopener noreferrer">
+              {link.label}
+            </a>
+          </li>
         ))}
       </ul>
     </nav>
+    {/* Copyright information */}
     <div class="footer-copyright">
-      <p>&copy; {currentYear} {siteConfig.footer.copyright}. All rights reserved.</p>
+      <p>
+        &copy; {currentYear} {siteConfig.footer.copyright}. All rights reserved.
+      </p>
     </div>
   </div>
 </footer>

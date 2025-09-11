@@ -2,6 +2,8 @@
 import ThemeToggle from '../components/ThemeToggle.jsx';
 import { siteConfig } from '../config/site.js';
 import { navigationLinks } from '../config/navigation.js';
+
+// Import global and component styles
 import '../styles/variables.css';
 import '../styles/base.css';
 import '../styles/layout.css';
@@ -9,17 +11,24 @@ import '../styles/components.css';
 import '../styles/hero.css';
 import '../styles/responsive.css';
 import '../styles/accessibility.css';
+
 import Header from '../components/Header.astro';
 import PhotoGrid from '../components/PhotoGrid.astro';
 import Footer from '../components/Footer.astro';
 
+// Photo frontmatter type definition
 type PhotoFrontmatter = {
   date: string;
   [key: string]: any;
 };
 
+// Import all photo markdown files eagerly
 const modules = import.meta.glob('../content/photos/*.md', { eager: true });
-const photos = Object.values(modules).map((m) => (m as { frontmatter: PhotoFrontmatter })?.frontmatter ?? m) as PhotoFrontmatter[];
+
+// Extract frontmatter from each module
+const photos = Object.values(modules).map((m) =>
+  (m as { frontmatter: PhotoFrontmatter })?.frontmatter ?? m
+) as PhotoFrontmatter[];
 
 // Sort photos by date and time (newest first)
 const sortedPhotos = photos.sort((a, b) => {
@@ -36,7 +45,7 @@ const sortedPhotos = photos.sort((a, b) => {
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="manifest" href="/manifest.json" />
-    <link href="https://fonts.googleapis.com/css2?family=Macondo&family=Macondo+Swash+Caps&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Macondo&family=Macondo+Swash+Caps&display=swap" rel="stylesheet" />
     <title>{siteConfig.name}</title>
     <meta name="description" content={siteConfig.description} />
     <meta name="keywords" content={siteConfig.keywords.join(', ')} />
@@ -48,6 +57,7 @@ const sortedPhotos = photos.sort((a, b) => {
     <meta name="twitter:card" content="summary_large_image" />
     <!-- Set theme on initial load -->
     <script>
+      // Set theme based on localStorage or system preference
       (function() {
         try {
           var saved = localStorage.getItem('theme');
@@ -62,7 +72,7 @@ const sortedPhotos = photos.sort((a, b) => {
   <body>
     <div id="background"></div>
     <Header />
-    <!-- Mobile menu dropdown -->
+    {/* Mobile menu dropdown */}
     <div id="mobile-menu" class="mobile-menu">
       <nav class="mobile-nav" role="navigation" aria-label="Mobile navigation">
         {navigationLinks.map(link => (
@@ -74,7 +84,7 @@ const sortedPhotos = photos.sort((a, b) => {
       </div>
     </div>
     
-    <!-- Hero section -->
+    {/* Hero section */}
     <section class="hero">
       <div class="hero-content">
         <h1 class="hero-title">{siteConfig.hero.title}</h1>
@@ -83,7 +93,7 @@ const sortedPhotos = photos.sort((a, b) => {
       </div>
     </section>
     
-    <!-- Main photo grid -->
+    {/* Main photo grid */}
     <div class="page-wrapper">
       <main class="container" role="main" id="photos">
         <PhotoGrid photos={sortedPhotos} />
@@ -91,8 +101,9 @@ const sortedPhotos = photos.sort((a, b) => {
       <Footer />
     </div>
 
-    <!-- Mobile menu toggle script -->
+    {/* Mobile menu toggle script */}
     <script>
+      // Toggle mobile menu open/close
       const toggle = document.getElementById('mobile-menu-toggle');
       const menu = document.getElementById('mobile-menu');
       if (toggle && menu) {

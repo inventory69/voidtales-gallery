@@ -4,6 +4,7 @@
   max-width: 1100px;
   margin: 28px auto;
   padding: 0 16px;
+  flex: 1;
 }
 
 .grid-container {
@@ -45,7 +46,6 @@ html[data-theme='light'] #background {
   background-color: #f5e0a6e1; /* Fallback color */
   background:
     linear-gradient(rgba(241, 241, 241, 0.747), rgba(219, 237, 240, 0.726)),
-    /* radial-gradient(ellipse at center, rgba(255, 255, 255, 0.03) 0%, rgba(209, 161, 161, 0.274) 100%), */
     url('/images/index-light-blur.webp') center/cover no-repeat;
 }
 
@@ -56,9 +56,10 @@ html[data-theme='dark'] #background {
   background-color: #141314c9; /* Fallback color */
   background:
     linear-gradient(rgba(89, 36, 102, 0.267), rgba(24, 24, 49, 0.534)),
-    /* radial-gradient(ellipse at center, rgba(165, 4, 4, 0.1) 0%, rgba(0, 0, 0, 0.322) 100%), */
     url('/images/index-dark-blur.webp') center/cover no-repeat;
 }
+
+/* ========== PAGE STRUCTURE ========== */
 
 body {
   min-height: 100vh;
@@ -72,17 +73,14 @@ body {
   flex-direction: column;
 }
 
-.container {
-  flex: 1;
-}
-
 .footer {
   flex-shrink: 0;
 }
 
-/* Firefox-specific offset for header */
+/* ========== FIREFOX-SPECIFIC HEADER OFFSET ========== */
+/* Adjusts Fancybox container margin for Firefox to prevent header overlap */
 @-moz-document url-prefix() {
   .fancybox__container {
-    margin-top: 80px !important; /* Adjust header height exactly – test 60px, 100px, etc. */
+    margin-top: 80px !important;
   }
 }

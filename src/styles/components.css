@@ -401,7 +401,7 @@ html.dark .footer-nav a:focus {
   font-style: normal;
 }
 
-/* Navigation arrows for image galleryTEST */
+/* Navigation arrows for image gallery */
 .gnext, .gprev {
   display: flex !important;
   opacity: 1 !important;

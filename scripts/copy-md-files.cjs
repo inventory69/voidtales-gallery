@@ -9,12 +9,17 @@ const destDir = './src/content/photos/';
 const internalUrl = config.mdSourceUrlInternal ? config.mdSourceUrlInternal.replace(/'/g, '') : null;
 const externalUrl = config.mdSourceUrlExternal ? config.mdSourceUrlExternal.replace(/'/g, '') : null;
 
+/*
+ * Fetches the HTML directory listing from the given URL.
+ * @param {string} url - The URL to fetch.
+ * @returns {Promise<string|null>} - The HTML content or null if failed.
+ */
 async function fetchDirectoryListing(url) {
   try {
     const res = await axios.get(url, { timeout: 3000 });
     return res.data;
   } catch (err) {
-    //console.error(`Error fetching source:`, err.message);
+    // Ignore errors, fallback will be handled
     return null;
   }
 }
@@ -28,26 +33,22 @@ async function fetchDirectoryListing(url) {
   // Try internal URL first
   if (internalUrl) {
     html = await fetchDirectoryListing(internalUrl);
-    if (html) {
-      usedUrl = internalUrl;
-    }
+    if (html) usedUrl = internalUrl;
   }
 
-  // Fallback to external URL
+  // Fallback to external URL if internal failed
   if (!html && externalUrl) {
     html = await fetchDirectoryListing(externalUrl);
-    if (html) {
-      usedUrl = externalUrl;
-    }
+    if (html) usedUrl = externalUrl;
   }
 
-  // If neither URL works, skip (ignoriere Timeout)
+  // Abort if no reachable source
   if (!html) {
     console.warn('No reachable markdown source found. Skipping download.');
     process.exit(0);
   }
 
-  // Extract .md files
+  // Extract .md files from directory listing
   const $ = cheerio.load(html);
   const files = [];
   $('a').each((_, el) => {
@@ -57,9 +58,12 @@ async function fetchDirectoryListing(url) {
     }
   });
 
-  // Download only missing files
+  // Remove duplicate file names
+  const uniqueFiles = [...new Set(files)];
+
+  // Download missing files only
   let downloaded = false;
-  files.forEach(file => {
+  uniqueFiles.forEach(file => {
     const destPath = path.join(destDir, file);
     if (fs.existsSync(destPath)) {
       console.log(`Skipping ${file} (already exists)`);
@@ -75,8 +79,8 @@ async function fetchDirectoryListing(url) {
     }
   });
 
-  // Schreibe Marker, wenn alle Dateien vorhanden sind
-  const allPresent = files.every(file => fs.existsSync(path.join(destDir, file)));
+  // Write marker file if all files are present
+  const allPresent = uniqueFiles.every(file => fs.existsSync(path.join(destDir, file)));
   if (allPresent) {
     fs.writeFileSync(marker, 'Downloads synced');
     console.log('All markdown files synced. Marker file written.');

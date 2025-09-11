@@ -1,9 +1,14 @@
+# Ignore dependencies and build artifacts
 node_modules/
-.env
-.vscode/
-.DS_Store
 .astro/
 dist/
 public/.cache/
+
+# Ignore environment and editor config files
+.env
+.vscode/
+.DS_Store
+
+# Ignore git and GitHub related folders
 .git/
 .github/

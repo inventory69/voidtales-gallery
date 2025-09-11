@@ -1,8 +1,21 @@
+# Ignore Astro build and cache directories
 .astro/
-node_modules/
 dist/
 public/.cache/
+
+# Ignore environment files
 .env
+
+# Ignore Node.js dependencies
+node_modules/
+
+# Ignore VS Code settings
 .vscode/
+
+# Ignore macOS system files
 .DS_Store
+
+# Ignore generated image thumbnails
 public/images/thumbs/
+
+# End of .gitignore

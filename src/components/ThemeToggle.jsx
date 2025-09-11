@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'preact/hooks';
 
+/*
+ * ThemeToggle component for switching between dark and light mode.
+ * Stores preference in localStorage and updates the document's theme class and attribute.
+ */
 export default function ThemeToggle() {
   const [dark, setDark] = useState(false);
 
+  // Initialize theme on mount
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const saved = localStorage.getItem('theme');
@@ -13,13 +18,14 @@ export default function ThemeToggle() {
     document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
   }, []);
 
-const toggleTheme = () => {
-  const newDark = !dark;
-  setDark(newDark);
-  document.documentElement.classList.toggle('dark', newDark); // Konsistent toggle verwenden
-  document.documentElement.setAttribute('data-theme', newDark ? 'dark' : 'light');
-  localStorage.setItem('theme', newDark ? 'dark' : 'light');
-};
+  // Toggle theme and persist preference
+  const toggleTheme = () => {
+    const newDark = !dark;
+    setDark(newDark);
+    document.documentElement.classList.toggle('dark', newDark);
+    document.documentElement.setAttribute('data-theme', newDark ? 'dark' : 'light');
+    localStorage.setItem('theme', newDark ? 'dark' : 'light');
+  };
 
   return (
     <button
@@ -28,7 +34,7 @@ const toggleTheme = () => {
       className="modern-theme-toggle"
       type="button"
     >
-      {/* Symbole entfernt – Toggle ist jetzt clean und minimalistisch */}
+      {/* Minimalistic toggle button, no icon */}
     </button>
   );
 }

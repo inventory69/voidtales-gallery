@@ -1,11 +1,11 @@
 [phases.setup]
-nixPkgs = ["nodejs_20", "pnpm"] # Installiert pnpm als Teil des Setups
+nixPkgs = ["nodejs_20", "pnpm"] # Installs Node.js 20 and pnpm
 
 [phases.install]
-cmds = ["pnpm i --frozen-lockfile"] # Führt den pnpm-Installationsbefehl aus
+cmds = ["pnpm i --frozen-lockfile"] # Installs dependencies using pnpm and respects lockfile
 
 [phases.build]
-cmds = ["pnpm run build"] # Führt den pnpm build-Befehl aus
+cmds = ["pnpm run build"] # Runs the build script
 
 [start]
-cmd = "pnpm run start"
+cmd = "pnpm run start" # Starts the application

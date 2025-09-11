@@ -9,12 +9,16 @@ const destDir = './public/images/original/';
 const internalUrl = config.originalSourceUrlInternal ? config.originalSourceUrlInternal.replace(/'/g, '') : null;
 const externalUrl = config.originalSourceUrlExternal ? config.originalSourceUrlExternal.replace(/'/g, '') : null;
 
+/*
+ * Fetches the HTML directory listing from a given URL.
+ * @param {string} url - The URL to fetch.
+ * @returns {Promise<string|null>} - The HTML content or null if failed.
+ */
 async function fetchDirectoryListing(url) {
   try {
     const res = await axios.get(url, { timeout: 3000 });
     return res.data;
   } catch (err) {
-    //console.error(`Error fetching source:`, err.message);
     return null;
   }
 }
@@ -41,13 +45,13 @@ async function fetchDirectoryListing(url) {
     }
   }
 
-  // If neither URL works, skip (ignoriere Timeout)
+  // If neither URL works, skip
   if (!html) {
     console.warn('No reachable image source found. Skipping download.');
     process.exit(0);
   }
 
-  // Extract image files
+  // Extract image files from HTML
   const $ = cheerio.load(html);
   const files = [];
   $('a').each((_, el) => {
@@ -57,9 +61,12 @@ async function fetchDirectoryListing(url) {
     }
   });
 
+  // Remove duplicate file names
+  const uniqueFiles = [...new Set(files)];
+
   // Download only missing files
   let downloaded = false;
-  files.forEach(file => {
+  uniqueFiles.forEach(file => {
     const destPath = path.join(destDir, file);
     if (fs.existsSync(destPath)) {
       console.log(`Skipping ${file} (already exists)`);
@@ -75,8 +82,8 @@ async function fetchDirectoryListing(url) {
     }
   });
 
-  // Schreibe Marker, wenn alle Dateien vorhanden sind
-  const allPresent = files.every(file => fs.existsSync(path.join(destDir, file)));
+  // Write marker if all files are present
+  const allPresent = uniqueFiles.every(file => fs.existsSync(path.join(destDir, file)));
   if (allPresent) {
     fs.writeFileSync(marker, 'Downloads synced');
     console.log('All original images synced. Marker file written.');

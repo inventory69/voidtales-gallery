@@ -1,7 +1,8 @@
 /// <reference types="astro/client" />
 
-// Optionale Declarations für Import-Typen, falls du Bilder/Markdown importierst:
-declare module '*.md';
-declare module '*.jpg';
-declare module '*.png';
-declare module '*.webp';
+// Module declarations for importing non-code assets in TypeScript
+
+declare module '*.md';    // Allows importing Markdown files
+declare module '*.jpg';   // Allows importing JPEG images
+declare module '*.png';   // Allows importing PNG images
+declare module '*.webp';  // Allows importing WebP images
