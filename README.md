@@ -195,7 +195,6 @@ export const navigationLinks = [
 Edit `src/config/site.js` for site-wide settings like meta-tags, hero text, and URLs:
 
 ```javascript
-// filepath: /home/liq/voidtales-gallery/src/config/site.js
 // Site configuration file: Defines global settings for the VoidTales Gallery site.
 // Used across the application for metadata, SEO, and UI elements like hero and footer.
 
@@ -207,7 +206,16 @@ export const siteConfig = {
   description: 'A sleek, high-performance photo gallery built with Astro, TypeScript, and vanilla CSS/JS. Showcase your photos with modern design, automatic sorting, and seamless dark mode.',
   
   // Site URL: Base URL for the site, used for canonical links and sitemaps
+  // This also sets the base URL for Astro and sitemap generation
   url: 'https://gallery.voidtales.win',
+  
+  // Fonts: Array of font URLs to be loaded for the site
+  fonts: [
+    'https://fonts.googleapis.com/css2?family=Macondo&family=Macondo+Swash+Caps&display=swap'
+  ],
+
+  // Font family: Main font family for the site, used via CSS variable
+  fontFamily: "'Macondo', cursive",
   
   // Open Graph image: Path to image used for social media previews (place in public/images/)
   ogImage: '/images/og-image.webp',
@@ -231,6 +239,10 @@ export const siteConfig = {
   },
 };
 ```
+
+> **Note:**  
+> - The `url` property sets both the canonical site URL and the base URL for Astro and sitemap generation.
+> - You can now configure the site's fonts and font family directly in `siteConfig` using the `fonts` and `fontFamily` properties.
 
 ### External Downloads
 Edit `src/config/externaldownload.cjs` to control download behavior:
