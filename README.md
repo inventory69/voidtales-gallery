@@ -244,37 +244,6 @@ export const siteConfig = {
 > - The `url` property sets both the canonical site URL and the base URL for Astro and sitemap generation.
 > - You can now configure the site's fonts and font family directly in `siteConfig` using the `fonts` and `fontFamily` properties.
 
-### External Downloads
-Edit `src/config/externaldownload.cjs` to control download behavior:
-
-```javascript
-// filepath: /home/liq/voidtales-gallery/src/config/externaldownload.cjs
-// External download configuration file: Defines settings for downloading external markdown files and images.
-// Uses environment variables for URLs and enables/disables download scripts during build.
-
-require('dotenv').config(); // Load environment variables from .env file
-
-module.exports = {
-  // Flag to enable/disable markdown file download script
-  enableCopyMdFiles: true,
-  
-  // Flag to enable/disable original image download script
-  enableCopyOriginalImages: true,
-  
-  // Internal URL for markdown files (from environment variable)
-  mdSourceUrlInternal: process.env.EXT_DL_URL_MARKDOWN,
-  
-  // External fallback URL for markdown files (from environment variable)
-  mdSourceUrlExternal: process.env.EXT_DL_URL_MARKDOWN_EXTERNAL,
-  
-  // Internal URL for original images (from environment variable)
-  originalSourceUrlInternal: process.env.EXT_DL_URL_ORIGINAL,
-  
-  // External fallback URL for original images (from environment variable)
-  originalSourceUrlExternal: process.env.EXT_DL_URL_ORIGINAL_EXTERNAL,
-};
-```
-
 ---
 
 ## 🤝 Contributing
