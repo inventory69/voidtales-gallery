@@ -20,19 +20,19 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
-    "@astrojs/preact": "^4.1.0",
-    "@astrojs/sitemap": "^3.4.1",
-    "astro": "^5.12.3",
+    "@astrojs/preact": "^4.1.1",
+    "@astrojs/sitemap": "^3.5.1",
+    "astro": "^5.13.7",
     "axios": "^1.11.0",
     "cheerio": "^1.1.2",
     "dotenv": "^17.2.2",
     "glightbox": "^3.3.1",
     "preact": "^10.27.1",
     "smartypants": "^0.2.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.3",
+    "@biomejs/biome": "^2.2.4",
     "husky": "^9.1.7",
     "sharp": "^0.34.3",
     "stylelint": "^16.24.0",
