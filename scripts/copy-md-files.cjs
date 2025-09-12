@@ -79,6 +79,25 @@ async function fetchDirectoryListing(url) {
     }
   });
 
+  // List all local .md files in destDir (exclude marker file)
+  const localFiles = fs.readdirSync(destDir).filter(f =>
+    f.endsWith('.md') && f !== '.downloads_synced'
+  );
+
+  // Find files that are local but not on remote
+  const filesToDelete = localFiles.filter(f => !uniqueFiles.includes(f));
+
+  // Delete those files
+  filesToDelete.forEach(f => {
+    const filePath = path.join(destDir, f);
+    try {
+      fs.unlinkSync(filePath);
+      console.log(`Deleted ${f} (no longer on remote)`);
+    } catch (e) {
+      console.warn(`Failed to delete ${f}:`, e.message);
+    }
+  });
+
   // Write marker file if all files are present
   const allPresent = uniqueFiles.every(file => fs.existsSync(path.join(destDir, file)));
   if (allPresent) {
