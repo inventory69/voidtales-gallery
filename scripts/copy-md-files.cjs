@@ -79,13 +79,22 @@ async function fetchDirectoryListing(url) {
     }
   });
 
+  // Exclude these files from deletion (repo-only files)
+  const excludeFiles = [
+    "64517921.md",
+    "72382172.md",
+    "82716382.md"
+  ];
+
   // List all local .md files in destDir (exclude marker file)
   const localFiles = fs.readdirSync(destDir).filter(f =>
     f.endsWith('.md') && f !== '.downloads_synced'
   );
 
-  // Find files that are local but not on remote
-  const filesToDelete = localFiles.filter(f => !uniqueFiles.includes(f));
+  // Find files that are local but not on remote, but keep excluded files
+  const filesToDelete = localFiles.filter(f =>
+    !uniqueFiles.includes(f) && !excludeFiles.includes(f)
+  );
 
   // Delete those files
   filesToDelete.forEach(f => {
