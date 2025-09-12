@@ -30,6 +30,15 @@ jobs:
       - name: 📥 Checkout repo
         uses: actions/checkout@v4
 
+      # Restore npm cache for cache key generation
+      - name: 🔧 Restore npm cache for cache key generation
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-axios-cheerio-${{ hashFiles('scripts/get-cache-key.cjs') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-axios-cheerio-
+
       # Install dependencies for cache key generation
       - name: 📦 Install dependencies for cache key generation
         run: npm install axios cheerio

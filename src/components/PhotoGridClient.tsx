@@ -1,5 +1,6 @@
 // PhotoGridClient component: Renders a grid of photos with GLightbox integration.
-// Handles photo display, lazy loading, and fullscreen viewing with captions.
+// Handles photo display, lazy loading, and fullscreen viewing with captions and custom buttons.
+// Expects image metadata with unique IDs, which the voidtales workflow already provides!
 
 import { useEffect } from "preact/hooks";
 import GLightbox from "glightbox";
@@ -7,6 +8,7 @@ import "glightbox/dist/css/glightbox.css";
 
 // Photo type definition
 type Photo = {
+  id: string;
   fullsizePath: string;
   thumbPath: string;
   title: string;
@@ -41,6 +43,7 @@ export default function PhotoGridClient({
 
   // Add custom share and view buttons to GLightbox
   function addCustomButtonsToContainer(lightbox: any) {
+    // Remove existing custom button containers
     document.querySelectorAll(".custom-glightbox-btns").forEach((el) => el.remove());
 
     const container = document.querySelector(".gcontainer");
@@ -49,7 +52,7 @@ export default function PhotoGridClient({
       btnContainer.className = "custom-glightbox-btns";
       btnContainer.style.opacity = "0";
 
-      // Share button
+      // Share button: copies direct link to current image with its unique ID
       const shareBtn = document.createElement("button");
       shareBtn.className = "glightbox-share-btn";
       shareBtn.innerHTML =
@@ -58,8 +61,23 @@ export default function PhotoGridClient({
       shareBtn.onclick = (event) => {
         event.stopPropagation();
         event.preventDefault();
-        const slideIndex = typeof lightbox.currentIndex === "number" ? lightbox.currentIndex : -1;
-        const pageUrl = window.location.origin + window.location.pathname + `#image-${slideIndex}`;
+
+        // Get current slide index from GLightbox or fallback to DOM
+        let slideIndex = typeof lightbox.currentIndex === "number" ? lightbox.currentIndex : -1;
+        if (slideIndex < 0) {
+          const activeSlide = document.querySelector(".gslide.current");
+          const allSlides = Array.from(document.querySelectorAll(".gslide"));
+          slideIndex = activeSlide ? allSlides.indexOf(activeSlide) : -1;
+        }
+
+        // Get photo ID for the current slide
+        const photoObj = slideIndex >= 0 ? photos[slideIndex] : undefined;
+        const photoId = photoObj?.id || "";
+
+        // Build shareable URL with #img-<id>
+        const pageUrl = window.location.origin + window.location.pathname +
+          (photoId ? `#img-${photoId}` : "");
+
         try {
           navigator.clipboard.writeText(pageUrl);
           showNotification("Link copied! Share this to open the image in lightbox.", "success");
@@ -68,7 +86,7 @@ export default function PhotoGridClient({
         }
       };
 
-      // View original button
+      // View original button: opens the original image in a new tab
       const viewBtn = document.createElement("button");
       viewBtn.className = "glightbox-view-btn";
       viewBtn.innerHTML =
@@ -97,7 +115,7 @@ export default function PhotoGridClient({
     }
   }
 
-  // Initialize GLightbox and handle custom buttons
+  // Initialize GLightbox and handle custom buttons and hash navigation
   useEffect(() => {
     const lightbox = GLightbox({
       selector: ".photo",
@@ -110,9 +128,10 @@ export default function PhotoGridClient({
 
     // Open lightbox at specific image if hash is present
     const hash = window.location.hash;
-    if (hash.startsWith("#image-")) {
-      const index = parseInt(hash.replace("#image-", ""), 10);
-      if (!isNaN(index) && index >= 0) {
+    if (hash.startsWith("#img-")) {
+      const id = hash.replace("#img-", "");
+      const index = photos.findIndex(photo => photo.id === id);
+      if (index >= 0) {
         setTimeout(() => {
           lightbox.openAt(index);
         }, 500);
@@ -143,6 +162,7 @@ export default function PhotoGridClient({
           class="photo"
           href={photo.fullsizePath}
           data-gallery="gallery"
+          data-id={photo.id}
           data-title={
             photo.body?.trim()
               ? photo.body
