@@ -84,9 +84,9 @@ async function fetchDirectoryListing(url) {
 
   // Exclude these files from deletion (repo-only files)
   const excludeFiles = [
-    "64517921.webp",
-    "72382172.webp",
-    "82716382.webp"
+    "64517921-default.webp",
+    "72382172-default.webp",
+    "82716382-default.webp"
   ];
 
   // List all local image files in destDir (exclude marker file)

@@ -81,9 +81,9 @@ async function fetchDirectoryListing(url) {
 
   // Exclude these files from deletion (repo-only files)
   const excludeFiles = [
-    "64517921.md",
-    "72382172.md",
-    "82716382.md"
+    "64517921-default.md",
+    "72382172-default.md",
+    "82716382-default.md"
   ];
 
   // List all local .md files in destDir (exclude marker file)

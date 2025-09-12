@@ -20,6 +20,9 @@ Showcase your photos with modern design, automatic sorting, and seamless dark mo
 - 🖼️ **Automatic thumbnail generation** – Node script using Sharp for optimized WebP images
 - 🔧 **Config-driven site** – Control navigation, meta-tags, hero text, and more via `src/config/`
 - 📥 **Optional external downloads** – Automatically fetch markdown files and images from internal/external URLs during build (configurable via environment variables)
+- 🔄 **Refresh Button** – Instantly reloads all thumbnails and resources without cache, so you always see the latest images after updates.
+- 🆔 **Unique IDs for Images** – Each image now uses a unique ID to ensure the share button works reliably in GLightbox.
+- 📤 **GLightbox Share & View Original Buttons** – The lightbox now includes a share button and a "view original" button for quick access and sharing.
 
 ---
 
@@ -128,10 +131,11 @@ Open [http://localhost:4321](http://localhost:4321) to see your gallery.
 │   │   └── thumbs/       # Auto-generated WebP thumbnails (200px, 400px, 800px)
 ├── src/
 │   ├── components/
-│   │   ├── Header.astro          # Sticky header with nav, centered logo, mobile menu, and theme toggle
+│   │   ├── Header.astro          # Sticky header with nav, centered logo, mobile menu, theme toggle, and refresh button
 │   │   ├── PhotoGrid.astro       # Server-rendered wrapper for PhotoGridClient
 │   │   ├── PhotoGridClient.tsx   # Client-side grid with GLightbox lightbox
-│   │   └── ThemeToggle.jsx       # Modern theme switcher with CSS animations
+│   │   ├── ThemeToggle.jsx       # Modern theme switcher with CSS animations
+│   │   └── RefreshButton.astro   # Button to reload thumbnails/resources without cache
 │   ├── config/
 │   │   ├── externaldownload.cjs  # Config for external downloads (enable/disable, URLs via env vars)
 │   │   ├── navigation.js         # Config for nav links (Portal, Wiki, Blog, Forum, Discord, Map)
@@ -144,7 +148,7 @@ Open [http://localhost:4321](http://localhost:4321) to see your gallery.
 │       ├── variables.css         # CSS variables and dark mode
 │       ├── base.css              # Reset, typography, links
 │       ├── layout.css            # Container, grid, background effects, Flexbox for footer
-│       ├── components.css        # Photo, header, footer, theme toggle, Fancybox fixes
+│       ├── components.css        # Photo, header, footer, theme toggle, header buttons, GLightbox fixes
 │       ├── hero.css              # Hero section styles with min-height for Flexbox compatibility
 │       ├── responsive.css        # Media queries
 │       └── accessibility.css     # Focus and accessibility
@@ -152,6 +156,7 @@ Open [http://localhost:4321](http://localhost:4321) to see your gallery.
 │   ├── copy-md-files.cjs         # Script to download markdown files from internal/external URLs
 │   ├── copy-original-images.cjs  # Script to download images from internal/external URLs
 │   ├── generate-thumbs.js        # Sharp-based thumbnail generator for WebP
+│   ├── refresh-resources.cjs     # Script to reload thumbnails/resources without cache
 ├── package.json                  # Dependencies: Astro, Preact, GLightbox, Sharp, dotenv
 └── README.md
 ```
@@ -166,7 +171,6 @@ Edit the config files in `src/config/` to customize the site:
 Edit `src/config/navigation.js` to add or remove nav links. Current links:
 
 ```javascript
-// filepath: /home/liq/voidtales-gallery/src/config/navigation.js
 // Navigation configuration file: Defines links for the site navigation menu.
 // Used in the header or navigation component to render external links.
 
@@ -242,7 +246,17 @@ export const siteConfig = {
 
 > **Note:**  
 > - The `url` property sets both the canonical site URL and the base URL for Astro and sitemap generation.
-> - You can now configure the site's fonts and font family directly in `siteConfig` using the `fonts` and `fontFamily` properties.
+> - You can configure the site's fonts and font family directly in `siteConfig` using the `fonts` and `fontFamily` properties.
+
+---
+
+## 🆕 Recent Improvements
+
+- **Refresh Button:** Instantly reloads all thumbnails and resources without cache.
+- **Unique IDs for Images:** Each image uses a unique ID for reliable sharing in GLightbox.
+- **GLightbox Share & View Original Buttons:** The lightbox now includes a share button and a "view original" button.
+- **Removed Fancybox:** All lightbox functionality is now handled by GLightbox.
+- **Header Buttons:** Improved styling and consistency for header action buttons.
 
 ---
 
@@ -298,6 +312,7 @@ For questions, join our [Discord](https://discord.gg/QEMQsFect6) or open an issu
 - **Minimal Frameworks**: Pure Astro + TypeScript + CSS/JS, Preact only for lightweight client interactions.
 - **Build**: Includes thumbnail generation in `build` script for production.
 - **External Downloads**: Optional feature for fetching content from internal/external servers. Configure via environment variables and `src/config/externaldownload.cjs`. If disabled or no URLs set, the build runs normally without downloads.
+
 ---
 
 ## 📜 License
