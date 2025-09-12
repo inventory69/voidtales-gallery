@@ -47,10 +47,12 @@
 
   // Reload all external stylesheets
   document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
-    const href = link.href.split('?')[0];
-    const newHref = `${href}?nocache=${Date.now()}`;
-    console.debug(`[RefreshResources] Reloading stylesheet: ${link.href} -> ${newHref}`);
-    link.href = newHref;
+    if (link.href.startsWith(window.location.origin)) {
+      const href = link.href.split('?')[0];
+      const newHref = href + '?nocache=' + Date.now();
+      console.debug(`[RefreshResources] Reloading stylesheet: ${link.href} -> ${newHref}`);
+      link.href = newHref;
+    }
   });
 
   // Reload all external scripts
