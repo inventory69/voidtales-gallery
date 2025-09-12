@@ -1,5 +1,6 @@
 ---
 import ThemeToggle from '../components/ThemeToggle.jsx';
+import RefreshButton from '../components/RefreshButton.astro';
 import { siteConfig } from '../config/site.js';
 import { navigationLinks } from '../config/navigation.js';
 ---
@@ -17,16 +18,20 @@ import { navigationLinks } from '../config/navigation.js';
       ))}
     </nav>
 
-    <!-- Mobile menu button and theme toggle -->
+    <!-- Mobile menu button, refresh button and theme toggle -->
     <div class="header-actions">
+      <RefreshButton />
       <button
         id="mobile-menu-toggle"
         class="mobile-menu-btn"
         aria-label="Toggle menu"
       >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <path d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
       </button>
       <ThemeToggle client:load />
     </div>
+  </div>
+</header>

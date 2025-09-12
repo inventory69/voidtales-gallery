@@ -563,3 +563,43 @@ html.dark .footer-nav a:focus {
   pointer-events: none !important;
 }
 
+.header-action-btn {
+  color: var(--header-action-color, #222); /* Standardfarbe für das Icon */
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  padding: 0;
+}
+
+.header-action-btn:hover,
+.header-action-btn:focus {
+  background: rgba(0,0,0,0.07);
+  outline: none;
+}
+
+.header-action-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  fill: none;
+  display: block;
+  overflow: visible !important;
+}
+
+/* Dark Mode Anpassung */
+html.dark .header-action-btn {
+  color: #fff;
+}
+
+html.dark .header-action-btn:hover,
+html.dark .header-action-btn:focus {
+  background: rgba(255,255,255,0.07);
+}
+
