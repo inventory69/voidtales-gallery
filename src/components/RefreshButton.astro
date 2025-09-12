@@ -1,19 +1,40 @@
 ---
 const { ariaLabel = "Refresh page", title = "Refresh (force reload)" } = Astro.props;
 ---
+<!-- Refresh button for reloading resources without cache -->
 <button
   id="refresh-btn"
   class="header-action-btn"
   aria-label={ariaLabel}
   title={title}
-  onclick="window.location.reload(true)"
   type="button"
 >
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <!-- Modern refresh icon (Lucide/Feather style) -->
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+    focusable="false"
+  >
     <path d="M23 4v6h-6" />
     <path d="M1 20v-6h6" />
     <path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10" />
     <path d="M20.49 15a9 9 0 0 1-14.13 3.36L1 14" />
   </svg>
+  <script>
+    // Attach click handler to refresh button
+    const refreshBtn = document.getElementById('refresh-btn');
+    if (refreshBtn) {
+      refreshBtn.onclick = function (e) {
+        // Dynamically import and execute the resource refresh script
+        import('../../scripts/refresh-resources.cjs')
+          .then(() => console.debug('[RefreshButton] Resource refresh executed!'))
+          .catch(err => console.error('[RefreshButton] Error loading refresh script:', err));
+      };
+    }
+  </script>
 </button>
