@@ -136,6 +136,8 @@ function refreshResources() {
   });
   */
 
+  // Skip reloading stylesheets to avoid flash
+  /*
   // Reload only external stylesheets (skip internal Astro/CSS files)
   document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
     const href = link.href.split('?')[0];
@@ -148,7 +150,10 @@ function refreshResources() {
     console.debug(`[RefreshResources] Reloading external stylesheet: ${link.href} -> ${newHref}`);
     link.href = newHref;
   });
+  */
 
+  // Skip reloading scripts to avoid import errors and flash
+  /*
   // Reload only external scripts (skip internal Astro/JS files)
   document.querySelectorAll('script[src]').forEach(script => {
     const src = script.src.split('?')[0];
@@ -165,6 +170,7 @@ function refreshResources() {
     newScript.defer = script.defer;
     script.parentNode.replaceChild(newScript, script);
   });
+  */
 
   // Load new photos
   loadNewPhotos();
