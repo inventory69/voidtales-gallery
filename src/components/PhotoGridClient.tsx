@@ -164,10 +164,10 @@ export default function PhotoGridClient({
           data-gallery="gallery"
           data-id={photo.id}
           data-title={
-            photo.body?.trim()
-              ? photo.body
-              : photo.caption?.trim()
+            photo.caption?.trim()
               ? photo.caption
+              : photo.body?.trim()
+              ? photo.body
               : photo.title?.trim()
           }
           data-description={`Author: ${photo.author}`}

@@ -10,7 +10,7 @@ const { ariaLabel = "Refresh page", title = "Refresh (force reload)" } = Astro.p
   type="button"
 >
   <!-- Modern refresh icon (Lucide/Feather style) -->
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+  <svg id="refresh-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
     <path d="M23 4v6h-6" />
     <path d="M1 20v-6h6" />
@@ -18,20 +18,43 @@ const { ariaLabel = "Refresh page", title = "Refresh (force reload)" } = Astro.p
     <path d="M20.49 15a9 9 0 0 1-14.13 3.36L1 14" />
   </svg>
   <script>
-  // Attach click handler to refresh button
-  const refreshBtn = document.getElementById('refresh-btn');
-  if (refreshBtn) {
-    refreshBtn.onclick = async function(e) {
-      e.preventDefault();
-      try {
-        // Dynamically import and execute the resource refresh script
-        const { default: refreshResources } = await import('../../scripts/refresh-resources.js');
-        refreshResources();
-        console.debug('[RefreshButton] Resource refresh executed!');
-      } catch (err) {
-        console.error('[RefreshButton] Error loading refresh script:', err);
-      }
-    };
-  }
+    // Attach click handler to refresh button
+    const refreshBtn = document.getElementById('refresh-btn');
+    const refreshIcon = document.getElementById('refresh-icon');
+    if (refreshBtn && refreshIcon) {
+      refreshBtn.onclick = async function(e) {
+        e.preventDefault();
+        // Add loading state
+        refreshBtn.classList.add('loading');
+        refreshIcon.classList.add('spin');
+        try {
+          // Dynamically import and execute the resource refresh script
+          const { default: refreshResources } = await import('../../scripts/refresh-resources.js');
+          await refreshResources();
+          // Success feedback
+          refreshBtn.classList.remove('loading');
+          refreshBtn.classList.add('success');
+          refreshIcon.classList.remove('spin');
+          refreshIcon.innerHTML = '<path d="M20 6L9 17l-5-5"/>';
+          setTimeout(() => {
+            // Reset to original state
+            refreshBtn.classList.remove('success');
+            refreshIcon.innerHTML = '<path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10"/><path d="M20.49 15a9 9 0 0 1-14.13 3.36L1 14"/>';
+          }, 2000);
+          console.debug('[RefreshButton] Resource refresh executed!');
+        } catch (err) {
+          // Error feedback
+          refreshBtn.classList.remove('loading');
+          refreshBtn.classList.add('error');
+          refreshIcon.classList.remove('spin');
+          refreshIcon.innerHTML = '<path d="M18 6L6 18"/><path d="M6 6l12 12"/>';
+          setTimeout(() => {
+            refreshBtn.classList.remove('error');
+            refreshIcon.innerHTML = '<path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10"/><path d="M20.49 15a9 9 0 0 1-14.13 3.36L1 14"/>';
+          }, 2000);
+          console.error('[RefreshButton] Error loading refresh script:', err);
+        }
+      };
+    }
   </script>
 </button>

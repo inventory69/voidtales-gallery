@@ -615,3 +615,27 @@ html.dark .header-action-btn:focus {
   background: rgba(255,255,255,0.07);
 }
 
+.header-action-btn.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.header-action-btn.success {
+  background-color: var(--success-color, #4caf50);
+  color: white;
+}
+
+.header-action-btn.error {
+  background-color: var(--error-color, #f44336);
+  color: white;
+}
+
+#refresh-icon.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
