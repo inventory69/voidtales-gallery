@@ -1,14 +1,26 @@
 /* =================== COMPONENTS =================== */
+#photo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 1rem 0;
+}
 
 /* Photo Card Styles */
 .photo {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   border-radius: 8px;
   cursor: pointer;
   background: transparent;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.308);
-  aspect-ratio: 4 / 3;
-  width: 100%;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -27,10 +39,10 @@ html.dark .photo:hover {
 }
 
 .photo img {
-  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 /* Photo caption */

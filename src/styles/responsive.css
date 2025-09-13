@@ -2,6 +2,7 @@
 
 /* Tablet and mobile styles (up to 900px width) */
 @media (max-width: 900px) {
+  #photo-grid,
   .grid-container {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.75rem;
@@ -11,6 +12,7 @@
 
 /* Mobile styles (up to 600px width) */
 @media (max-width: 600px) {
+  #photo-grid,
   .grid-container {
     grid-template-columns: 1fr;
     gap: 0.5rem;

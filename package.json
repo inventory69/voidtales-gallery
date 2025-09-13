@@ -27,7 +27,7 @@
     "cheerio": "^1.1.2",
     "dotenv": "^17.2.2",
     "glightbox": "^3.3.1",
-    "preact": "^10.27.1",
+    "preact": "^10.27.2",
     "smartypants": "^0.2.2",
     "typescript": "^5.9.2"
   },

@@ -58,9 +58,10 @@ Example: `src/content/photos/photo.md`
 Each file needs frontmatter like this:
 ```markdown
 ---
+id: "unique-image-id"           # Unique ID for the image (used for sharing and GLightbox features)
 title: "My Photo"
 slug: "my-photo"
-date: "2023-10-01T12:34:56"  # ISO format for sorting (precise to seconds)
+date: "2023-10-01T12:34:56"     # ISO format for sorting (precise to seconds)
 fullsizePath: "/images/original/photo.webp"
 thumbPath: "/images/thumbs/photo-400.webp"
 width: 1600

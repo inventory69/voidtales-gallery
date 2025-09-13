@@ -1,0 +1,26 @@
+name: Update Dependencies
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: '0 0 * * 1' # Runs every Monday at midnight
+
+jobs:
+  update-lockfile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 📦 Install and update dependencies
+        run: |
+          npm install -g pnpm
+          pnpm update
+
+      - name: ✍️ Commit updated lockfile
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add pnpm-lock.yaml
+          git commit -m "chore: Automated dependency update" || exit 0
+          git push
