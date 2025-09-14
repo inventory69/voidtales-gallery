@@ -95,7 +95,7 @@ async function loadNewPhotos() {
   }
 }
 
-function refreshResources() {
+async function refreshResources() {  // Make this async
   console.debug("[RefreshResources] Refresh triggered!");
 
   // Reload all <img> elements (safe, no import issues)
@@ -173,7 +173,7 @@ function refreshResources() {
   */
 
   // Load new photos
-  loadNewPhotos();
+  await loadNewPhotos();  // Await this since it's async
 }
 
 // Export as ES module
