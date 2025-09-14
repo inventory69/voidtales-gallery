@@ -8,6 +8,8 @@ on:
 jobs:
   update-lockfile:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Add this to allow pushing to the repository
     steps:
       - name: 📥 Checkout repository
         uses: actions/checkout@v4
