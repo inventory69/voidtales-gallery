@@ -14,7 +14,17 @@ async function loadImages() {
       return [];
     }
     const images = await response.json();
-    const sortedImages = sortPhotos(images, siteConfig.defaultSort);
+
+    // Get sort option: localStorage > window > siteConfig
+    let sortOption = siteConfig.defaultSort;
+    if (typeof window !== "undefined") {
+      const stored = window.localStorage.getItem("gallerySortOption");
+      if (stored) sortOption = stored;
+      else if (window.__gallerySortOption) sortOption = window.__gallerySortOption;
+    }
+
+    const sortedImages = sortPhotos(images, sortOption);
+    console.debug('[LoadImages] Sort option:', sortOption);
     console.debug('[LoadImages] Number of images:', sortedImages.length);
     return sortedImages;
   } catch (err) {

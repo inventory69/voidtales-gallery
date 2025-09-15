@@ -1,19 +1,19 @@
 // PhotoGridClient component: Renders a grid of photos with GLightbox integration.
-// Handles photo display, lazy loading, and fullscreen viewing with captions and custom buttons.
-// Expects image metadata with unique IDs, which the voidtales workflow already provides!
+// Handles photo display, lazy loading, fullscreen viewing, captions, and custom buttons.
+// Expects image metadata with unique IDs from the voidtales workflow.
 
 import { useEffect, useState } from "preact/hooks";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.css";
 
-// Extend the Window type for _glightboxInstance
+// Extend Window type for GLightbox instance
 declare global {
   interface Window {
     _glightboxInstance?: ReturnType<typeof GLightbox>;
   }
 }
 
-// Photo type definition (extended with fields from images.json)
+// Photo type definition
 type Photo = {
   id: string;
   fullsizePath: string;
@@ -29,15 +29,15 @@ type Photo = {
 };
 
 export default function PhotoGridClient({
-  photos: initialPhotos, // No longer used as state
+  photos: initialPhotos,
   ariaLabelPrefix = "Open fullscreen of",
 }: {
   photos: Photo[];
   ariaLabelPrefix?: string;
 }) {
-  const [photos, setPhotos] = useState<Photo[]>([]); // Start with empty array
+  const [photos, setPhotos] = useState<Photo[]>([]);
   const [loading, setLoading] = useState(true);
-  const [flashing, setFlashing] = useState(false); // For flash effect
+  const [flashing, setFlashing] = useState(false);
 
   // Show notification overlay inside GLightbox
   function showNotification(message: string, type: "success" | "error") {
@@ -58,7 +58,6 @@ export default function PhotoGridClient({
 
   // Add custom share and view buttons to GLightbox
   function addCustomButtonsToContainer(lightbox: any) {
-    // Remove existing custom button containers
     document.querySelectorAll(".custom-glightbox-btns").forEach((el) => el.remove());
 
     const container = document.querySelector(".gcontainer");
@@ -130,18 +129,16 @@ export default function PhotoGridClient({
     }
   }
 
-  // Function to load and set photos
+  // Load and set photos from images.json
   async function loadAndSetPhotos() {
     setLoading(true);
-    setFlashing(true); // Start flash
-    // Briefly clear the grid for visible effect
+    setFlashing(true);
     setPhotos([]);
-    setTimeout(() => setFlashing(false), 200); // End flash after 200ms
+    setTimeout(() => setFlashing(false), 200);
     try {
       // @ts-ignore
       const { default: loadImages } = await import("../../scripts/load-images.js");
       const loadedPhotos = await loadImages();
-      // Map loaded photos to expected format (retain your fields)
       const mappedPhotos = loadedPhotos.map((img: any) => ({
         id: img.id,
         fullsizePath: img.imageUrl,
@@ -162,7 +159,7 @@ export default function PhotoGridClient({
     setLoading(false);
   }
 
-  // Initial load (only once)
+  // Initial load
   useEffect(() => {
     loadAndSetPhotos();
   }, []);
@@ -176,15 +173,13 @@ export default function PhotoGridClient({
     return () => window.removeEventListener('refreshGallery', handleRefresh);
   }, []);
 
-  // Re-initialize GLightbox when photos change (only if photos is not empty)
+  // Re-initialize GLightbox when photos change
   useEffect(() => {
-    if (photos.length === 0) return; // Avoid initialization with empty array
-    // Destroy previous instance if exists
+    if (photos.length === 0) return;
     if (window._glightboxInstance) {
       window._glightboxInstance.destroy();
     }
     console.debug('[PhotoGridClient] Re-initializing GLightbox with', photos.length, 'photos');
-    // Re-initialize GLightbox with all custom features
     const lightbox = GLightbox({
       selector: ".photo",
       touchNavigation: true,
@@ -222,11 +217,25 @@ export default function PhotoGridClient({
     window._glightboxInstance = lightbox;
   }, [photos]);
 
+  // Listen for sort event and update photo order
+  useEffect(() => {
+    const handleSort = (e: CustomEvent) => {
+      const { sortOption } = e.detail;
+      // @ts-ignore
+      import("../../src/utils/sortPhotos.js").then(({ sortPhotos }) => {
+        const sorted = sortPhotos(photos, sortOption);
+        setPhotos(sorted);
+      });
+    };
+    window.addEventListener('sortGallery', handleSort as EventListener);
+    return () => window.removeEventListener('sortGallery', handleSort as EventListener);
+  }, [photos]);
+
   return (
     <div>
       {loading && (
         <div class="photo-grid-loader">
-          {/* Loader animation (spinner) */}
+          {/* Loader animation */}
           <svg width="48" height="48" viewBox="0 0 48 48">
             <circle cx="24" cy="24" r="20" stroke="#888" strokeWidth="4" fill="none" strokeDasharray="100" strokeDashoffset="60">
               <animateTransform attributeName="transform" type="rotate" from="0 24 24" to="360 24 24" dur="1s" repeatCount="indefinite"/>
@@ -235,7 +244,7 @@ export default function PhotoGridClient({
           <span>Loading Gallery ...</span>
         </div>
       )}
-      <div id="photo-grid" class={`grid-container ${flashing ? 'flashing' : ''}`}> {/* Add flash class */}
+      <div id="photo-grid" class={`grid-container ${flashing ? 'flashing' : ''}`}>
         {photos.map((photo, i) => (
           <a
             class="photo"

@@ -1,5 +1,6 @@
 ---
 import ThemeToggle from '../components/ThemeToggle.jsx';
+import SortSelector from '../components/SortSelector';
 import { siteConfig } from '../config/site.js';
 import { navigationLinks } from '../config/navigation.js';
 import { sortPhotos } from '../utils/sortPhotos.js';
@@ -79,6 +80,7 @@ const sortedPhotos = sortPhotos(photos, siteConfig.defaultSort);
         ))}
       </nav>
       <div class="mobile-actions">
+        <SortSelector client:load />
         <ThemeToggle client:load />
       </div>
     </div>

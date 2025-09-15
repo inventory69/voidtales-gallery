@@ -1,6 +1,7 @@
 ---
 import ThemeToggle from '../components/ThemeToggle.jsx';
 import RefreshButton from '../components/RefreshButton.astro';
+import SortSelector from '../components/SortSelector';
 import { siteConfig } from '../config/site.js';
 import { navigationLinks } from '../config/navigation.js';
 ---
@@ -18,8 +19,9 @@ import { navigationLinks } from '../config/navigation.js';
       ))}
     </nav>
 
-    <!-- Mobile menu button, refresh button and theme toggle -->
+    <!-- Header actions: desktop only (SortSelector hidden on mobile via CSS) -->
     <div class="header-actions">
+      <SortSelector defaultSort={siteConfig.defaultSort} client:load />
       <RefreshButton />
       <button
         id="mobile-menu-toggle"
