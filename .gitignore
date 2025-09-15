@@ -18,6 +18,4 @@ node_modules/
 # Ignore generated image thumbnails
 public/images/thumbs/
 
-nginx.conf
-
 # End of .gitignore
