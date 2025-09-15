@@ -21,6 +21,9 @@ async function loadImages() {
     grid.innerHTML = ''; // Grid leeren
 
     images.forEach(img => {
+      const baseName = img.imageUrl.replace('-default', '');
+      const thumbUrl = baseName.replace('.webp', '-800.webp');
+
       const photoElement = document.createElement('a');
       photoElement.className = 'photo';
       photoElement.href = img.imageUrl;
@@ -31,11 +34,11 @@ async function loadImages() {
 
       const picture = document.createElement('picture');
       const source = document.createElement('source');
-      source.srcset = img.imageUrl.replace('.webp', '-800.webp') + ' 2x';
+      source.srcset = thumbUrl + ' 2x';
       source.type = 'image/webp';
 
       const image = document.createElement('img');
-      image.src = img.imageUrl;
+      image.src = thumbBase;
       image.alt = img.id;
       image.loading = 'lazy';
 
