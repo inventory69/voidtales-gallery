@@ -29,8 +29,8 @@ const { ariaLabel = "Refresh page", title = "Refresh (force reload)" } = Astro.p
         refreshIcon.classList.add('spin');
         try {
           // Dynamically import and execute the resource refresh script
-          const { default: refreshResources } = await import('../../scripts/refresh-resources.js');
-          await refreshResources();
+          const { default: loadImages } = await import('../../scripts/load-images.js');
+          await loadImages();
           // Success feedback
           refreshBtn.classList.remove('loading');
           refreshBtn.classList.add('success');
@@ -41,7 +41,7 @@ const { ariaLabel = "Refresh page", title = "Refresh (force reload)" } = Astro.p
             refreshBtn.classList.remove('success');
             refreshIcon.innerHTML = '<path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10"/><path d="M20.49 15a9 9 0 0 1-14.13 3.36L1 14"/>';
           }, 2000);
-          console.debug('[RefreshButton] Resource refresh executed!');
+          console.debug('[RefreshButton] Bilder aktualisiert!');
         } catch (err) {
           // Error feedback
           refreshBtn.classList.remove('loading');
@@ -52,7 +52,7 @@ const { ariaLabel = "Refresh page", title = "Refresh (force reload)" } = Astro.p
             refreshBtn.classList.remove('error');
             refreshIcon.innerHTML = '<path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10"/><path d="M20.49 15a9 9 0 0 1-14.13 3.36L1 14"/>';
           }, 2000);
-          console.error('[RefreshButton] Error loading refresh script:', err);
+          console.error('[RefreshButton] Fehler beim Laden:', err);
         }
       };
     }
