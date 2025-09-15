@@ -21,7 +21,7 @@ importers:
         specifier: ^5.13.7
         version: 5.13.7(@types/node@24.4.0)(rollup@4.50.1)(typescript@5.9.2)(yaml@2.8.1)
       axios:
-        specifier: ^1.12.1
+        specifier: ^1.12.2
         version: 1.12.2
       cheerio:
         specifier: ^1.1.2
