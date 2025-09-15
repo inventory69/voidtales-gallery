@@ -38,7 +38,7 @@ async function loadImages() {
       source.type = 'image/webp';
 
       const image = document.createElement('img');
-      image.src = thumbBase;
+      image.src = baseName;
       image.alt = img.id;
       image.loading = 'lazy';
 
