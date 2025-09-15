@@ -21,8 +21,9 @@ async function loadImages() {
     grid.innerHTML = ''; // Grid leeren
 
     images.forEach(img => {
-      const baseName = img.imageUrl.replace('-default', '');
-      const thumbUrl = baseName.replace('.webp', '-800.webp');
+      // Basisname für Thumb: immer ohne -default
+      const thumbBaseName = img.id; // Nur die 8-stellige ID
+      const thumbUrl = `/images/thumbs/${thumbBaseName}-800.webp`;
 
       const photoElement = document.createElement('a');
       photoElement.className = 'photo';
@@ -38,7 +39,7 @@ async function loadImages() {
       source.type = 'image/webp';
 
       const image = document.createElement('img');
-      image.src = baseName;
+      image.src = thumbUrl;
       image.alt = img.id;
       image.loading = 'lazy';
 
