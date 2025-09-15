@@ -5,12 +5,12 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky",
-    "watch:images": "npx nodemon --watch public/images/original --watch src/content/photos --exec \"node scripts/generate-images.js\"",
-    "predev": "node scripts/generate-images.js",
+    "watch:images": "npx nodemon --watch public/images/original --watch src/content/photos --exec \"pnpm run gen:imagejson\"",
+    "predev": "pnpm run gen:imagejson",
     "dev": "concurrently \"pnpm run watch:images\" \"astro dev\"",
     "dev-host": "concurrently \"pnpm run watch:images\" \"astro dev --host\"",
     "start": "astro dev",
-    "prebuild": "node scripts/generate-images.js",
+    "prebuild": "pnpm run gen:imagejson",
     "build": "pnpm run gen:thumbs && astro check && astro build --jobs 1",
     "preview": "astro preview",
     "astro": "astro",
@@ -20,7 +20,8 @@
     "stylelint:fix": "stylelint '**/*.{astro,css}' --fix",
     "gen:thumbs": "node scripts/generate-thumbs.js",
     "copy:md-files": "node scripts/copy-md-files.cjs",
-    "copy:original-images": "node scripts/copy-original-images.cjs"
+    "copy:original-images": "node scripts/copy-original-images.cjs",
+    "gen:imagejson": "node scripts/generate-images.js"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

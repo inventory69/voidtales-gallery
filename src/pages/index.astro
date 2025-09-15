@@ -2,6 +2,7 @@
 import ThemeToggle from '../components/ThemeToggle.jsx';
 import { siteConfig } from '../config/site.js';
 import { navigationLinks } from '../config/navigation.js';
+import { sortPhotos } from '../utils/sortPhotos.js';
 
 // Import global and component styles
 import '../styles/variables.css';
@@ -31,11 +32,7 @@ const photos = Object.values(modules).map((m) =>
 ) as PhotoFrontmatter[];
 
 // Sort photos by date and time (newest first)
-const sortedPhotos = photos.sort((a, b) => {
-  const dateA = new Date(a.date).getTime();
-  const dateB = new Date(b.date).getTime();
-  return dateB - dateA;
-});
+const sortedPhotos = sortPhotos(photos, siteConfig.defaultSort);
 ---
 
 <!doctype html>

@@ -20,6 +20,7 @@
  * @property {string} hero.cta - Call-to-action button text in the hero section.
  * @property {Object} footer - Configuration for the site footer.
  * @property {string} footer.copyright - Copyright text displayed in the footer.
+ * @property {string} defaultSort - Default Sorting Order.
  */
 export const siteConfig = {
   // Site name: Displayed in the browser title and meta tags
@@ -63,4 +64,7 @@ export const siteConfig = {
   footer: {
     copyright: 'VoidTales',  // Copyright text displayed in the footer
   },
+
+  // Default sort order for images: 'date-asc' or 'date-desc'
+  defaultSort: 'date-desc',
 };

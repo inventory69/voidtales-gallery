@@ -26,11 +26,11 @@ jobs:
       url: https://gallery.voidtales.win/
 
     steps:
-      # Checkout repository
+      # 📥 Checkout repository
       - name: 📥 Checkout repo
         uses: actions/checkout@v4
 
-      # Restore npm cache for cache key generation
+      # 🔧 Restore npm cache for cache key generation
       - name: 🔧 Restore npm cache for cache key generation
         uses: actions/cache@v4
         with:
@@ -39,23 +39,23 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-npm-axios-cheerio-
 
-      # Install dependencies for cache key generation
+      # 📦 Install dependencies for cache key generation
       - name: 📦 Install dependencies for cache key generation
         run: npm install axios cheerio
         shell: bash
 
-      # Generate dynamic cache key from remote files
+      # 🔑 Generate dynamic cache key from remote files
       - name: 🔑 Generate dynamic cache key from remote files
         id: remote-key-gen
         run: node scripts/get-cache-key.cjs
 
-      # Remove download markers before restoring cache
+      # 🗑️ Remove download markers before restoring cache
       - name: 🗑️ Remove download markers
         run: |
           rm -f src/content/photos/.downloads_synced
           rm -f public/images/original/.downloads_synced
 
-      # Restore downloaded files cache
+      # 🔧 Restore downloaded files cache
       - name: 🔧 Restore downloaded files cache
         id: cache-restore
         uses: actions/cache@v4
@@ -67,23 +67,23 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-downloads-
 
-      # Install project dependencies
-      - name: 📦 Install dependencies
+      # 📦 Install project dependencies
+      - name: 📦 Install project dependencies
         run: |
           npm install -g pnpm
           pnpm install --frozen-lockfile
 
-      # Download files if not cached
+      # 📥 Download files if not cached
       - name: 📥 Download files (if not cached)
         run: |
           pnpm run copy:md-files
           pnpm run copy:original-images
 
-      # Remove thumbnail marker before generating thumbnails
+      # 🗑️ Remove thumbnail marker before generating thumbnails
       - name: 🗑️ Remove thumbnail marker
         run: rm -f .thumbs_generated
 
-      # Restore thumbnail cache
+      # 🔧 Restore thumbnail cache
       - name: 🔧 Restore thumbnail cache
         uses: actions/cache@v4
         with:
@@ -92,27 +92,27 @@ jobs:
           restore-keys: |
             thumbs-${{ runner.os }}-
 
-      # Generate thumbnails if not cached
+      # 🖼️ Generate thumbnails if not cached
       - name: 🖼️ Generate thumbnails (if not cached)
         run: |
           mkdir -p public/images/thumbs
           pnpm run gen:thumbs
 
-      # Save thumbnail cache after generation
-      - name: 🔧 Save thumbnails cache
+      # 💾 Save thumbnail cache after generation
+      - name: 💾 Save thumbnails cache
         uses: actions/cache/save@v4
         with:
           path: public/images/thumbs
           key: thumbs-${{ runner.os }}-${{ hashFiles('package.json', 'pnpm-lock.yaml', 'scripts/generate-thumbs.js', 'public/images/original/**') }}
 
-      # Log in to Docker Hub
+      # 🔧 Log in to Docker Hub
       - name: 🔧 Log in to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # Build and push Docker image
+      # 🔨 Build and push Docker image
       - name: 🔨 Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -128,14 +128,15 @@ jobs:
             EXT_DL_URL_MARKDOWN_EXTERNAL=${{ env.EXT_DL_URL_MARKDOWN_EXTERNAL }}
             EXT_DL_URL_ORIGINAL_EXTERNAL=${{ env.EXT_DL_URL_ORIGINAL_EXTERNAL }}
 
-      - name: Purge images.json from Cloudflare cache
+      # 🚮 Purge images.json from Cloudflare cache
+      - name: 🚮 Purge images.json from Cloudflare cache
         run: |
           curl -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CLOUDFLARE_ZONE_ID }}/purge_cache" \
             -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
             -H "Content-Type: application/json" \
             --data '{"files":["https://gallery.voidtales.win/images.json"]}'
 
-      # Trigger Dokploy deployment via API
+      # 🚀 Trigger Dokploy deployment via API
       - name: 🚀 Trigger Dokploy Deployment
         run: |
           curl -X POST \

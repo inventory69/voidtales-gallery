@@ -639,3 +639,7 @@ html.dark .header-action-btn:focus {
   to { transform: rotate(360deg); }
 }
 
+.grid-container.flashing {
+  opacity: 0.5; /* Leichter Fade-Out während Flash */
+  transition: opacity 0.2s ease;
+}

@@ -6,7 +6,14 @@ import { useEffect, useState } from "preact/hooks";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.css";
 
-// Photo type definition
+// Extend the Window type for _glightboxInstance
+declare global {
+  interface Window {
+    _glightboxInstance?: ReturnType<typeof GLightbox>;
+  }
+}
+
+// Photo type definition (extended with fields from images.json)
 type Photo = {
   id: string;
   fullsizePath: string;
@@ -15,16 +22,22 @@ type Photo = {
   caption: string;
   author: string;
   body: string;
+  imageUrl: string;
+  mdPath: string;
+  isDefault: boolean;
+  date: string;
 };
 
 export default function PhotoGridClient({
-  photos,
+  photos: initialPhotos, // No longer used as state
   ariaLabelPrefix = "Open fullscreen of",
 }: {
   photos: Photo[];
   ariaLabelPrefix?: string;
 }) {
+  const [photos, setPhotos] = useState<Photo[]>([]); // Start with empty array
   const [loading, setLoading] = useState(true);
+  const [flashing, setFlashing] = useState(false); // For flash effect
 
   // Show notification overlay inside GLightbox
   function showNotification(message: string, type: "success" | "error") {
@@ -117,15 +130,68 @@ export default function PhotoGridClient({
     }
   }
 
-  // Initialize GLightbox and handle custom buttons and hash navigation
+  // Function to load and set photos
+  async function loadAndSetPhotos() {
+    setLoading(true);
+    setFlashing(true); // Start flash
+    // Briefly clear the grid for visible effect
+    setPhotos([]);
+    setTimeout(() => setFlashing(false), 200); // End flash after 200ms
+    try {
+      // @ts-ignore
+      const { default: loadImages } = await import("../../scripts/load-images.js");
+      const loadedPhotos = await loadImages();
+      // Map loaded photos to expected format (retain your fields)
+      const mappedPhotos = loadedPhotos.map((img: any) => ({
+        id: img.id,
+        fullsizePath: img.imageUrl,
+        thumbPath: `/images/thumbs/${img.id}${img.isDefault ? '-default' : ''}-400.webp`,
+        title: img.title || img.id,
+        caption: img.caption || '',
+        author: img.author || '',
+        body: img.body || '',
+        imageUrl: img.imageUrl,
+        mdPath: img.mdPath,
+        isDefault: img.isDefault,
+        date: img.date,
+      }));
+      setPhotos(mappedPhotos);
+    } catch (err) {
+      console.error('[PhotoGridClient] Error loading photos:', err);
+    }
+    setLoading(false);
+  }
+
+  // Initial load (only once)
   useEffect(() => {
+    loadAndSetPhotos();
+  }, []);
+
+  // Listen for refresh event
+  useEffect(() => {
+    const handleRefresh = () => {
+      loadAndSetPhotos();
+    };
+    window.addEventListener('refreshGallery', handleRefresh);
+    return () => window.removeEventListener('refreshGallery', handleRefresh);
+  }, []);
+
+  // Re-initialize GLightbox when photos change (only if photos is not empty)
+  useEffect(() => {
+    if (photos.length === 0) return; // Avoid initialization with empty array
+    // Destroy previous instance if exists
+    if (window._glightboxInstance) {
+      window._glightboxInstance.destroy();
+    }
+    console.debug('[PhotoGridClient] Re-initializing GLightbox with', photos.length, 'photos');
+    // Re-initialize GLightbox with all custom features
     const lightbox = GLightbox({
       selector: ".photo",
       touchNavigation: true,
       zoomable: false,
       openEffect: "fade",
       closeEffect: "fade",
-      slideEffect: "fade",
+      slideEffect: "slide",
     });
 
     // Open lightbox at specific image if hash is present
@@ -153,23 +219,14 @@ export default function PhotoGridClient({
       document.querySelectorAll(".custom-glightbox-btns").forEach((el) => el.remove());
     });
 
-    // Cleanup GLightbox instance on unmount
-    return () => lightbox.destroy();
-  }, []);
-
-  useEffect(() => {
-    setLoading(true);
-    // @ts-ignore
-    import("../../scripts/load-images.js").then(({ default: loadImages }) => {
-      loadImages().then(() => setLoading(false));
-    });
-  }, []);
+    window._glightboxInstance = lightbox;
+  }, [photos]);
 
   return (
     <div>
       {loading && (
         <div class="photo-grid-loader">
-          {/* Ladeanimation, z.B. ein Spinner */}
+          {/* Loader animation (spinner) */}
           <svg width="48" height="48" viewBox="0 0 48 48">
             <circle cx="24" cy="24" r="20" stroke="#888" strokeWidth="4" fill="none" strokeDasharray="100" strokeDashoffset="60">
               <animateTransform attributeName="transform" type="rotate" from="0 24 24" to="360 24 24" dur="1s" repeatCount="indefinite"/>
@@ -178,7 +235,7 @@ export default function PhotoGridClient({
           <span>Loading Gallery ...</span>
         </div>
       )}
-      <div id="photo-grid" class="grid-container">
+      <div id="photo-grid" class={`grid-container ${flashing ? 'flashing' : ''}`}> {/* Add flash class */}
         {photos.map((photo, i) => (
           <a
             class="photo"

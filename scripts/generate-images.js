@@ -5,15 +5,15 @@ const imagesDir = path.join(process.cwd(), 'public/images/original');
 const contentDir = path.join(process.cwd(), 'src/content/photos');
 const outPath = path.join(process.cwd(), 'public/images.json');
 
-// Alle Bilddateien (inkl. -default)
+// Get all image files (including -default)
 const imageFiles = fs.readdirSync(imagesDir).filter(f =>
   /\.(webp|jpg|png|jpeg|bmp)$/i.test(f)
 );
 
-// Alle .md-Dateien (inkl. -default)
+// Get all markdown files (including -default)
 const mdFiles = fs.readdirSync(contentDir).filter(f => /\.md$/i.test(f));
 
-// Hilfsfunktion: Finde zu jedem Bild die passende .md-Datei
+// Helper: Find the matching markdown file for a given image
 function findMd(id) {
   const direct = `${id}.md`;
   const withDefault = `${id}-default.md`;
@@ -22,13 +22,24 @@ function findMd(id) {
   return null;
 }
 
-// Hilfsfunktion: Datum aus Markdown-Frontmatter extrahieren
-function extractDate(mdFilePath) {
-  if (!mdFilePath) return null;
+// Helper: Extract frontmatter from markdown file
+function extractFrontmatter(mdFilePath) {
+  if (!mdFilePath) return {};
   const fullPath = path.join(contentDir, mdFilePath);
   const content = fs.readFileSync(fullPath, 'utf-8');
-  const match = content.match(/date:\s*["']?([\d-:TZ ]+)["']?/i);
-  return match ? match[1].trim() : null;
+  const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
+  if (!frontmatterMatch) return {};
+
+  const frontmatter = {};
+  const lines = frontmatterMatch[1].split('\n');
+  for (const line of lines) {
+    const [key, ...valueParts] = line.split(':');
+    if (key && valueParts.length) {
+      const value = valueParts.join(':').trim().replace(/^["']|["']$/g, '');
+      frontmatter[key.trim()] = value;
+    }
+  }
+  return frontmatter;
 }
 
 const images = imageFiles.map(filename => {
@@ -38,14 +49,18 @@ const images = imageFiles.map(filename => {
   const imageUrl = `/images/original/${filename}`;
   const mdFile = findMd(base);
   const mdPath = mdFile ? `/src/content/photos/${mdFile}` : null;
-  const date = extractDate(mdFile);
+  const frontmatter = extractFrontmatter(mdFile);
 
   return {
     id,
     imageUrl,
     mdPath,
     isDefault,
-    date
+    date: frontmatter.date || null,
+    title: frontmatter.title || id,
+    caption: frontmatter.caption || '',
+    author: frontmatter.author || '',
+    body: frontmatter.body || '',
   };
 });
 

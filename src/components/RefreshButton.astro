@@ -1,7 +1,7 @@
 ---
 const { ariaLabel = "Refresh page", title = "Refresh (force reload)" } = Astro.props;
 ---
-<!-- Refresh button for reloading resources without cache -->
+<!-- Refresh button for reloading gallery images without cache -->
 <button
   id="refresh-btn"
   class="header-action-btn"
@@ -24,35 +24,38 @@ const { ariaLabel = "Refresh page", title = "Refresh (force reload)" } = Astro.p
     if (refreshBtn && refreshIcon) {
       refreshBtn.onclick = async function(e) {
         e.preventDefault();
-        // Add loading state
+        // Show loading state
         refreshBtn.classList.add('loading');
         refreshIcon.classList.add('spin');
         try {
-          // Dynamically import and execute the resource refresh script
+          // Dynamically import and execute the gallery refresh script
           const { default: loadImages } = await import('../../scripts/load-images.js');
-          await loadImages();
-          // Success feedback
+          await loadImages(); // Load images, but do not manipulate DOM
+          // Dispatch event to trigger state update in PhotoGridClient
+          window.dispatchEvent(new CustomEvent('refreshGallery'));
+          // Show success feedback
           refreshBtn.classList.remove('loading');
           refreshBtn.classList.add('success');
           refreshIcon.classList.remove('spin');
           refreshIcon.innerHTML = '<path d="M20 6L9 17l-5-5"/>';
           setTimeout(() => {
-            // Reset to original state
+            // Reset to original icon
             refreshBtn.classList.remove('success');
             refreshIcon.innerHTML = '<path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10"/><path d="M20.49 15a9 9 0 0 1-14.13 3.36L1 14"/>';
           }, 2000);
-          console.debug('[RefreshButton] Bilder aktualisiert!');
+          console.debug('[RefreshButton] Images updated!');
         } catch (err) {
-          // Error feedback
+          // Show error feedback
           refreshBtn.classList.remove('loading');
           refreshBtn.classList.add('error');
           refreshIcon.classList.remove('spin');
           refreshIcon.innerHTML = '<path d="M18 6L6 18"/><path d="M6 6l12 12"/>';
           setTimeout(() => {
+            // Reset to original icon
             refreshBtn.classList.remove('error');
             refreshIcon.innerHTML = '<path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10"/><path d="M20.49 15a9 9 0 0 1-14.13 3.36L1 14"/>';
           }, 2000);
-          console.error('[RefreshButton] Fehler beim Laden:', err);
+          console.error('[RefreshButton] Error loading images:', err);
         }
       };
     }
