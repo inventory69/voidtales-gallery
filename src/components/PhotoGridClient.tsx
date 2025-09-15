@@ -2,7 +2,7 @@
 // Handles photo display, lazy loading, and fullscreen viewing with captions and custom buttons.
 // Expects image metadata with unique IDs, which the voidtales workflow already provides!
 
-import { useEffect } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.css";
 
@@ -24,6 +24,8 @@ export default function PhotoGridClient({
   photos: Photo[];
   ariaLabelPrefix?: string;
 }) {
+  const [loading, setLoading] = useState(true);
+
   // Show notification overlay inside GLightbox
   function showNotification(message: string, type: "success" | "error") {
     const container = document.querySelector(".glightbox-container");
@@ -155,38 +157,59 @@ export default function PhotoGridClient({
     return () => lightbox.destroy();
   }, []);
 
+  useEffect(() => {
+    setLoading(true);
+    // @ts-ignore
+    import("../../scripts/load-images.js").then(({ default: loadImages }) => {
+      loadImages().then(() => setLoading(false));
+    });
+  }, []);
+
   return (
-    <div id="photo-grid" class="grid-container">
-      {photos.map((photo, i) => (
-        <a
-          class="photo"
-          href={photo.fullsizePath}
-          data-gallery="gallery"
-          data-id={photo.id}
-          data-title={
-            photo.caption?.trim()
-              ? photo.caption
-              : photo.body?.trim()
-              ? photo.body
-              : photo.title?.trim()
-          }
-          data-description={`Author: ${photo.author}`}
-          aria-label={`${ariaLabelPrefix} ${photo.title}`}
-        >
-          <picture>
-            <source
-              srcSet={`${photo.thumbPath.replace("-400.webp", "-800.webp")} 2x`}
-              type="image/webp"
-            />
-            <img
-              src={photo.thumbPath}
-              srcSet={`${photo.thumbPath} 1x, ${photo.thumbPath.replace("-400.webp", "-800.webp")} 2x`}
-              alt={photo.title}
-              loading={i < 3 ? "eager" : "lazy"}
-            />
-          </picture>
-        </a>
-      ))}
+    <div>
+      {loading && (
+        <div class="photo-grid-loader">
+          {/* Ladeanimation, z.B. ein Spinner */}
+          <svg width="48" height="48" viewBox="0 0 48 48">
+            <circle cx="24" cy="24" r="20" stroke="#888" strokeWidth="4" fill="none" strokeDasharray="100" strokeDashoffset="60">
+              <animateTransform attributeName="transform" type="rotate" from="0 24 24" to="360 24 24" dur="1s" repeatCount="indefinite"/>
+            </circle>
+          </svg>
+          <span>Loading Gallery ...</span>
+        </div>
+      )}
+      <div id="photo-grid" class="grid-container">
+        {photos.map((photo, i) => (
+          <a
+            class="photo"
+            href={photo.fullsizePath}
+            data-gallery="gallery"
+            data-id={photo.id}
+            data-title={
+              photo.caption?.trim()
+                ? photo.caption
+                : photo.body?.trim()
+                ? photo.body
+                : photo.title?.trim()
+            }
+            data-description={`Author: ${photo.author}`}
+            aria-label={`${ariaLabelPrefix} ${photo.title}`}
+          >
+            <picture>
+              <source
+                srcSet={`${photo.thumbPath.replace("-400.webp", "-800.webp")} 2x`}
+                type="image/webp"
+              />
+              <img
+                src={photo.thumbPath}
+                srcSet={`${photo.thumbPath} 1x, ${photo.thumbPath.replace("-400.webp", "-800.webp")} 2x`}
+                alt={photo.title}
+                loading={i < 3 ? "eager" : "lazy"}
+              />
+            </picture>
+          </a>
+        ))}
+      </div>
     </div>
   );
 }

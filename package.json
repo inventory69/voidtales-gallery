@@ -5,7 +5,10 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky",
-    "dev": "astro dev",
+    "watch:images": "npx nodemon --watch public/images/original --watch src/content/photos --exec \"node scripts/generate-images.js\"",
+    "predev": "node scripts/generate-images.js",
+    "dev": "concurrently \"pnpm run watch:images\" \"astro dev\"",
+    "dev-host": "concurrently \"pnpm run watch:images\" \"astro dev --host\"",
     "start": "astro dev",
     "prebuild": "node scripts/generate-images.js",
     "build": "pnpm run gen:thumbs && astro check && astro build --jobs 1",
@@ -34,6 +37,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.2.4",
+    "concurrently": "^9.2.1",
     "husky": "^9.1.7",
     "sharp": "^0.34.3",
     "stylelint": "^16.24.0",
