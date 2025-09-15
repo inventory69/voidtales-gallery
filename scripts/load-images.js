@@ -21,9 +21,11 @@ async function loadImages() {
     grid.innerHTML = ''; // Grid leeren
 
     images.forEach(img => {
-      // Basisname für Thumb: immer ohne -default
-      const thumbBaseName = img.id; // Nur die 8-stellige ID
-      const thumbUrl = `/images/thumbs/${thumbBaseName}-800.webp`;
+      // Thumb-Dateiname: Für Default-Bilder mit Suffix, sonst ohne
+      const thumbFile = img.isDefault
+        ? `${img.id}-default-800.webp`
+        : `${img.id}-800.webp`;
+      const thumbUrl = `/images/thumbs/${thumbFile}`;
 
       const photoElement = document.createElement('a');
       photoElement.className = 'photo';
