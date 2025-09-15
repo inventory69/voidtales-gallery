@@ -128,6 +128,13 @@ jobs:
             EXT_DL_URL_MARKDOWN_EXTERNAL=${{ env.EXT_DL_URL_MARKDOWN_EXTERNAL }}
             EXT_DL_URL_ORIGINAL_EXTERNAL=${{ env.EXT_DL_URL_ORIGINAL_EXTERNAL }}
 
+      - name: Purge images.json from Cloudflare cache
+        run: |
+          curl -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CLOUDFLARE_ZONE_ID }}/purge_cache" \
+            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            --data '{"files":["https://gallery.voidtales.win/images.json"]}'
+
       # Trigger Dokploy deployment via API
       - name: 🚀 Trigger Dokploy Deployment
         run: |
