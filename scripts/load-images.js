@@ -11,6 +11,11 @@ async function loadImages() {
       return;
     }
     const images = await response.json();
+    images.sort((a, b) => {
+      const dateA = new Date(a.date || 0).getTime();
+      const dateB = new Date(b.date || 0).getTime();
+      return dateB - dateA;
+    });
     console.debug('[LoadImages] Anzahl Bilder:', images.length);
 
     const grid = document.getElementById('photo-grid');
