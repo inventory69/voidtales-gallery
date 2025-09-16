@@ -67,4 +67,10 @@ export const siteConfig = {
 
   // Default sort order for images: 'date-asc' or 'date-desc'
   defaultSort: 'date-desc',
+
+  // Staff authors: Array of staff member names for attribution or collaboration
+  staffAuthors: [
+    "shinsnowly",
+    "Shin Snowly",
+  ],
 };

@@ -30,9 +30,11 @@ type Photo = {
 
 export default function PhotoGridClient({
   photos: initialPhotos,
+  staffAuthors = [],
   ariaLabelPrefix = "Open fullscreen of",
 }: {
   photos: Photo[];
+  staffAuthors?: string[];
   ariaLabelPrefix?: string;
 }) {
   const [photos, setPhotos] = useState<Photo[]>([]);
@@ -231,6 +233,14 @@ export default function PhotoGridClient({
     return () => window.removeEventListener('sortGallery', handleSort as EventListener);
   }, [photos]);
 
+  // Helper: Check if photo is by a staff member
+  function isStaffPhoto(photo: Photo) {
+    // Vergleiche author mit staffAuthors (Case-Insensitive empfohlen)
+    return staffAuthors.some(
+      staff => staff.trim().toLowerCase() === (photo.author?.trim().toLowerCase() || "")
+    );
+  }
+
   return (
     <div>
       {loading && (
@@ -247,7 +257,7 @@ export default function PhotoGridClient({
       <div id="photo-grid" class={`grid-container ${flashing ? 'flashing' : ''}`}>
         {photos.map((photo, i) => (
           <a
-            class="photo"
+            class={`photo${isStaffPhoto(photo) ? " staff-photo" : ""}`}
             href={photo.fullsizePath}
             data-gallery="gallery"
             data-id={photo.id}
@@ -273,6 +283,14 @@ export default function PhotoGridClient({
                 loading={i < 3 ? "eager" : "lazy"}
               />
             </picture>
+            {isStaffPhoto(photo) && (
+              <span class="staff-badge" title="Staff member">
+                {/* Minimalist star icon */}
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <polygon points="12,3 15,10 22,10 17,14 19,21 12,17 5,21 7,14 2,10 9,10" />
+                </svg>
+              </span>
+            )}
           </a>
         ))}
       </div>

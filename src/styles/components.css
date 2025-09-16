@@ -816,3 +816,77 @@ html.dark .sort-selector .sort-option.active {
     display: none; /* Verstecke im Header auf Mobile */
   }
 }
+
+/* Staff photo highlight: Light mode with blue accent */
+.photo.staff-photo {
+  border: 2px solid transparent;
+  box-shadow: 0 0 0 3px rgba(22, 177, 238, 0.18), 0 2px 8px rgba(0,0,0,0.10);
+  position: relative;
+  transition: box-shadow 0.25s, border-color 0.25s;
+}
+
+.photo.staff-photo:hover {
+  box-shadow: 0 0 0 4px rgba(0, 47, 255, 0.22), 0 4px 16px rgba(22, 177, 238, 0.18), 0 2px 8px rgba(0,0,0,0.14);
+  border-color: #16b1ee;
+}
+
+/* Light mode: subtle staff badge with star icon and blue accent */
+.staff-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(22, 177, 238, 0.13); /* subtle blue */
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 6px rgba(22, 177, 238, 0.10);
+  z-index: 2;
+  pointer-events: none;
+  user-select: none;
+  border: 1.5px solid #fff;
+  backdrop-filter: blur(2px);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.staff-badge svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+  stroke: #fff;
+  fill: none;
+  stroke-width: 2.2;
+}
+
+.photo.staff-photo:hover .staff-badge {
+  background: rgba(22, 177, 238, 0.22);
+  box-shadow: 0 2px 12px rgba(22, 177, 238, 0.18);
+}
+
+/* Dark mode: keep previous style, but make icon pink */
+html.dark .photo.staff-photo {
+  box-shadow: 0 0 0 3px rgba(167, 67, 206, 0.28), 0 2px 8px rgba(255,255,255,0.08);
+}
+
+html.dark .staff-badge {
+  background: rgba(167, 67, 206, 0.22);
+  border-color: rgba(255, 0, 200, 0.18);
+}
+
+html.dark .staff-badge svg {
+  stroke: #ff00c8;
+}
+
+/* Ergänzung für den Staff-Hover-Effekt im Dark Mode */
+html.dark .photo.staff-photo:hover {
+  box-shadow: 0 0 0 4px rgba(167, 67, 206, 0.28), 0 4px 16px rgba(167, 67, 206, 0.22), 0 2px 8px rgba(255,255,255,0.14);
+  border-color: #a743ce;
+}
+
+html.dark .photo.staff-photo:hover .staff-badge {
+  background: rgba(167, 67, 206, 0.32);
+  box-shadow: 0 2px 12px rgba(167, 67, 206, 0.22);
+}
