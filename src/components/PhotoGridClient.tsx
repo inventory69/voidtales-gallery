@@ -29,7 +29,6 @@ type Photo = {
 };
 
 export default function PhotoGridClient({
-  photos: initialPhotos,
   staffAuthors = [],
   ariaLabelPrefix = "Open fullscreen of",
 }: {
@@ -258,6 +257,7 @@ export default function PhotoGridClient({
         {photos.map((photo, i) => (
           <a
             class={`photo${isStaffPhoto(photo) ? " staff-photo" : ""}`}
+            style={{ "--photo-delay": `${i * 0.07}s` }}
             href={photo.fullsizePath}
             data-gallery="gallery"
             data-id={photo.id}
@@ -271,6 +271,7 @@ export default function PhotoGridClient({
             data-description={`Author: ${photo.author}`}
             aria-label={`${ariaLabelPrefix} ${photo.title}`}
           >
+            <span class="photo-overlay">{photo.author}</span>
             <picture>
               <source
                 srcSet={`${photo.thumbPath.replace("-400.webp", "-800.webp")} 2x`}
