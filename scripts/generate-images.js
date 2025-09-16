@@ -51,13 +51,15 @@ const images = imageFiles.map(filename => {
   const mdPath = mdFile ? `/src/content/photos/${mdFile}` : null;
   const frontmatter = extractFrontmatter(mdFile);
 
+  // Definiere mdFilePath korrekt
+  const mdFilePath = mdFile ? path.join(contentDir, mdFile) : null;
+
   // Vor dem Lesen der MD-Datei
   console.log(`Looking for MD file: ${mdFilePath}`);
-  console.log(`MD file exists: ${fs.existsSync(mdFilePath)}`);
+  console.log(`MD file exists: ${mdFilePath ? fs.existsSync(mdFilePath) : false}`);
 
-  // Nach dem Lesen
-  console.log(`MD content length: ${mdContent.length}`);
-  console.log(`MD content preview: ${mdContent.substring(0, 200)}`);
+  // Nach dem Lesen (innerhalb extractFrontmatter)
+  // Entferne diese Logs hier, da mdContent nicht verfügbar ist
 
   // Nach extractFrontmatter
   console.log(`Frontmatter keys: ${Object.keys(frontmatter)}`);
