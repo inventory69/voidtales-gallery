@@ -13,7 +13,7 @@ html, body {
 /* Base body styles */
 body {
   margin: 0;
-  font-family: var(--site-font-family);
+  /* font-family: var(--site-font-family); */
   font-weight: 400;
   font-style: normal;
   background: transparent; /* Background handled by ::before layers */

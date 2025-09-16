@@ -23,7 +23,7 @@
 /* Main title in hero */
 .hero-title {
   font-size: 3rem;
-  font-family: var(--site-font-family);
+  /* font-family: var(--site-font-family); */
   font-weight: 400;
   font-style: normal;
   text-align: center;
@@ -32,7 +32,7 @@
 /* Subtitle in hero */
 .hero-subtitle {
   font-size: 1.2rem;
-  font-family: var(--site-font-family);
+  /* font-family: var(--site-font-family); */
   font-weight: 400;
   font-style: normal;
   text-align: center;

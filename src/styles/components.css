@@ -918,6 +918,7 @@ html.dark .photo.staff-photo:hover {
   z-index: 3;
   border-radius: inherit;
   transform: translateY(10px);
+  font-family: var(--site-font-family);
 }
 
 .photo:hover .photo-overlay {

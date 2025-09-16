@@ -24,7 +24,7 @@
  */
 export const siteConfig = {
   // Site name: Displayed in the browser title and meta tags
-  name: 'VoidTales Gallery',
+  name: 'Void Tales Gallery',
   
   // Site description: Used for SEO meta description and social media previews
   description: 'A sleek, high-performance photo gallery built with Astro, TypeScript, and vanilla CSS/JS. Showcase your photos with modern design, automatic sorting, and seamless dark mode.',
@@ -43,11 +43,16 @@ export const siteConfig = {
 
   // Fonts: Array of font URLs to be loaded for the site
   fonts: [
-    'https://fonts.googleapis.com/css2?family=Macondo&family=Macondo+Swash+Caps&display=swap'
+    'https://fonts.googleapis.com/css2?family=Macondo&family=Macondo+Swash+Caps&display=swap',
+    'https://fonts.googleapis.com/css2?family=Asul:wght@400;700&display=swap',
+    'https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap'
   ],
 
+  // Head font family for the site
+  fontFamilyHead: "'Cinzel Decorative', serif",
+
   // Main font family for the site
-  fontFamily: "'Macondo', cursive",
+  fontFamily: "'Asul', sans-serif",
 
   // Paths to manifest and favicon files in the public directory
   manifest: '/manifest.json',
@@ -55,7 +60,7 @@ export const siteConfig = {
   
   // Hero section configuration: Defines content for the main hero area on the homepage
   hero: {
-    title: 'Discover the VoidTales Gallery',  // Main headline for the hero section
+    title: 'Void Tales Gallery',  // Main headline for the hero section
     subtitle: 'The latest images from the world of VoidTales – sorted by date.',  // Subtitle text
     cta: 'To the images',  // Call-to-action button text
   },

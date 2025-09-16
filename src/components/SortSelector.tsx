@@ -28,7 +28,13 @@ function getInitialSort(defaultSort: string): string {
   return defaultSort || "date-desc";
 }
 
-export default function SortSelector({ defaultSort = "date-desc" }: { defaultSort?: string }) {
+export default function SortSelector({
+  defaultSort = "date-desc",
+  fontFamily,
+}: {
+  defaultSort?: string;
+  fontFamily?: string;
+}) {
   const [currentSort, setCurrentSort] = useState(getInitialSort(defaultSort));
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -75,6 +81,23 @@ export default function SortSelector({ defaultSort = "date-desc" }: { defaultSor
 
   const currentOption = sortOptions.find(opt => opt.value === currentSort);
 
+  // Update getInitialSort to use the prop as fallback
+  function getInitialSort(propDefault: string): string {
+    if (typeof window !== "undefined") {
+      const stored = window.localStorage.getItem("gallerySortOption");
+      if (stored && sortOptions.some(opt => opt.value === stored)) return stored;
+      if (window.__gallerySortOption && sortOptions.some(opt => opt.value === window.__gallerySortOption)) return window.__gallerySortOption;
+    }
+    return propDefault || "date-desc";
+  }
+
+  // Set fallback for fontFamily (immer definiert)
+  const effectiveFont = fontFamily || "'Asul', sans-serif";
+
+  // Debug (entferne später)
+  console.log("SortSelector fontFamily prop:", fontFamily);
+  console.log("SortSelector effectiveFont:", effectiveFont);
+
   return (
     <div class={`sort-selector ${isOpen ? 'open' : ''}`}>
       <button
@@ -84,8 +107,8 @@ export default function SortSelector({ defaultSort = "date-desc" }: { defaultSor
         aria-label="Sort gallery"
         title="Sort gallery"
       >
-        <span class="sort-icon">{currentOption?.icon}</span>
-        <span class="sort-label">{currentOption?.label}</span>
+        <span class="sort-icon" style={{ fontFamily: effectiveFont }}>{currentOption?.icon}</span>
+        <span class="sort-label" style={{ fontFamily: effectiveFont }}>{currentOption?.label}</span>
         <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d={isOpen ? "M6 9l6 6 6-6" : "M9 6l6 6 6-6"} />
         </svg>
@@ -97,8 +120,8 @@ export default function SortSelector({ defaultSort = "date-desc" }: { defaultSor
               class={`sort-option ${option.value === currentSort ? 'active' : ''}`}
               onClick={() => handleSortChange(option.value)}
             >
-              <span class="sort-icon">{option.icon}</span>
-              <span class="sort-label">{option.label}</span>
+              <span class="sort-icon" style={{ fontFamily: effectiveFont }}>{option.icon}</span>
+              <span class="sort-label" style={{ fontFamily: effectiveFont }}>{option.label}</span>
             </button>
           </li>
         ))}
