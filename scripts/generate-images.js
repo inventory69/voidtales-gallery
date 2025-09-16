@@ -51,6 +51,9 @@ const images = imageFiles.map(filename => {
   const mdPath = mdFile ? `/src/content/photos/${mdFile}` : null;
   const frontmatter = extractFrontmatter(mdFile);
 
+  // Nach extractFrontmatter
+  console.log(`Processing ${filename}: MD file: ${mdFile}, Author: ${frontmatter.author}`);
+
   return {
     id,
     imageUrl,
@@ -63,6 +66,9 @@ const images = imageFiles.map(filename => {
     body: frontmatter.body || '',
   };
 });
+
+// Am Ende
+console.log(`Final images:`, images.map(img => ({ id: img.id, author: img.author })));
 
 fs.writeFileSync(outPath, JSON.stringify(images, null, 2), 'utf-8');
 console.log(`✔️ Wrote ${images.length} entries to public/images.json`);
