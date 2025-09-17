@@ -69,9 +69,9 @@ const images = imageFiles.map(({ file, dir }) => {
   const base = path.parse(file).name;
   const id = base.replace(/-default$/, '');
   const isDefault = base.endsWith('-default');
-  const imageUrl = `/images/original/${isDefault ? 'defaults/' : ''}${file}`;
+  const imageUrl = `/images/original/${isDefault ? 'default/' : ''}${file}`;
   const mdFileObj = findMd(base);
-  const mdPath = mdFileObj ? `/src/content/photos/${mdFileObj.dir.endsWith('defaults') ? 'defaults/' : ''}${mdFileObj.file}` : null;
+  const mdPath = mdFileObj ? `/src/content/photos/${mdFileObj.dir.endsWith('default') ? 'default/' : ''}${mdFileObj.file}` : null;
   const frontmatter = extractFrontmatter(mdFileObj);
 
   return {
