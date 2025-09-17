@@ -56,13 +56,11 @@ const sortedPhotos = sortPhotos(photos, siteConfig.defaultSort);
     <meta name="twitter:card" content="summary_large_image" />
     <!-- Set theme on initial load -->
     <script>
-      // Set theme based on localStorage or system preference, default is dark
+      // Set theme based only on localStorage, default is dark
       (function() {
         try {
           var saved = localStorage.getItem('theme');
-          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          // Dark Mode ist Standard, Systempräferenz wird berücksichtigt
-          var isDark = saved === 'dark' || (!saved && prefersDark) || (!saved && !prefersDark);
+          var isDark = saved === 'dark' || !saved;
           document.documentElement.classList.toggle('dark', isDark);
           document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
           document.documentElement.style.visibility = 'visible';
@@ -90,7 +88,7 @@ const sortedPhotos = sortPhotos(photos, siteConfig.defaultSort);
     <div id="mobile-menu" class="mobile-menu">
       <nav class="mobile-nav" role="navigation" aria-label="Mobile navigation">
         {navigationLinks.map(link => (
-          <a href={link.href} class="nav-link">{link.label}</a>
+          <a href={link.href} class="nav-link" style={`font-family: ${siteConfig.fontFamily};`}>{link.label}</a>
         ))}
       </nav>
       <div class="mobile-actions">

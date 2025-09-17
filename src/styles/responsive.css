@@ -65,6 +65,93 @@
     gap: 1rem;
     text-align: center;
   }
+  .nav-link {
+    text-align: center;
+    width: 50%;
+  }
+  html.dark .nav-link:hover, html.dark .nav-link:focus, .nav-link:hover, .nav-link:focus {
+    transform: none;
+  }
+  .mobile-nav {
+    display: flex;
+    align-items: center;
+  }
+  html.dark .sort-selector .sort-btn:hover, html.dark .sort-selector .sort-btn:focus, .sort-selector .sort-btn:hover, .sort-selector .sort-btn:focus {
+    transform: none;
+  }
+  .mobile-actions .sort-selector .sort-btn {
+    width: 50%;
+    margin: 0 auto; /* Center horizontally */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .mobile-actions {
+    align-items: center;
+  }
+  /* Center dropdown and make it full width */
+  .mobile-actions .sort-selector .sort-dropdown {
+    left: 0;
+    right: 0;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    margin: 0 auto;
+    border-radius: 0 0 1.2rem 1.2rem;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  /* Center options, remove transform, fix highlight width */
+  .mobile-actions .sort-selector .sort-option {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-size: 0.95rem;
+    padding: 0.5rem 0.5rem;
+    margin: 0;
+    border-radius: 0;
+    background-clip: padding-box;
+    /* Remove grow effect */
+    transform: none !important;
+  }
+
+  /* Consistent highlight for active option */
+  .mobile-actions .sort-selector .sort-option.active,
+  .mobile-actions .sort-selector .sort-option:active,
+  .mobile-actions .sort-selector .sort-option:focus {
+    background: linear-gradient(50deg, #7334bb56, #ff00c870) !important;
+    color: white !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    outline: none !important;
+    background-clip: padding-box !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .mobile-actions .sort-selector {
+    position: relative;
+    width: 50%;
+    margin: 0 auto;
+  }
+  .mobile-actions .sort-selector .sort-btn {
+    width: 100%;
+  }
+  .mobile-actions .sort-selector .sort-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    margin: 0;
+    border-radius: 0 0 1.2rem 1.2rem;
+    overflow: hidden;
+    padding: 0;
+    z-index: 100;
+  }
 }
 
 /* Small mobile styles (up to 480px width) */

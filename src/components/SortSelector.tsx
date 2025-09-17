@@ -13,17 +13,21 @@ declare global {
 const sortOptions = [
   { value: 'date-desc', label: 'Newest', icon: '↓' },
   { value: 'date-asc', label: 'Oldest', icon: '↑' },
-  { value: 'name-asc', label: 'A-Z', icon: 'A' },
-  { value: 'name-desc', label: 'Z-A', icon: 'Z' },
+  { value: 'name-asc', label: 'A - Z', icon: 'A' },
+  { value: 'name-desc', label: 'Z - A', icon: 'Z' },
   { value: 'random', label: 'Random', icon: '🎲' },
 ];
 
+// Function to get initial sort from localStorage or default
 function getInitialSort(defaultSort: string): string {
-  // Priority: localStorage > window > siteConfig
   if (typeof window !== "undefined") {
     const stored = window.localStorage.getItem("gallerySortOption");
-    if (stored && sortOptions.some(opt => opt.value === stored)) return stored;
-    if (window.__gallerySortOption && sortOptions.some(opt => opt.value === window.__gallerySortOption)) return window.__gallerySortOption;
+    if (stored && sortOptions.some(opt => opt.value === stored)) {
+      return stored;
+    }
+    if (window.__gallerySortOption && sortOptions.some(opt => opt.value === window.__gallerySortOption)) {
+      return window.__gallerySortOption;
+    }
   }
   return defaultSort || "date-desc";
 }
@@ -35,11 +39,14 @@ export default function SortSelector({
   defaultSort?: string;
   fontFamily?: string;
 }) {
-  const [currentSort, setCurrentSort] = useState(getInitialSort(defaultSort));
+  const [currentSort, setCurrentSort] = useState(defaultSort);
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  // Set initial sort from localStorage/window/siteConfig after mount
+  // Ref for dropdown options
+  const optionRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  // Set state only on client to prevent hydration issues
   useEffect(() => {
     setCurrentSort(getInitialSort(defaultSort));
   }, [defaultSort]);
@@ -55,10 +62,20 @@ export default function SortSelector({
     setIsOpen(false);
   };
 
-  // Toggle dropdown and remove focus when closing
+  // Toggle dropdown and set focus on active option when opening
   const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-    if (isOpen) buttonRef.current?.blur();
+    const newIsOpen = !isOpen;
+    setIsOpen(newIsOpen);
+    if (newIsOpen) {
+      setTimeout(() => {
+        const idx = sortOptions.findIndex(opt => opt.value === currentSort);
+        if (optionRefs.current[idx]) {
+          optionRefs.current[idx]?.focus();
+        }
+      }, 0);
+    } else {
+      buttonRef.current?.blur();
+    }
   };
 
   // Close dropdown on outside click
@@ -70,7 +87,7 @@ export default function SortSelector({
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
 
-  // Listen for refresh event and keep sort selection in sync
+  // Listen for refresh event and sync sort selection
   useEffect(() => {
     const handleRefresh = () => {
       setCurrentSort(getInitialSort(defaultSort));
@@ -81,22 +98,8 @@ export default function SortSelector({
 
   const currentOption = sortOptions.find(opt => opt.value === currentSort);
 
-  // Update getInitialSort to use the prop as fallback
-  function getInitialSort(propDefault: string): string {
-    if (typeof window !== "undefined") {
-      const stored = window.localStorage.getItem("gallerySortOption");
-      if (stored && sortOptions.some(opt => opt.value === stored)) return stored;
-      if (window.__gallerySortOption && sortOptions.some(opt => opt.value === window.__gallerySortOption)) return window.__gallerySortOption;
-    }
-    return propDefault || "date-desc";
-  }
-
-  // Set fallback for fontFamily (immer definiert)
+  // Set fallback for fontFamily
   const effectiveFont = fontFamily || "'Asul', sans-serif";
-
-  // Debug (entferne später)
-  console.log("SortSelector fontFamily prop:", fontFamily);
-  console.log("SortSelector effectiveFont:", effectiveFont);
 
   return (
     <div class={`sort-selector ${isOpen ? 'open' : ''}`}>
@@ -114,9 +117,10 @@ export default function SortSelector({
         </svg>
       </button>
       <ul class="sort-dropdown">
-        {sortOptions.map(option => (
+        {sortOptions.map((option, idx) => (
           <li key={option.value}>
             <button
+              ref={el => { optionRefs.current[idx] = el; }}
               class={`sort-option ${option.value === currentSort ? 'active' : ''}`}
               onClick={() => handleSortChange(option.value)}
             >

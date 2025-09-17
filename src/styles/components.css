@@ -1,4 +1,5 @@
 /* =================== COMPONENTS =================== */
+
 #photo-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -27,6 +28,7 @@
   animation: photo-in 0.7s cubic-bezier(.4,0,.2,1) forwards;
   animation-delay: var(--photo-delay, 0s);
 }
+
 @keyframes photo-in {
   to {
     opacity: 1;
@@ -71,7 +73,6 @@ html.dark .photo:hover {
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(229, 231, 235, 0.4);
   padding: 1.75rem 1.75rem;
-  /* min-height: 80px; */
   transition: background 0.3s ease;
 }
 
@@ -146,7 +147,6 @@ html.dark .brand .logo {
   outline: none;
 }
 
-/* Dark mode for nav-link hover/focus */
 html.dark .nav-link:hover,
 html.dark .nav-link:focus {
   background: linear-gradient(50deg, #7334bb56, #ff00c870);
@@ -160,7 +160,6 @@ html.dark .nav-link {
   border-color: rgba(156, 163, 175, 0.3);
   color: var(--text);
 }
-
 
 /* Mobile Menu Button */
 .mobile-menu-btn {
@@ -196,7 +195,7 @@ html.dark .mobile-menu-btn:active {
 /* Mobile Menu Overlay */
 .mobile-menu {
   position: fixed;
-  top: 80px; /* Match the new header height */
+  top: 80px;
   left: 0;
   right: 0;
   background: rgba(255, 255, 255, 0.103);
@@ -239,11 +238,11 @@ html.dark .mobile-menu {
 /* Mobile menu actions */
 .mobile-actions {
   display: flex;
-  flex-direction: column; /* Vertikal stapeln */
+  flex-direction: column;
   gap: 0.5rem;
   padding-top: 0.5rem;
   border-top: 1px solid rgba(229, 231, 235, 0.4);
-  align-items: stretch; /* Volle Breite für Kinder */
+  align-items: stretch;
 }
 
 html.dark .mobile-actions {
@@ -252,23 +251,23 @@ html.dark .mobile-actions {
 
 /* SortSelector im Mobile-Menü anpassen */
 .mobile-actions .sort-selector {
-  width: 100%; /* Volle Breite */
+  width: 100%;
 }
 
 .mobile-actions .sort-selector .sort-btn {
-  justify-content: center; /* Zentriert */
+  justify-content: center;
   width: 100%;
 }
 
 .mobile-actions .sort-selector .sort-dropdown {
-  width: 100%; /* Dropdown passt sich an */
+  width: 100%;
   left: 0;
   right: 0;
 }
 
 /* SortSelector im Mobile-Menü erzwingen sichtbar */
 .mobile-actions .sort-selector {
-  display: block !important; /* Überschreibt die Media-Query */
+  display: block !important;
 }
 
 /* Theme Toggle Button */
@@ -366,7 +365,7 @@ html.dark .footer {
 .footer-nav ul {
   list-style: none;
   display: flex;
-  gap: 0.75rem; /* Same gap as header navigation */
+  gap: 0.75rem;
   margin: 0;
   padding: 0;
 }
@@ -407,7 +406,7 @@ html.dark .footer-nav a:focus {
   color: var(--muted);
 }
 
-/* GLightbox: Caption area transparent and white text */
+/* GLightbox Styles */
 .gslide-description {
   background: transparent !important;
   color: #fff !important;
@@ -419,7 +418,6 @@ html.dark .footer-nav a:focus {
   text-align: center !important;
 }
 
-/* GLightbox: Title (photo text) large and white */
 .gslide-title {
   display: block !important;
   font-size: 1.1rem !important;
@@ -433,7 +431,6 @@ html.dark .footer-nav a:focus {
   font-style: normal;
 }
 
-/* GLightbox: Description (author) small and gray */
 .gslide-desc {
   display: block !important;
   font-size: 1rem !important;
@@ -446,7 +443,6 @@ html.dark .footer-nav a:focus {
   font-style: normal;
 }
 
-/* Navigation arrows for image gallery */
 .gnext, .gprev {
   display: flex !important;
   opacity: 1 !important;
@@ -560,16 +556,16 @@ html.dark .footer-nav a:focus {
 }
 
 .glightbox-notification-success {
-  background: rgba(167, 67, 206, 0.466); /* voidtales purple for success */
+  background: rgba(167, 67, 206, 0.466);
 }
 
 .glightbox-notification-error {
-  background: rgba(206, 67, 67, 0.568); /* Red for error */
+  background: rgba(206, 67, 67, 0.568);
 }
 
 @media (max-width: 600px) {
   .glightbox-open .gslide-description.description-bottom {
-    bottom: 10vh !important; /* Try a higher value, e.g. 10vh or 15vh */
+    bottom: 10vh !important;
     position: absolute !important;
     left: 0 !important;
     right: 0 !important;
@@ -583,7 +579,6 @@ html.dark .footer-nav a:focus {
     margin-bottom: 0 !important;
     padding-bottom: 0 !important;
   }
-
   .glightbox-container .gslide-description {
     overflow: none !important;
   }
@@ -594,7 +589,7 @@ html.dark .footer-nav a:focus {
   transition: opacity 0.3s;
   position: absolute;
   top: 0px;
-  right: 8px; 
+  right: 8px;
   z-index: 9999;
   display: flex;
   gap: 16px;
@@ -602,14 +597,13 @@ html.dark .footer-nav a:focus {
   opacity: 1;
 }
 
-/* Hide buttons when GLightbox is closing (sync with arrows/close) */
 .glightbox-closing .custom-glightbox-btns {
   opacity: 0 !important;
   pointer-events: none !important;
 }
 
 .header-action-btn {
-  color: var(--header-action-color, #222); /* Standardfarbe für das Icon */
+  color: var(--header-action-color, #222);
   background: transparent;
   border: none;
   border-radius: 50%;
@@ -638,7 +632,6 @@ html.dark .footer-nav a:focus {
   overflow: visible !important;
 }
 
-/* Dark Mode Anpassung */
 html.dark .header-action-btn {
   color: #fff;
 }
@@ -673,19 +666,16 @@ html.dark .header-action-btn:focus {
 }
 
 .grid-container.flashing {
-  opacity: 0.5; /* Leichter Fade-Out während Flash */
+  opacity: 0.5;
   transition: opacity 0.2s ease;
 }
 
 /* Sort Selector Styles */
-
-/* Desktop: Show SortSelector inline */
 .sort-selector {
   position: relative;
   display: inline-block;
 }
 
-/* Sort button styling */
 .sort-selector .sort-btn {
   display: flex;
   align-items: center;
@@ -742,7 +732,6 @@ html.dark .sort-selector .sort-btn {
   transition: transform 0.2s ease;
 }
 
-/* Dropdown menu styling */
 .sort-selector .sort-dropdown {
   position: absolute;
   top: 100%;
@@ -775,7 +764,6 @@ html.dark .sort-selector .sort-dropdown {
   border-color: rgba(55, 65, 81, 0.6);
 }
 
-/* Dropdown option styling */
 .sort-selector .sort-option {
   display: flex;
   align-items: center;
@@ -811,23 +799,67 @@ html.dark .sort-selector .sort-option:focus {
 }
 
 .sort-selector .sort-option.active {
-  background: linear-gradient(50deg, #16b1ee67, #002fff8f);
-  color: white;
-  font-weight: bold;
+  background: linear-gradient(50deg, #16b1ee67, #002fff8f) !important;
+  color: white !important;
+  font-weight: bold !important;
+  box-shadow: 0 8px 32px rgba(67, 206, 162, 0.25), 0 2px 8px rgba(0,0,0,0.12) !important;
+  transform: translateY(-2px) scale(1.04) !important;
 }
 
 html.dark .sort-selector .sort-option.active {
-  background: linear-gradient(50deg, #7334bb56, #ff00c870);
+  background: linear-gradient(50deg, #7334bb56, #ff00c870) !important;
+  box-shadow: 0 8px 32px rgba(190, 67, 206, 0.25), 0 2px 8px rgba(0,0,0,0.22) !important;
 }
 
-/* Mobile: Hide SortSelector in header, show in mobile menu */
+.sort-selector .sort-option.active:focus {
+  background: linear-gradient(50deg, #16b1ee67, #002fff8f) !important;
+  color: white !important;
+  box-shadow: 0 8px 32px rgba(67, 206, 162, 0.25), 0 2px 8px rgba(0,0,0,0.12) !important;
+  transform: translateY(-2px) scale(1.04) !important;
+}
+
+html.dark .sort-selector .sort-option.active:focus {
+  background: linear-gradient(50deg, #7334bb56, #ff00c870) !important;
+  box-shadow: 0 8px 32px rgba(190, 67, 206, 0.25), 0 2px 8px rgba(0,0,0,0.22) !important;
+}
+
+.sort-selector .sort-option.active:focus,
+.sort-selector .sort-option.active:hover {
+  background: linear-gradient(50deg, #16b1ee67, #002fff8f) !important;
+  color: white !important;
+}
+
+html.dark .sort-selector .sort-option.active:focus,
+html.dark .sort-selector .sort-option.active:hover {
+  background: linear-gradient(50deg, #7334bb56, #ff00c870) !important;
+  color: white !important;
+}
+
+.sort-selector .sort-option:not(.active):focus,
+.sort-selector .sort-option:not(.active):hover {
+  background: linear-gradient(50deg, #16b1ee67, #002fff8f);
+  color: white;
+  box-shadow: 0 8px 32px rgba(67, 206, 162, 0.25), 0 2px 8px rgba(0,0,0,0.12);
+  transform: translateY(-2px) scale(1.04);
+  outline: none;
+}
+
+html.dark .sort-selector .sort-option:not(.active):focus,
+html.dark .sort-selector .sort-option:not(.active):hover {
+  background: linear-gradient(50deg, #7334bb56, #ff00c870);
+  color: white;
+  box-shadow: 0 8px 32px rgba(190, 67, 206, 0.25), 0 2px 8px rgba(0,0,0,0.22);
+  transform: translateY(-2px) scale(1.04);
+  outline: none;
+}
+
 @media (max-width: 768px) {
   .sort-selector {
-    display: none; /* Verstecke im Header auf Mobile */
+    display: none;
   }
 }
 
-/* Staff photo highlight: Light mode with blue accent */
+/* Staff photo highlight */
 .photo.staff-photo {
   border: 2px solid transparent;
   box-shadow: 0 0 0 3px rgba(22, 177, 238, 0.18), 0 2px 8px rgba(0,0,0,0.10);
@@ -840,7 +872,6 @@ html.dark .sort-selector .sort-option.active {
   border-color: #16b1ee;
 }
 
-/* Light mode: subtle staff badge with star icon and blue accent */
 .staff-badge {
   position: absolute;
   top: 12px;
@@ -864,7 +895,7 @@ html.dark .sort-selector .sort-option.active {
 .staff-badge svg {
   width: 16px;
   height: 16px;
-  stroke: #16b1ee; /* Light mode accent blue */
+  stroke: #16b1ee;
   fill: none;
   stroke-width: 2.2;
   filter: drop-shadow(0 1px 2px rgba(0,0,0,0.18));
@@ -884,7 +915,7 @@ html.dark .staff-badge {
 }
 
 html.dark .staff-badge svg {
-  stroke: #ff00c8; /* Dark mode accent pink/violet */
+  stroke: #ff00c8;
 }
 
 html.dark .photo.staff-photo:hover .staff-badge {
@@ -892,7 +923,7 @@ html.dark .photo.staff-photo:hover .staff-badge {
   box-shadow: 0 0 48px 18px rgba(167,67,206,0.58), 0 0 24px 8px rgba(167,67,206,0.48), 0 2px 12px rgba(0,0,0,0.22);
   border-color: #222;
 }
-/* Staff photo shadow in dark mode */
+
 html.dark .photo.staff-photo {
   box-shadow: 0 0 0 3px rgba(167, 67, 206, 0.28), 0 2px 8px rgba(255,255,255,0.08);
 }
@@ -924,4 +955,14 @@ html.dark .photo.staff-photo:hover {
 .photo:hover .photo-overlay {
   opacity: 1;
   transform: translateY(0);
+}
+.site-header .header-actions .sort-selector .sort-btn {
+  min-width: 6.5rem; /* Set width to fit "Newest" label and icon */
+  width: 6.5rem;
+  height: 1.93rem;    /* Match nav-link button height */
+  padding: 0.375rem 0.75rem;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.875rem;
 }
