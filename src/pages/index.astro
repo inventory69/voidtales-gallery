@@ -5,6 +5,14 @@ import { siteConfig } from '../config/site.js';
 import { navigationLinks } from '../config/navigation.js';
 import { sortPhotos } from '../utils/sortPhotos.js';
 
+import '../styles/variables.css';
+import '../styles/base.css';
+import '../styles/layout.css';
+import '../styles/components.css';
+import '../styles/hero.css';
+import '../styles/responsive.css';
+import '../styles/accessibility.css';
+
 import Header from '../components/Header.astro';
 import PhotoGrid from '../components/PhotoGrid.astro';
 import Footer from '../components/Footer.astro';
@@ -67,13 +75,13 @@ const sortedPhotos = sortPhotos(photos, siteConfig.defaultSort);
       html { visibility: hidden; }
     </style>
     <!-- Load CSS directly after theme script -->
-    <link rel="stylesheet" href="/src/styles/variables.css" />
+    <!-- <link rel="stylesheet" href="/src/styles/variables.css" />
     <link rel="stylesheet" href="/src/styles/base.css" />
     <link rel="stylesheet" href="/src/styles/layout.css" />
     <link rel="stylesheet" href="/src/styles/components.css" />
     <link rel="stylesheet" href="/src/styles/hero.css" />
     <link rel="stylesheet" href="/src/styles/responsive.css" />
-    <link rel="stylesheet" href="/src/styles/accessibility.css" />
+    <link rel="stylesheet" href="/src/styles/accessibility.css" /> -->
   </head>
   <body style={`--site-font-family: ${siteConfig.fontFamily};`}>
     <div id="background"></div>
