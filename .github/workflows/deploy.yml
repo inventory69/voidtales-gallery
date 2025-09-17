@@ -55,6 +55,10 @@ jobs:
           rm -f src/content/photos/.downloads_synced
           rm -f public/images/original/.downloads_synced
 
+      - name: 🔧 Get force-cache-update hash
+        id: forcecache
+        run: echo "hash=$(md5sum .force-cache-update | cut -d' ' -f1)" >> $GITHUB_OUTPUT
+
       # 🔧 Restore downloaded files cache
       - name: 🔧 Restore downloaded files cache
         id: cache-restore
@@ -63,7 +67,7 @@ jobs:
           path: |
             src/content/photos
             public/images/original
-          key: ${{ runner.os }}-downloads-${{ steps.remote-key-gen.outputs.cache-key }}
+          key: ${{ runner.os }}-downloads-${{ steps.remote-key-gen.outputs.cache-key }}-${{ steps.forcecache.outputs.hash }}
           restore-keys: |
             ${{ runner.os }}-downloads-
 
