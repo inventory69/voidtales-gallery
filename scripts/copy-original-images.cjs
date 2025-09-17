@@ -6,6 +6,8 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 const destDir = './public/images/original/';
+const excludeSubdir = 'default';
+
 const internalUrl = config.originalSourceUrlInternal ? config.originalSourceUrlInternal.replace(/'/g, '') : null;
 const externalUrl = config.originalSourceUrlExternal ? config.originalSourceUrlExternal.replace(/'/g, '') : null;
 
@@ -84,15 +86,22 @@ async function fetchDirectoryListing(url) {
 
   // Exclude these files from deletion (repo-only files)
   const excludeFiles = [
+    "31736163-default.webp",
+    "44215106-default.webp",
     "64517921-default.webp",
     "72382172-default.webp",
-    "82716382-default.webp"
+    "96103542-default.webp",
+    "99323854-default.webp",
   ];
 
-  // List all local image files in destDir (exclude marker file)
-  const localFiles = fs.readdirSync(destDir).filter(f =>
-    /\.(png|jpe?g|webp|bmp)$/i.test(f) && f !== '.downloads_synced'
-  );
+  // List all local image files in destDir (exclude marker file and defaults subdir)
+  const localFiles = fs.readdirSync(destDir)
+    .filter(f =>
+      /\.(png|jpe?g|webp|bmp)$/i.test(f) &&
+      f !== '.downloads_synced' &&
+      (!fs.statSync(path.join(destDir, f)).isDirectory()) &&
+      f !== excludeSubdir
+    );
 
   // Find files that are local but not on remote, but keep excluded files
   const filesToDelete = localFiles.filter(f =>

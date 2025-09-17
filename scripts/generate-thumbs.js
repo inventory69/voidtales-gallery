@@ -3,7 +3,10 @@ import path from 'path';
 import sharp from 'sharp';
 
 // Source and output directories
-const srcDir = path.resolve('public/images/original');
+const srcDirs = [
+  path.resolve('public/images/original'),
+  path.resolve('public/images/original/default')
+];
 const outDir = path.resolve('public/images/thumbs');
 const marker = path.resolve('.thumbs_generated');
 
@@ -19,17 +22,25 @@ if (fs.existsSync(marker)) {
 // Ensure output directory exists
 fs.mkdirSync(outDir, { recursive: true });
 
-// Get all supported image files from source directory
-const files = fs.readdirSync(srcDir).filter(f => /\.(jpe?g|png|webp)$/i.test(f));
+// Get all supported image files from both source directories
+let files = [];
+for (const dir of srcDirs) {
+  if (fs.existsSync(dir)) {
+    const dirFiles = fs.readdirSync(dir)
+      .filter(f => /\.(jpe?g|png|webp)$/i.test(f))
+      .map(f => ({ file: f, dir }));
+    files = files.concat(dirFiles);
+  }
+}
 if (!files.length) {
-  console.log('No source images found in', srcDir);
+  console.log('No source images found in', srcDirs.join(', '));
   process.exit(0);
 }
 
 (async () => {
-  for (const file of files) {
+  for (const { file, dir } of files) {
     const name = path.parse(file).name;
-    const input = path.join(srcDir, file);
+    const input = path.join(dir, file);
     for (const w of sizes) {
       // Generate WebP thumbnail if it doesn't exist
       const outWebp = path.join(outDir, `${name}-${w}.webp`);
