@@ -6,7 +6,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 const destDir = './src/content/photos/';
-const excludeSubdir = 'default';
+const defaultDir = path.join(destDir, 'default');
 
 const internalUrl = config.mdSourceUrlInternal ? config.mdSourceUrlInternal.replace(/'/g, '') : null;
 const externalUrl = config.mdSourceUrlExternal ? config.mdSourceUrlExternal.replace(/'/g, '') : null;
@@ -81,8 +81,24 @@ async function fetchDirectoryListing(url) {
     }
   });
 
-  // Exclude these files from deletion (repo-only files)
+  // List all local .md files in destDir (exclude marker file and default subdir)
+  const localFiles = fs.readdirSync(destDir)
+    .filter(f =>
+      f.endsWith('.md') &&
+      f !== '.downloads_synced' &&
+      (!fs.statSync(path.join(destDir, f)).isDirectory())
+    );
+
+  // List all files in default subdir (never delete)
+  let defaultFiles = [];
+  if (fs.existsSync(defaultDir)) {
+    defaultFiles = fs.readdirSync(defaultDir)
+      .filter(f => f.endsWith('.md'));
+  }
+
+  // Exclude default files from deletion
   const excludeFiles = [
+    ...defaultFiles.map(f => `default/${f}`),
     "31736163-default.md",
     "44215106-default.md",
     "64517921-default.md",
@@ -90,15 +106,6 @@ async function fetchDirectoryListing(url) {
     "96103542-default.md",
     "99323854-default.md",
   ];
-
-  // List all local .md files in destDir (exclude marker file and defaults subdir)
-  const localFiles = fs.readdirSync(destDir)
-    .filter(f =>
-      f.endsWith('.md') &&
-      f !== '.downloads_synced' &&
-      (!fs.statSync(path.join(destDir, f)).isDirectory()) &&
-      f !== excludeSubdir
-    );
 
   // Find files that are local but not on remote, but keep excluded files
   const filesToDelete = localFiles.filter(f =>

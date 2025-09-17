@@ -6,7 +6,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 const destDir = './public/images/original/';
-const excludeSubdir = 'default';
+const defaultDir = path.join(destDir, 'default');
 
 const internalUrl = config.originalSourceUrlInternal ? config.originalSourceUrlInternal.replace(/'/g, '') : null;
 const externalUrl = config.originalSourceUrlExternal ? config.originalSourceUrlExternal.replace(/'/g, '') : null;
@@ -84,8 +84,24 @@ async function fetchDirectoryListing(url) {
     }
   });
 
-  // Exclude these files from deletion (repo-only files)
+  // List all local image files in destDir (exclude marker file and default subdir)
+  const localFiles = fs.readdirSync(destDir)
+    .filter(f =>
+      /\.(png|jpe?g|webp|bmp)$/i.test(f) &&
+      f !== '.downloads_synced' &&
+      (!fs.statSync(path.join(destDir, f)).isDirectory())
+    );
+
+  // List all files in default subdir (never delete)
+  let defaultFiles = [];
+  if (fs.existsSync(defaultDir)) {
+    defaultFiles = fs.readdirSync(defaultDir)
+      .filter(f => /\.(png|jpe?g|webp|bmp)$/i.test(f));
+  }
+
+  // Exclude default files from deletion
   const excludeFiles = [
+    ...defaultFiles.map(f => `default/${f}`),
     "31736163-default.webp",
     "44215106-default.webp",
     "64517921-default.webp",
@@ -93,15 +109,6 @@ async function fetchDirectoryListing(url) {
     "96103542-default.webp",
     "99323854-default.webp",
   ];
-
-  // List all local image files in destDir (exclude marker file and defaults subdir)
-  const localFiles = fs.readdirSync(destDir)
-    .filter(f =>
-      /\.(png|jpe?g|webp|bmp)$/i.test(f) &&
-      f !== '.downloads_synced' &&
-      (!fs.statSync(path.join(destDir, f)).isDirectory()) &&
-      f !== excludeSubdir
-    );
 
   // Find files that are local but not on remote, but keep excluded files
   const filesToDelete = localFiles.filter(f =>

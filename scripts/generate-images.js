@@ -1,54 +1,30 @@
 import fs from 'fs';
 import path from 'path';
 
-const imagesDirs = [
-  path.join(process.cwd(), 'public/images/original'),
-  path.join(process.cwd(), 'public/images/original/default')
-];
-const contentDirs = [
-  path.join(process.cwd(), 'src/content/photos'),
-  path.join(process.cwd(), 'src/content/photos/default')
-];
+const imagesDir = path.join(process.cwd(), 'public/images/original');
+const defaultImagesDir = path.join(imagesDir, 'default');
+const mdDir = path.join(process.cwd(), 'src/content/photos');
+const defaultMdDir = path.join(mdDir, 'default');
 const outPath = path.join(process.cwd(), 'public/images.json');
 
-// Get all image files from both image directories
-let imageFiles = [];
-for (const dir of imagesDirs) {
-  if (fs.existsSync(dir)) {
-    const files = fs.readdirSync(dir)
-      .filter(f => /\.(webp|jpg|png|jpeg|bmp)$/i.test(f))
-      .map(f => ({ file: f, dir }));
-    imageFiles = imageFiles.concat(files);
-  }
-}
+// Cleanup: Lösche gecachte Default-Dateien im Hauptordner
+fs.readdirSync(imagesDir)
+  .filter(f => f.endsWith('-default.webp') && !fs.statSync(path.join(imagesDir, f)).isDirectory())
+  .forEach(f => {
+    fs.unlinkSync(path.join(imagesDir, f));
+    console.log(`🗑️ Deleted: ${f} from images/original`);
+  });
 
-// Get all markdown files from both content directories
-let mdFiles = [];
-for (const dir of contentDirs) {
-  if (fs.existsSync(dir)) {
-    const files = fs.readdirSync(dir)
-      .filter(f => /\.md$/i.test(f))
-      .map(f => ({ file: f, dir }));
-    mdFiles = mdFiles.concat(files);
-  }
-}
-
-// Helper: Find the matching markdown file for a given image
-function findMd(id) {
-  const direct = `${id}.md`;
-  const withDefault = `${id}-default.md`;
-  for (const { file, dir } of mdFiles) {
-    if (file === direct || file === withDefault) {
-      return { file, dir };
-    }
-  }
-  return null;
-}
+fs.readdirSync(mdDir)
+  .filter(f => f.endsWith('-default.md') && !fs.statSync(path.join(mdDir, f)).isDirectory())
+  .forEach(f => {
+    fs.unlinkSync(path.join(mdDir, f));
+    console.log(`🗑️ Deleted: ${f} from content/photos`);
+  });
 
 // Helper: Extract frontmatter from markdown file
-function extractFrontmatter(mdFileObj) {
-  if (!mdFileObj) return {};
-  const fullPath = path.join(mdFileObj.dir, mdFileObj.file);
+function extractFrontmatter(fullPath) {
+  if (!fs.existsSync(fullPath)) return {};
   const content = fs.readFileSync(fullPath, 'utf-8');
   const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
   if (!frontmatterMatch) return {};
@@ -65,20 +41,22 @@ function extractFrontmatter(mdFileObj) {
   return frontmatter;
 }
 
-const images = imageFiles.map(({ file, dir }) => {
-  const base = path.parse(file).name;
-  const id = base.replace(/-default$/, '');
-  const isDefault = base.endsWith('-default');
-  const imageUrl = `/images/original/${isDefault ? 'default/' : ''}${file}`;
-  const mdFileObj = findMd(base);
-  const mdPath = mdFileObj ? `/src/content/photos/${mdFileObj.dir.endsWith('default') ? 'default/' : ''}${mdFileObj.file}` : null;
-  const frontmatter = extractFrontmatter(mdFileObj);
+// 1. Externe Bilder + Markdown
+const externalImages = fs.readdirSync(imagesDir)
+  .filter(f => /\.(webp|jpg|png|jpeg|bmp)$/i.test(f) && !fs.statSync(path.join(imagesDir, f)).isDirectory() && !f.endsWith('-default.webp'));
+
+const externalEntries = externalImages.map(file => {
+  const id = path.parse(file).name;
+  const imageUrl = `/images/original/${file}`;
+  const mdFile = path.join(mdDir, `${id}.md`);
+  const mdPath = fs.existsSync(mdFile) ? `/src/content/photos/${id}.md` : null;
+  const frontmatter = extractFrontmatter(mdFile);
 
   return {
     id,
     imageUrl,
     mdPath,
-    isDefault,
+    isDefault: false,
     date: frontmatter.date || null,
     title: frontmatter.title || id,
     caption: frontmatter.caption || '',
@@ -87,5 +65,32 @@ const images = imageFiles.map(({ file, dir }) => {
   };
 });
 
+// 2. Default Bilder + Markdown
+const defaultImages = fs.existsSync(defaultImagesDir)
+  ? fs.readdirSync(defaultImagesDir).filter(f => /\.(webp|jpg|png|jpeg|bmp)$/i.test(f))
+  : [];
+
+const defaultEntries = defaultImages.map(file => {
+  const id = path.parse(file).name.replace(/-default$/, '');
+  const imageUrl = `/images/original/default/${file}`;
+  const mdFile = path.join(defaultMdDir, `${id}-default.md`);
+  const mdPath = fs.existsSync(mdFile) ? `/src/content/photos/default/${id}-default.md` : null;
+  const frontmatter = extractFrontmatter(mdFile);
+
+  return {
+    id,
+    imageUrl,
+    mdPath,
+    isDefault: true,
+    date: frontmatter.date || null,
+    title: frontmatter.title || id,
+    caption: frontmatter.caption || '',
+    author: frontmatter.author || '',
+    body: frontmatter.body || '',
+  };
+});
+
+// 3. Combine and write
+const images = [...externalEntries, ...defaultEntries];
 fs.writeFileSync(outPath, JSON.stringify(images, null, 2), 'utf-8');
 console.log(`✔️ Wrote ${images.length} entries to public/images.json`);
