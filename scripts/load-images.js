@@ -1,8 +1,7 @@
-import { sortPhotos } from '../src/utils/sortPhotos.js';
 import { siteConfig } from '../src/config/site.js';
 
 /**
- * Loads the latest images.json and returns sorted images.
+ * Loads the latest images.json and returns images in original order.
  * Does not manipulate the DOM directly.
  */
 async function loadImages() {
@@ -14,19 +13,8 @@ async function loadImages() {
       return [];
     }
     const images = await response.json();
-
-    // Get sort option: localStorage > window > siteConfig
-    let sortOption = siteConfig.defaultSort;
-    if (typeof window !== "undefined") {
-      const stored = window.localStorage.getItem("gallerySortOption");
-      if (stored) sortOption = stored;
-      else if (window.__gallerySortOption) sortOption = window.__gallerySortOption;
-    }
-
-    const sortedImages = sortPhotos(images, sortOption);
-    console.debug('[LoadImages] Sort option:', sortOption);
-    console.debug('[LoadImages] Number of images:', sortedImages.length);
-    return sortedImages;
+    // Do NOT sort here!
+    return images;
   } catch (err) {
     console.error('[LoadImages] Error:', err);
     return [];

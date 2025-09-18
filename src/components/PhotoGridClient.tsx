@@ -28,11 +28,13 @@ export default function PhotoGridClient({
   staffAuthors,
   ariaLabelPrefix,
 }: {
-  photos?: Photo[]; // <-- make optional
+  photos?: Photo[];
   staffAuthors?: string[];
   ariaLabelPrefix?: string;
 }) {
-  const [loadedPhotos, setLoadedPhotos] = useState<Photo[]>(photos ?? []);
+  const [originalPhotos, setOriginalPhotos] = useState<Photo[]>([]);
+  const [loadedPhotos, setLoadedPhotos] = useState<Photo[]>([]);
+  const [sortOption, setSortOption] = useState(getInitialSort());
   const [loading, setLoading] = useState(true);
   const [flashing, setFlashing] = useState(false);
 
@@ -126,7 +128,7 @@ export default function PhotoGridClient({
     }
   }
 
-  // Load and set photos from images.json
+  // Define loadAndSetPhotos ONCE
   async function loadAndSetPhotos() {
     setLoading(true);
     setFlashing(true);
@@ -143,18 +145,39 @@ export default function PhotoGridClient({
         title: img.title || img.id,
         caption: img.caption || '',
         author: img.author || '',
+        date: img.date,
       }));
-      setLoadedPhotos(mappedPhotos);
+      setOriginalPhotos(mappedPhotos);
     } catch (err) {
       console.error('[PhotoGridClient] Error loading photos:', err);
     }
     setLoading(false);
   }
 
-  // Initial load
+  // Load images on mount
   useEffect(() => {
     loadAndSetPhotos();
   }, []);
+
+  // Listen for sort event and update sortOption
+  useEffect(() => {
+    const handleSort = (e: CustomEvent) => {
+      setSortOption(e.detail.sortOption);
+    };
+    window.addEventListener('sortGallery', handleSort as EventListener);
+    return () => window.removeEventListener('sortGallery', handleSort as EventListener);
+  }, []);
+
+  // Sort photos whenever originalPhotos or sortOption changes
+  useEffect(() => {
+    if (originalPhotos.length === 0) return;
+    // @ts-ignore
+    import("../../src/utils/sortPhotos.js").then(({ sortPhotos }) => {
+      console.log("Sorting with option:", sortOption);
+      const sorted = sortPhotos(originalPhotos, sortOption);
+      setLoadedPhotos(sorted);
+    });
+  }, [originalPhotos, sortOption]);
 
   // Listen for refresh event
   useEffect(() => {
@@ -207,20 +230,6 @@ export default function PhotoGridClient({
     });
 
     window._glightboxInstance = lightbox;
-  }, [loadedPhotos]);
-
-  // Listen for sort event and update photo order
-  useEffect(() => {
-    const handleSort = (e: CustomEvent) => {
-      const { sortOption } = e.detail;
-      // @ts-ignore
-      import("../../src/utils/sortPhotos.js").then(({ sortPhotos }) => {
-        const sorted = sortPhotos(loadedPhotos, sortOption);
-        setLoadedPhotos(sorted);
-      });
-    };
-    window.addEventListener('sortGallery', handleSort as EventListener);
-    return () => window.removeEventListener('sortGallery', handleSort as EventListener);
   }, [loadedPhotos]);
 
   // Helper: Check if photo is by a staff member
@@ -286,4 +295,13 @@ export default function PhotoGridClient({
       </div>
     </div>
   );
+}
+
+function getInitialSort(defaultSort: string = "date-desc") {
+  if (typeof window !== "undefined") {
+    const stored = window.localStorage.getItem("gallerySortOption");
+    if (stored) return stored;
+    if (window.__gallerySortOption) return window.__gallerySortOption;
+  }
+  return defaultSort;
 }
