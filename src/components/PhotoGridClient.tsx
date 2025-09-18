@@ -17,6 +17,7 @@ type Photo = {
   title?: string;
   caption?: string;
   author?: string;
+  body?: string;
 };
 
 const BATCH_SIZE = 10;
@@ -146,6 +147,7 @@ export default function PhotoGridClient({
         title: img.title || img.id,
         caption: img.caption || '',
         author: img.author || '',
+        body: img.body || '',
         date: img.date,
       }));
       setOriginalPhotos(mapped);
@@ -305,7 +307,13 @@ export default function PhotoGridClient({
               href={photo.imageUrl}
               data-gallery="gallery"
               data-id={photo.id}
-              data-title={photo.caption?.trim() ? photo.caption : photo.title?.trim()}
+              data-title={
+                photo.caption?.trim()
+                ? photo.caption
+                : photo.body?.trim()
+                ? photo.body
+                : photo.title?.trim()
+              }
               data-description={`Author: ${photo.author}`}
               aria-label={`${ariaLabelPrefix} ${photo.title}`}
               key={photo.id}
