@@ -45,7 +45,7 @@ html:not(.dark) #background,
 html[data-theme='light'] #background {
   background-color: #f5e0a6e1; /* Fallback color */
   background:
-    linear-gradient(rgba(241, 241, 241, 0.747), rgba(219, 237, 240, 0.726)),
+    linear-gradient(rgba(241, 241, 241, 0.603), rgba(219, 237, 240, 0.774)),
     url('/images/index-light-blur.webp') center/cover no-repeat;
 }
 
