@@ -966,3 +966,16 @@ html.dark .photo.staff-photo:hover {
   align-items: center;
   font-size: 0.875rem;
 }
+
+.photo-grid-loader {
+  grid-column: 1 / -1;
+  justify-self: center;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.5rem 0;
+  color: var(--muted);
+  font-size: 1.1rem;
+}

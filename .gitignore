@@ -20,3 +20,4 @@ public/images/thumbs/
 
 # End of .gitignore
 public/images.json
+scripts/generate-test-data.js
