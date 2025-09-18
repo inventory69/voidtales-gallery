@@ -1,15 +1,11 @@
 ---
 import PhotoGridClient from "./PhotoGridClient";
 import { siteConfig } from "../config/site.js";
-
-// Get photo data from Astro props
-const { photos } = Astro.props;
 ---
 
 <!-- Render the photo grid using the Preact client component -->
 <PhotoGridClient
   client:only="preact"
-  photos={photos}
   staffAuthors={siteConfig.staffAuthors}
   ariaLabelPrefix="Open fullscreen of"
 />

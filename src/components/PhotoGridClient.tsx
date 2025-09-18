@@ -16,27 +16,23 @@ declare global {
 // Photo type definition
 type Photo = {
   id: string;
-  fullsizePath: string;
-  thumbPath: string;
-  title: string;
-  caption: string;
-  author: string;
-  body: string;
   imageUrl: string;
-  mdPath: string;
-  isDefault: boolean;
-  date: string;
+  thumbPath?: string;
+  title?: string;
+  caption?: string;
+  author?: string;
 };
 
 export default function PhotoGridClient({
-  staffAuthors = [],
-  ariaLabelPrefix = "Open fullscreen of",
+  photos,
+  staffAuthors,
+  ariaLabelPrefix,
 }: {
-  photos: Photo[];
+  photos?: Photo[]; // <-- make optional
   staffAuthors?: string[];
   ariaLabelPrefix?: string;
 }) {
-  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [loadedPhotos, setLoadedPhotos] = useState<Photo[]>(photos ?? []);
   const [loading, setLoading] = useState(true);
   const [flashing, setFlashing] = useState(false);
 
@@ -86,7 +82,7 @@ export default function PhotoGridClient({
         }
 
         // Get photo ID for the current slide
-        const photoObj = slideIndex >= 0 ? photos[slideIndex] : undefined;
+        const photoObj = slideIndex >= 0 ? loadedPhotos[slideIndex] : undefined;
         const photoId = photoObj?.id || "";
 
         // Build shareable URL with #img-<id>
@@ -134,7 +130,7 @@ export default function PhotoGridClient({
   async function loadAndSetPhotos() {
     setLoading(true);
     setFlashing(true);
-    setPhotos([]);
+    setLoadedPhotos([]);
     setTimeout(() => setFlashing(false), 200);
     try {
       // @ts-ignore
@@ -142,18 +138,13 @@ export default function PhotoGridClient({
       const loadedPhotos = await loadImages();
       const mappedPhotos = loadedPhotos.map((img: any) => ({
         id: img.id,
-        fullsizePath: img.imageUrl,
+        imageUrl: img.imageUrl,
         thumbPath: `/images/thumbs/${img.id}${img.isDefault ? '-default' : ''}-400.webp`,
         title: img.title || img.id,
         caption: img.caption || '',
         author: img.author || '',
-        body: img.body || '',
-        imageUrl: img.imageUrl,
-        mdPath: img.mdPath,
-        isDefault: img.isDefault,
-        date: img.date,
       }));
-      setPhotos(mappedPhotos);
+      setLoadedPhotos(mappedPhotos);
     } catch (err) {
       console.error('[PhotoGridClient] Error loading photos:', err);
     }
@@ -176,11 +167,11 @@ export default function PhotoGridClient({
 
   // Re-initialize GLightbox when photos change
   useEffect(() => {
-    if (photos.length === 0) return;
+    if (loadedPhotos.length === 0) return;
     if (window._glightboxInstance) {
       window._glightboxInstance.destroy();
     }
-    console.debug('[PhotoGridClient] Re-initializing GLightbox with', photos.length, 'photos');
+    console.debug('[PhotoGridClient] Re-initializing GLightbox with', loadedPhotos.length, 'photos');
     const lightbox = GLightbox({
       selector: ".photo",
       touchNavigation: true,
@@ -194,7 +185,7 @@ export default function PhotoGridClient({
     const hash = window.location.hash;
     if (hash.startsWith("#img-")) {
       const id = hash.replace("#img-", "");
-      const index = photos.findIndex(photo => photo.id === id);
+      const index = loadedPhotos.findIndex(photo => photo.id === id);
       if (index >= 0) {
         setTimeout(() => {
           lightbox.openAt(index);
@@ -216,7 +207,7 @@ export default function PhotoGridClient({
     });
 
     window._glightboxInstance = lightbox;
-  }, [photos]);
+  }, [loadedPhotos]);
 
   // Listen for sort event and update photo order
   useEffect(() => {
@@ -224,20 +215,20 @@ export default function PhotoGridClient({
       const { sortOption } = e.detail;
       // @ts-ignore
       import("../../src/utils/sortPhotos.js").then(({ sortPhotos }) => {
-        const sorted = sortPhotos(photos, sortOption);
-        setPhotos(sorted);
+        const sorted = sortPhotos(loadedPhotos, sortOption);
+        setLoadedPhotos(sorted);
       });
     };
     window.addEventListener('sortGallery', handleSort as EventListener);
     return () => window.removeEventListener('sortGallery', handleSort as EventListener);
-  }, [photos]);
+  }, [loadedPhotos]);
 
   // Helper: Check if photo is by a staff member
   function isStaffPhoto(photo: Photo) {
     // Vergleiche author mit staffAuthors (Case-Insensitive empfohlen)
-    return staffAuthors.some(
+    return staffAuthors?.some(
       staff => staff.trim().toLowerCase() === (photo.author?.trim().toLowerCase() || "")
-    );
+    ) ?? false;
   }
 
   return (
@@ -254,18 +245,16 @@ export default function PhotoGridClient({
         </div>
       )}
       <div id="photo-grid" class={`grid-container ${flashing ? 'flashing' : ''}`}>
-        {photos.map((photo, i) => (
+        {loadedPhotos.map((photo, i) => (
           <a
             class={`photo${isStaffPhoto(photo) ? " staff-photo" : ""}`}
             style={{ "--photo-delay": `${i * 0.07}s` }}
-            href={photo.fullsizePath}
+            href={photo.imageUrl}
             data-gallery="gallery"
             data-id={photo.id}
             data-title={
               photo.caption?.trim()
                 ? photo.caption
-                : photo.body?.trim()
-                ? photo.body
                 : photo.title?.trim()
             }
             data-description={`Author: ${photo.author}`}
@@ -274,12 +263,12 @@ export default function PhotoGridClient({
             <span class="photo-overlay">{photo.author}</span>
             <picture>
               <source
-                srcSet={`${photo.thumbPath.replace("-400.webp", "-800.webp")} 2x`}
+                srcSet={`${photo.thumbPath?.replace("-400.webp", "-800.webp")} 2x`}
                 type="image/webp"
               />
               <img
                 src={photo.thumbPath}
-                srcSet={`${photo.thumbPath} 1x, ${photo.thumbPath.replace("-400.webp", "-800.webp")} 2x`}
+                srcSet={`${photo.thumbPath} 1x, ${photo.thumbPath?.replace("-400.webp", "-800.webp")} 2x`}
                 alt={photo.title}
                 loading={i < 3 ? "eager" : "lazy"}
               />

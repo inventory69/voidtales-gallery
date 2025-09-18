@@ -3,7 +3,6 @@ import ThemeToggle from '../components/ThemeToggle.jsx';
 import SortSelector from '../components/SortSelector';
 import { siteConfig } from '../config/site.js';
 import { navigationLinks } from '../config/navigation.js';
-import { sortPhotos } from '../utils/sortPhotos.js';
 
 import '../styles/variables.css';
 import '../styles/base.css';
@@ -16,23 +15,6 @@ import '../styles/accessibility.css';
 import Header from '../components/Header.astro';
 import PhotoGrid from '../components/PhotoGrid.astro';
 import Footer from '../components/Footer.astro';
-
-// Photo frontmatter type definition
-type PhotoFrontmatter = {
-  date: string;
-  [key: string]: any;
-};
-
-// Import all photo markdown files eagerly
-const modules = import.meta.glob('../content/photos/*.md', { eager: true });
-
-// Extract frontmatter from each module
-const photos = Object.values(modules).map((m) =>
-  (m as { frontmatter: PhotoFrontmatter })?.frontmatter ?? m
-) as PhotoFrontmatter[];
-
-// Sort photos by date and time (newest first)
-const sortedPhotos = sortPhotos(photos, siteConfig.defaultSort);
 ---
 
 <!doctype html>
@@ -109,7 +91,7 @@ const sortedPhotos = sortPhotos(photos, siteConfig.defaultSort);
     {/* Main photo grid */}
     <div class="page-wrapper">
       <main class="container" role="main" id="photos">
-        <PhotoGrid photos={sortedPhotos} />
+        <PhotoGrid />
       </main>
       <Footer />
     </div>
