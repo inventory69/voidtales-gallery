@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "preact/hooks";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.css";
 import { siteConfig } from "../config/site.js";
+import { sortPhotos } from "../utils/sortPhotos.js";
 
 declare global {
   interface Window {
@@ -166,18 +167,20 @@ export default function PhotoGridClient({
     const handleSort = (e: CustomEvent) => {
       setSortOption(e.detail.sortOption);
       setVisibleCount(20);
-      setGridKey(prev => prev + 1); // Grid neu rendern!
+      setGridKey(prev => prev + 1);
+
+      // Wenn random gewählt wurde, originalPhotos neu mischen!
+      if (e.detail.sortOption === "random") {
+        setLoadedPhotos(sortPhotos([...originalPhotos], "random"));
+      }
     };
     window.addEventListener('sortGallery', handleSort as EventListener);
     return () => window.removeEventListener('sortGallery', handleSort as EventListener);
-  }, []);
+  }, [originalPhotos]);
 
   useEffect(() => {
     if (originalPhotos.length === 0) return;
-    // @ts-ignore
-    import("../../src/utils/sortPhotos.js").then(({ sortPhotos }) => {
       setLoadedPhotos(sortPhotos(originalPhotos, sortOption));
-    });
   }, [originalPhotos, sortOption]);
 
   useEffect(() => {

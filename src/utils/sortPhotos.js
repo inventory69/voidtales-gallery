@@ -14,9 +14,15 @@ export function sortPhotos(photos, option) {
       return [...photos].sort((a, b) => (a.title || '').localeCompare(b.title || ''));
     case 'name-desc':
       return [...photos].sort((a, b) => (b.title || '').localeCompare(a.title || ''));
-    case 'random':
-      return [...photos].sort(() => Math.random() - 0.5);
-    // Add more sort options here
+    case 'random': {
+      // Fisher-Yates Shuffle
+      const arr = [...photos];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
     default:
       return photos;
   }
