@@ -41,6 +41,7 @@ export default function PhotoGridClient({
   const [pendingBatch, setPendingBatch] = useState(false);
   const [pendingHashId, setPendingHashId] = useState<string | null>(null);
   const [lightboxReady, setLightboxReady] = useState(false);
+  const [gridKey, setGridKey] = useState(0);
   const sentinelRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
@@ -163,7 +164,11 @@ export default function PhotoGridClient({
   }, []);
 
   useEffect(() => {
-    const handleSort = (e: CustomEvent) => setSortOption(e.detail.sortOption);
+    const handleSort = (e: CustomEvent) => {
+      setSortOption(e.detail.sortOption);
+      setVisibleCount(20);
+      setGridKey(prev => prev + 1); // Grid neu rendern!
+    };
     window.addEventListener('sortGallery', handleSort as EventListener);
     return () => window.removeEventListener('sortGallery', handleSort as EventListener);
   }, []);
@@ -296,23 +301,27 @@ export default function PhotoGridClient({
           <span>Loading Gallery ...</span>
         </div>
       )}
-      <div id="photo-grid" class={`grid-container ${flashing ? 'flashing' : ''}`}>
+      <div
+        key={gridKey}
+        id="photo-grid"
+        class={`grid-container ${flashing ? 'flashing' : ''}`}
+      >
         {loadedPhotos.slice(0, visibleCount).map((photo, i) => {
-          const isInitial = visibleCount <= BATCH_SIZE || i < BATCH_SIZE;
-          const isNew = i >= visibleCount - BATCH_SIZE || isInitial;
+          // Animation für alle sichtbaren Bilder nach Sortierung/Initial-Load
+          const animate = flashing || visibleCount <= BATCH_SIZE || i < visibleCount;
           return (
             <a
               class={`photo${isStaffPhoto(photo) ? " staff-photo" : ""}`}
-              style={isNew ? { "--photo-delay": `${(i % BATCH_SIZE) * 0.12}s` } : {}}
+              style={animate ? { "--photo-delay": `${(i % BATCH_SIZE) * 0.12}s` } : {}}
               href={photo.imageUrl}
               data-gallery="gallery"
               data-id={photo.id}
               data-title={
                 photo.caption?.trim()
-                ? photo.caption
-                : photo.body?.trim()
-                ? photo.body
-                : photo.title?.trim()
+                  ? photo.caption
+                  : photo.body?.trim()
+                  ? photo.body
+                  : photo.title?.trim()
               }
               data-description={`Author: ${photo.author}`}
               aria-label={`${ariaLabelPrefix} ${photo.title}`}
@@ -328,7 +337,7 @@ export default function PhotoGridClient({
                   src={photo.thumbPath}
                   srcSet={`${photo.thumbPath} 1x, ${photo.thumbPath?.replace("-400.webp", "-800.webp")} 2x`}
                   alt={photo.title}
-                  loading={isNew ? "eager" : "lazy"}
+                  loading={animate ? "eager" : "lazy"}
                 />
               </picture>
               {isStaffPhoto(photo) && (
