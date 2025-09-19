@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "preact/hooks";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.css";
-// @ts-ignore
 import { siteConfig } from "../config/site.js";
 
 declare global {
