@@ -10,19 +10,23 @@ Showcase your photos with modern design, automatic sorting, and seamless dark mo
 ## ✨ Features
 
 - 🚀 **Blazing-fast static generation** with Astro for instant loading
+- ⚡ **Performance-first** – Lazy loading images, efficient CSS, and WebP thumbnails
 - 🖼️ **Markdown-driven photo management** – Add metadata like dates for automatic sorting
-- 📅 **Smart sorting** – Photos sorted by `date` (newest first, precise to the millisecond)
+- 📅 **Smart sorting** – Photos sorted by `date` (newest first, precise to the millisecond), name, or random
+- 🔄 **Infinite Scroll** – Loads more images as you scroll, with animated transitions and loader
 - 🌗 **Instant dark mode** – Flicker-free theme switching with local storage and CSS variables
 - 📱 **Fully responsive** – Optimized for desktop, tablet, and mobile with CSS Grid
-- ⚡ **Performance-first** – Lazy loading images, efficient CSS, and WebP thumbnails
 - ♿ **Accessible lightbox** – Powered by GLightbox for smooth image viewing and screen reader support
-- 🎨 **Refined UI** – Transparent sticky header with blur, centered logo, and mobile menu
+- 🆔 **Unique IDs for Images** – Each image uses a unique ID for reliable sharing and direct linking
+- 📤 **GLightbox Share & View Original Buttons** – Share direct links or open originals in a new tab
 - 🖼️ **Automatic thumbnail generation** – Node script using Sharp for optimized WebP images
 - 🔧 **Config-driven site** – Control navigation, meta-tags, hero text, and more via `src/config/`
 - 📥 **Optional external downloads** – Automatically fetch markdown files and images from internal/external URLs during build (configurable via environment variables)
 - 🔄 **Refresh Button** – Instantly reloads all thumbnails and resources without cache, so you always see the latest images after updates.
-- 🆔 **Unique IDs for Images** – Each image now uses a unique ID to ensure the share button works reliably in GLightbox.
-- 📤 **GLightbox Share & View Original Buttons** – The lightbox now includes a share button and a "view original" button for quick access and sharing.
+- 👨‍💼 **Staff Badges** – Highlight staff member images in the grid
+- 🗂️ **Custom Sorting Selector** – Sort by newest, oldest, name, or random order
+- 🖼️ **Animated grid transitions** – Each batch of images animates in with a smooth fade and slide
+- 🧩 **Minimal dependencies** – No heavy frameworks, just Astro, Preact, and vanilla CSS/JS
 
 ---
 
@@ -83,32 +87,14 @@ If you want to automatically download markdown files and images from external so
 
 - Configure the download behavior in `src/config/externaldownload.cjs`:
   ```javascript
-  // External download configuration file: Defines settings for downloading external markdown files and images.
-  // Uses environment variables for URLs and enables/disables download scripts during build.
-
-  require('dotenv').config(); // Load environment variables from .env file as fallback option
+  require('dotenv').config();
 
   module.exports = {
-    // Flag to enable/disable markdown file download script
-    enableCopyMdFiles: true, // -> Customizable: set to true or false as needed
-    
-    // Flag to enable/disable original image download script
-    enableCopyOriginalImages: true, // -> Customizable: set to true or false as needed
-    
-    // ===========================================
-    // DONT TOUCH THIS BELOW //
-    // ===========================================
-
-    // Internal URL for markdown files (from environment variable)
+    enableCopyMdFiles: true,
+    enableCopyOriginalImages: true,
     mdSourceUrlInternal: process.env.EXT_DL_URL_MARKDOWN,
-    
-    // External fallback URL for markdown files (from environment variable)
     mdSourceUrlExternal: process.env.EXT_DL_URL_MARKDOWN_EXTERNAL,
-    
-    // Internal URL for original images (from environment variable)
     originalSourceUrlInternal: process.env.EXT_DL_URL_ORIGINAL,
-    
-    // External fallback URL for original images (from environment variable)
     originalSourceUrlExternal: process.env.EXT_DL_URL_ORIGINAL_EXTERNAL,
   };
   ```
@@ -134,15 +120,15 @@ Open [http://localhost:4321](http://localhost:4321) to see your gallery.
 │   ├── components/
 │   │   ├── Header.astro          # Sticky header with nav, centered logo, mobile menu, theme toggle, and refresh button
 │   │   ├── PhotoGrid.astro       # Server-rendered wrapper for PhotoGridClient
-│   │   ├── PhotoGridClient.tsx   # Client-side grid with GLightbox lightbox
+│   │   ├── PhotoGridClient.tsx   # Client-side grid with GLightbox, infinite scroll, and custom buttons
 │   │   ├── ThemeToggle.jsx       # Modern theme switcher with CSS animations
 │   │   └── RefreshButton.astro   # Button to reload thumbnails/resources without cache
 │   ├── config/
 │   │   ├── externaldownload.cjs  # Config for external downloads (enable/disable, URLs via env vars)
 │   │   ├── navigation.js         # Config for nav links (Portal, Wiki, Blog, Forum, Discord, Map)
-│   │   └── site.js               # Config for site metadata (name, description, URLs, hero text, etc.)
+│   │   └── site.js               # Config for site metadata (name, description, URLs, hero text, fonts, etc.)
 │   ├── content/
-│   │   └── photos/               # Markdown files with photo metadata (date, paths, etc.) – can be downloaded externally
+│   │   └── photos/               # Markdown files with photo metadata (date, paths, etc.)
 │   ├── pages/
 │   │   └── index.astro           # Main page with hero, sorting, and gallery
 │   └── styles/
@@ -157,6 +143,7 @@ Open [http://localhost:4321](http://localhost:4321) to see your gallery.
 │   ├── copy-md-files.cjs         # Script to download markdown files from internal/external URLs
 │   ├── copy-original-images.cjs  # Script to download images from internal/external URLs
 │   ├── generate-thumbs.js        # Sharp-based thumbnail generator for WebP
+│   ├── generate-images.js        # Generates images.json from originals and markdown
 │   ├── refresh-resources.cjs     # Script to reload thumbnails/resources without cache
 ├── package.json                  # Dependencies: Astro, Preact, GLightbox, Sharp, dotenv
 └── README.md
@@ -172,98 +159,70 @@ Edit the config files in `src/config/` to customize the site:
 Edit `src/config/navigation.js` to add or remove nav links. Current links:
 
 ```javascript
-// Navigation configuration file: Defines links for the site navigation menu.
-// Used in the header or navigation component to render external links.
-
 export const navigationLinks = [
-  // Portal link: Main entry point for VoidTales services
   { label: 'Portal', href: 'https://portal.voidtales.win' },
-  
-  // Wiki link: Community wiki for VoidTales information
   { label: 'Wiki', href: 'https://wiki.voidtales.win' },
-  
-  // Blog link: Official blog for updates and news
   { label: 'Blog', href: 'https://blog.voidtales.win' },
-  
-  // Forum link: Community discussion forum
   { label: 'Forum', href: 'https://forum.voidtales.win' },
-  
-  // Discord link: Invite to the VoidTales Discord server
   { label: 'Discord', href: 'https://discord.gg/QEMQsFect6' },
-  
-  // Map link: Dynamic map of the VoidTales world
   { label: 'Map', href: 'https://dynmap.voidtales.win' },
 ];
 ```
 
 ### Site Metadata and Hero
-Edit `src/config/site.js` for site-wide settings like meta-tags, hero text, and URLs:
+Edit `src/config/site.js` for site-wide settings like meta-tags, hero text, fonts, and URLs:
 
 ```javascript
-// Site configuration file: Defines global settings for the VoidTales Gallery site.
-// Used across the application for metadata, SEO, and UI elements like hero and footer.
-
 export const siteConfig = {
-  // Site name: Displayed in the browser title and meta tags
-  name: 'VoidTales Gallery',
-  
-  // Site description: Used for SEO meta description and social media previews
+  name: 'Void Tales Gallery',
   description: 'A sleek, high-performance photo gallery built with Astro, TypeScript, and vanilla CSS/JS. Showcase your photos with modern design, automatic sorting, and seamless dark mode.',
-  
-  // Site URL: Base URL for the site, used for canonical links and sitemaps
-  // This also sets the base URL for Astro and sitemap generation
   url: 'https://gallery.voidtales.win',
-  
-  // Fonts: Array of font URLs to be loaded for the site
-  fonts: [
-    'https://fonts.googleapis.com/css2?family=Macondo&family=Macondo+Swash+Caps&display=swap'
-  ],
-
-  // Font family: Main font family for the site, used via CSS variable
-  fontFamily: "'Macondo', cursive",
-  
-  // Open Graph image: Path to image used for social media previews (place in public/images/)
   ogImage: '/images/og-image.webp',
-  
-  // Site author: Name of the site creator or maintainer
   author: 'inventory69',
-  
-  // Keywords: Array of keywords for SEO and meta tags
   keywords: ['photo gallery', 'Astro', 'VoidTales', 'images', 'modern web'],
-  
-  // Hero section configuration: Defines content for the main hero area on the homepage
+  fonts: [
+    'https://fonts.googleapis.com/css2?family=Macondo&family=Macondo+Swash+Caps&display=swap',
+    'https://fonts.googleapis.com/css2?family=Asul:wght@400;700&display=swap',
+    'https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap'
+  ],
+  fontFamilyHead: "'Cinzel Decorative', serif",
+  fontFamily: "'Asul', sans-serif",
+  manifest: '/manifest.json',
+  favicon: '/favicon.ico',
   hero: {
-    title: 'Discover the VoidTales Gallery',  // Main headline for the hero section
-    subtitle: 'The latest images from the world of VoidTales – sorted by date.',  // Subtitle text
-    cta: 'To the images',  // Call-to-action button text
+    title: 'Void Tales Gallery',
+    subtitle: 'The latest images from the world of VoidTales – sorted by date.',
+    cta: 'To the images',
   },
-  
-  // Footer configuration: Defines content for the site footer
   footer: {
-    copyright: 'VoidTales',  // Copyright text displayed in the footer
+    copyright: 'VoidTales',
   },
+  defaultSort: 'date-desc',
+  staffAuthors: [
+    "shinsnowly",
+    "Shin Snowly",
+  ],
 };
 ```
-
-> **Note:**  
-> - The `url` property sets both the canonical site URL and the base URL for Astro and sitemap generation.
-> - You can configure the site's fonts and font family directly in `siteConfig` using the `fonts` and `fontFamily` properties.
 
 ---
 
 ## 🆕 Recent Improvements
 
+- **Infinite Scroll:** Loads more images as you scroll, with animated transitions and loader.
 - **Refresh Button:** Instantly reloads all thumbnails and resources without cache.
 - **Unique IDs for Images:** Each image uses a unique ID for reliable sharing in GLightbox.
 - **GLightbox Share & View Original Buttons:** The lightbox now includes a share button and a "view original" button.
-- **Removed Fancybox:** All lightbox functionality is now handled by GLightbox.
+- **Staff Badges:** Highlight staff member images in the grid.
+- **Animated grid transitions:** Each batch of images animates in with a smooth fade and slide.
 - **Header Buttons:** Improved styling and consistency for header action buttons.
+- **Project-wide TypeScript compatibility:** Config imports are now type-safe via `.d.ts` files.
 
 ---
 
 ## 🤝 Contributing
 
-We welcome contributions to improve VoidTales Gallery! Whether you're fixing bugs, adding features, or enhancing documentation, your help is appreciated. Here's a streamlined guide to get started:
+We welcome contributions to improve VoidTales Gallery! Whether you're fixing bugs, adding features, or enhancing documentation, your help is appreciated.
 
 ### 🛠️ 1. Fork and Clone the Repository
 - Visit [https://github.com/inventory69/voidtales-gallery](https://github.com/inventory69/voidtales-gallery) and click "Fork".
@@ -302,7 +261,7 @@ For questions, join our [Discord](https://discord.gg/QEMQsFect6) or open an issu
 
 ## 📝 Notes
 
-- **Sorting**: Photos are automatically sorted by `date` (newest first, precise to milliseconds).
+- **Sorting**: Photos are automatically sorted by `date` (newest first, precise to milliseconds), name, or random.
 - **Hero Section**: Customizable intro area in `index.astro`.
 - **Lightbox**: Uses GLightbox for accessibility and performance.
 - **Thumbnails**: Generated via Sharp in WebP format.
@@ -322,8 +281,20 @@ MIT License
 
 Copyright (c) 2025 inventory69 & Hyphonical
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
