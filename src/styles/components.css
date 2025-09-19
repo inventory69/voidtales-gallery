@@ -647,12 +647,12 @@ html.dark .header-action-btn:focus {
 }
 
 .header-action-btn.success {
-  background-color: var(--success-color, #4caf50);
+  background-color: var(--success-color, #4caf50) !important;
   color: white;
 }
 
 .header-action-btn.error {
-  background-color: var(--error-color, #f44336);
+  background-color: var(--error-color, #f44336) !important;
   color: white;
 }
 

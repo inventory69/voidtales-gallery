@@ -42,6 +42,7 @@ const { ariaLabel = "Refresh page", title = "Refresh (force reload)" } = Astro.p
             // Reset to original icon
             refreshBtn.classList.remove('success');
             refreshIcon.innerHTML = '<path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10"/><path d="M20.49 15a9 9 0 0 1-14.13 3.36L1 14"/>';
+            refreshBtn.blur();
           }, 2000);
           console.debug('[RefreshButton] Images updated!');
         } catch (err) {
@@ -54,6 +55,7 @@ const { ariaLabel = "Refresh page", title = "Refresh (force reload)" } = Astro.p
             // Reset to original icon
             refreshBtn.classList.remove('error');
             refreshIcon.innerHTML = '<path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10"/><path d="M20.49 15a9 9 0 0 1-14.13 3.36L1 14"/>';
+            refreshBtn.blur();
           }, 2000);
           console.error('[RefreshButton] Error loading images:', err);
         }
