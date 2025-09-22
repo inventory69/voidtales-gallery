@@ -7,7 +7,12 @@ permissions:
 on:
   push:
     branches: ["main"]
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      FORCE_CACHE_INVALIDATE:
+        description: 'Force cache invalidation'
+        required: false
+        default: 'false'
 
 concurrency:
   group: ${{ github.workflow }}
@@ -24,6 +29,7 @@ jobs:
       EXT_DL_URL_ORIGINAL: ${{ secrets.EXT_DL_URL_ORIGINAL }}
       EXT_DL_URL_MARKDOWN_EXTERNAL: ${{ secrets.EXT_DL_URL_MARKDOWN_EXTERNAL }}
       EXT_DL_URL_ORIGINAL_EXTERNAL: ${{ secrets.EXT_DL_URL_ORIGINAL_EXTERNAL }}
+      FORCE_CACHE_INVALIDATE: ${{ github.event.inputs.FORCE_CACHE_INVALIDATE || 'false' }}
 
     environment:
       name: production
@@ -59,9 +65,9 @@ jobs:
           rm -f src/content/photos/.downloads_synced
           rm -f public/images/original/.downloads_synced
 
-      - name: 🔧 Get force-cache-update hash
-        id: forcecache
-        run: echo "hash=$(md5sum .force-cache-update | cut -d' ' -f1)" >> $GITHUB_OUTPUT
+      # - name: 🔧 Get force-cache-update hash
+      #   id: forcecache
+      #   run: echo "hash=$(md5sum .force-cache-update | cut -d' ' -f1)" >> $GITHUB_OUTPUT
 
       # 🔧 Restore downloaded files cache
       - name: 🔧 Restore downloaded files cache
@@ -71,9 +77,8 @@ jobs:
           path: |
             src/content/photos
             public/images/original
-          key: ${{ runner.os }}-downloads-${{ steps.remote-key-gen.outputs.cache-key }}-${{ steps.forcecache.outputs.hash }}
-          restore-keys: |
-            ${{ runner.os }}-downloads-${{ steps.forcecache.outputs.hash }}
+          key: ${{ runner.os }}-downloads-${{ steps.remote-key-gen.outputs.cache-key }}-
+          restore-keys: ${{ env.FORCE_CACHE_INVALIDATE == 'true' && '' || runner.os == 'Linux' && 'Linux-downloads-' || runner.os == 'Windows' && 'Windows-downloads-' || runner.os == 'macOS' && 'macOS-downloads-' }}
 
       # 📦 Install project dependencies
       - name: 📦 Install project dependencies
