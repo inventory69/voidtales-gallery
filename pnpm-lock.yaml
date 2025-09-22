@@ -18,8 +18,8 @@ importers:
         specifier: ^3.6.0
         version: 3.6.0
       astro:
-        specifier: ^5.13.9
-        version: 5.13.9(@types/node@24.5.2)(rollup@4.52.0)(typescript@5.9.2)(yaml@2.8.1)
+        specifier: ^5.13.10
+        version: 5.13.10(@types/node@24.5.2)(rollup@4.52.0)(typescript@5.9.2)(yaml@2.8.1)
       axios:
         specifier: ^1.12.2
         version: 1.12.2
@@ -75,8 +75,8 @@ packages:
   '@astrojs/compiler@2.13.0':
     resolution: {integrity: sha512-mqVORhUJViA28fwHYaWmsXSzLO9osbdZ5ImUfxBarqsYdMlPbqAqGJCxsNzvppp1BEzc1mJNjOVvQqeDN8Vspw==}
 
-  '@astrojs/internal-helpers@0.7.2':
-    resolution: {integrity: sha512-KCkCqR3Goym79soqEtbtLzJfqhTWMyVaizUi35FLzgGSzBotSw8DB1qwsu7U96ihOJgYhDk2nVPz+3LnXPeX6g==}
+  '@astrojs/internal-helpers@0.7.3':
+    resolution: {integrity: sha512-6Pl0bQEIChuW5wqN7jdKrzWfCscW2rG/Cz+fzt4PhSQX2ivBpnhXgFUCs0M3DCYvjYHnPVG2W36X5rmFjZ62sw==}
 
   '@astrojs/language-server@2.15.4':
     resolution: {integrity: sha512-JivzASqTPR2bao9BWsSc/woPHH7OGSGc9aMxXL4U6egVTqBycB3ZHdBJPuOCVtcGLrzdWTosAqVPz1BVoxE0+A==}
@@ -90,8 +90,8 @@ packages:
       prettier-plugin-astro:
         optional: true
 
-  '@astrojs/markdown-remark@6.3.6':
-    resolution: {integrity: sha512-bwylYktCTsLMVoCOEHbn2GSUA3c5KT/qilekBKA3CBng0bo1TYjNZPr761vxumRk9kJGqTOtU+fgCAp5Vwokug==}
+  '@astrojs/markdown-remark@6.3.7':
+    resolution: {integrity: sha512-KXGdq6/BC18doBCYXp08alHlWChH0hdD2B1qv9wIyOHbvwI5K6I7FhSta8dq1hBQNdun8YkKPR013D/Hm8xd0g==}
 
   '@astrojs/preact@4.1.1':
     resolution: {integrity: sha512-UyUHtZ6uZEghqR5K6ri6YdczYTRjXDw3n9xzBXXtsl2xZ8dj2uVN4P6qrLo5nlON5lEkRCGsn4mO4utuyAB/KA==}
@@ -259,14 +259,14 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@cacheable/memoize@2.0.1':
-    resolution: {integrity: sha512-WBLH37SynkCa39S6IrTSMQF3Wdv4/51WxuU5TuCNEqZcLgLGHme8NUxRTcDIO8ZZFXlslWbh9BD3DllixgPg6Q==}
+  '@cacheable/memoize@2.0.2':
+    resolution: {integrity: sha512-wPrr7FUiq3Qt4yQyda2/NcOLTJCFcQSU3Am2adP+WLy+sz93/fKTokVTHmtz+rjp4PD7ee0AEOeRVNN6IvIfsg==}
 
-  '@cacheable/memory@2.0.1':
-    resolution: {integrity: sha512-Ufc7iQnRKFC8gjZVGOTOsMwM/vZtmsw3LafvctVXPm835ElgK3DpMe1U5i9sd6OieSkyJhXbAT2Q2FosXBBbAQ==}
+  '@cacheable/memory@2.0.2':
+    resolution: {integrity: sha512-sJTITLfeCI1rg7P3ssaGmQryq235EGT8dXGcx6oZwX5NRnKq9IE6lddlllcOl+oXW+yaeTRddCjo0xrfU6ZySA==}
 
-  '@cacheable/utils@2.0.1':
-    resolution: {integrity: sha512-sxHjO6wKn4/0wHCFYbh6tljj+ciP9BKgyBi09NLsor3sN+nu/Rt3FwLw6bYp7bp8usHpmcwUozrB/u4RuSw/eg==}
+  '@cacheable/utils@2.0.2':
+    resolution: {integrity: sha512-JTFM3raFhVv8LH95T7YnZbf2YoE9wEtkPPStuRF9a6ExZ103hFvs+QyCuYJ6r0hA9wRtbzgZtwUCoDWxssZd4Q==}
 
   '@capsizecss/unpack@2.4.0':
     resolution: {integrity: sha512-GrSU71meACqcmIUxPYOJvGKF0yryjN/L1aCuE9DViCTJI7bfkjgYDPD1zbNDcINJwSSP6UaBZY9GAbYDO7re0Q==}
@@ -933,8 +933,8 @@ packages:
     resolution: {integrity: sha512-Z7tMw1ytTXt5jqMcOP+OQteU1VuNK9Y02uuJtKQ1Sv69jXQKKg5cibLwGJow8yzZP+eAc18EmLGPal0bp36rvQ==}
     engines: {node: '>=8'}
 
-  astro@5.13.9:
-    resolution: {integrity: sha512-vwnJ9Db/X35G3n7F2KgcAAsQ7Du00s0ZFvB+Sx0w7Jl4fwit4+mHJbL4U2ZFxIo9tU07oZEey/2g1Awom7i0LQ==}
+  astro@5.13.10:
+    resolution: {integrity: sha512-PgIrIYvrR7fCoSPPt1sGlpoYK/FNil1BwKazND1DyaZC7SbWLi9hdIHM3ApdrL2SWK7oiADRPw7cTn80UyDWqA==}
     engines: {node: 18.20.8 || ^20.3.0 || >=22.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
 
@@ -991,8 +991,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
 
-  cacheable@2.0.1:
-    resolution: {integrity: sha512-MSKxcybpxB5kcWKpj+1tPBm2os4qKKGxDovsZmLhZmWIDYp8EgtC45C5zk1fLe1IC9PpI4ZE4eyryQH0N10PKA==}
+  cacheable@2.0.2:
+    resolution: {integrity: sha512-dWjhLx8RWnPsAWVKwW/wI6OJpQ/hSVb1qS0NUif8TR9vRiSwci7Gey8x04kRU9iAF+Rnbtex5Kjjfg/aB5w8Pg==}
 
   call-bind-apply-helpers@1.0.2:
     resolution: {integrity: sha512-Sp1ablJ0ivDkSzjcaJdxEunN5/XvksFJ2sMBFfq6x0ryhQV/2b/KwFe21cMpmHtPOSij8K99/wSfoEuTObmuMQ==}
@@ -2671,7 +2671,7 @@ snapshots:
 
   '@astrojs/compiler@2.13.0': {}
 
-  '@astrojs/internal-helpers@0.7.2': {}
+  '@astrojs/internal-helpers@0.7.3': {}
 
   '@astrojs/language-server@2.15.4(typescript@5.9.2)':
     dependencies:
@@ -2696,9 +2696,9 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@astrojs/markdown-remark@6.3.6':
+  '@astrojs/markdown-remark@6.3.7':
     dependencies:
-      '@astrojs/internal-helpers': 0.7.2
+      '@astrojs/internal-helpers': 0.7.3
       '@astrojs/prism': 3.3.0
       github-slugger: 2.0.0
       hast-util-from-html: 2.0.3
@@ -2934,19 +2934,19 @@ snapshots:
   '@biomejs/cli-win32-x64@2.2.4':
     optional: true
 
-  '@cacheable/memoize@2.0.1':
+  '@cacheable/memoize@2.0.2':
     dependencies:
-      '@cacheable/utils': 2.0.1
+      '@cacheable/utils': 2.0.2
 
-  '@cacheable/memory@2.0.1':
+  '@cacheable/memory@2.0.2':
     dependencies:
-      '@cacheable/memoize': 2.0.1
-      '@cacheable/utils': 2.0.1
+      '@cacheable/memoize': 2.0.2
+      '@cacheable/utils': 2.0.2
       '@keyv/bigmap': 1.0.2
       hookified: 1.12.1
       keyv: 5.5.2
 
-  '@cacheable/utils@2.0.1': {}
+  '@cacheable/utils@2.0.2': {}
 
   '@capsizecss/unpack@2.4.0':
     dependencies:
@@ -3493,11 +3493,11 @@ snapshots:
 
   astral-regex@2.0.0: {}
 
-  astro@5.13.9(@types/node@24.5.2)(rollup@4.52.0)(typescript@5.9.2)(yaml@2.8.1):
+  astro@5.13.10(@types/node@24.5.2)(rollup@4.52.0)(typescript@5.9.2)(yaml@2.8.1):
     dependencies:
       '@astrojs/compiler': 2.13.0
-      '@astrojs/internal-helpers': 0.7.2
-      '@astrojs/markdown-remark': 6.3.6
+      '@astrojs/internal-helpers': 0.7.3
+      '@astrojs/markdown-remark': 6.3.7
       '@astrojs/telemetry': 3.3.0
       '@capsizecss/unpack': 2.4.0
       '@oslojs/encoding': 1.1.0
@@ -3652,11 +3652,11 @@ snapshots:
       node-releases: 2.0.21
       update-browserslist-db: 1.1.3(browserslist@4.26.2)
 
-  cacheable@2.0.1:
+  cacheable@2.0.2:
     dependencies:
-      '@cacheable/memoize': 2.0.1
-      '@cacheable/memory': 2.0.1
-      '@cacheable/utils': 2.0.1
+      '@cacheable/memoize': 2.0.2
+      '@cacheable/memory': 2.0.2
+      '@cacheable/utils': 2.0.2
       hookified: 1.12.1
       keyv: 5.5.2
 
@@ -3980,7 +3980,7 @@ snapshots:
 
   flat-cache@6.1.14:
     dependencies:
-      cacheable: 2.0.1
+      cacheable: 2.0.2
       flatted: 3.3.3
       hookified: 1.12.1
 
