@@ -72,8 +72,8 @@ jobs:
             src/content/photos
             public/images/original
           key: ${{ runner.os }}-downloads-${{ steps.remote-key-gen.outputs.cache-key }}-${{ steps.forcecache.outputs.hash }}
-          restore-keys: |
-            ${{ runner.os }}-downloads-
+          # restore-keys: |
+          #   ${{ runner.os }}-downloads-
 
       # 📦 Install project dependencies
       - name: 📦 Install project dependencies
