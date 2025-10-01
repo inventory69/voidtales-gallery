@@ -27,14 +27,14 @@
     "@astrojs/check": "^0.9.4",
     "@astrojs/preact": "^4.1.1",
     "@astrojs/sitemap": "^3.6.0",
-    "astro": "^5.13.10",
+    "astro": "^5.14.1",
     "axios": "^1.12.2",
     "cheerio": "^1.1.2",
-    "dotenv": "^17.2.2",
+    "dotenv": "^17.2.3",
     "glightbox": "^3.3.1",
     "preact": "^10.27.2",
     "smartypants": "^0.2.2",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.3"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.2.4",
