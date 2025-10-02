@@ -84,7 +84,14 @@ import Footer from '../components/Footer.astro';
       <div class="hero-content">
         <h1 class="hero-title" style={`font-family: ${siteConfig.fontFamilyHead};`}>{siteConfig.hero.title}</h1>
         <p class="hero-subtitle" style={`font-family: ${siteConfig.fontFamily};`}>{siteConfig.hero.subtitle}</p>
-        <a href="#photos" class="hero-cta" style={`font-family: ${siteConfig.fontFamily};`}>{siteConfig.hero.cta}</a>
+        <a
+          href={siteConfig.hero.ctaLink}
+          class="hero-cta"
+          style={`font-family: ${siteConfig.fontFamily};`}
+          target="_blank" rel="noopener noreferrer"
+        >
+          {siteConfig.hero.cta}
+        </a>
       </div>
     </section>
     

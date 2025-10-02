@@ -14,6 +14,7 @@ export const siteConfig: {
     title: string;
     subtitle: string;
     cta: string;
+    ctaLink: string;
   };
   footer: {
     copyright: string;

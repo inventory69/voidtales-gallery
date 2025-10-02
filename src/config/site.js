@@ -18,6 +18,7 @@
  * @property {string} hero.title - Main headline for the hero section.
  * @property {string} hero.subtitle - Subtitle text for the hero section.
  * @property {string} hero.cta - Call-to-action button text in the hero section.
+ * @property {string} hero.ctaLink - URL for the call-to-action button (external link).
  * @property {Object} footer - Configuration for the site footer.
  * @property {string} footer.copyright - Copyright text displayed in the footer.
  * @property {string} defaultSort - Default Sorting Order.
@@ -62,7 +63,8 @@ export const siteConfig = {
   hero: {
     title: 'Void Tales Gallery',  // Main headline for the hero section
     subtitle: 'The latest images from the world of VoidTales – sorted by date.',  // Subtitle text
-    cta: 'To the images',  // Call-to-action button text
+    cta: 'To the Portal',  // Call-to-action button text
+    ctaLink: 'https://portal.voidtales.win', // 🌐 External link for the button
   },
   
   // Footer configuration: Defines content for the site footer
@@ -76,6 +78,8 @@ export const siteConfig = {
   // Staff authors: Array of staff member names for attribution or collaboration
   staffAuthors: [
     "shinsnowly",
-    "Shin Snowly",
+    ".inventory",
+    "hyphonical",
+    "razorbl8de",
   ],
 };
