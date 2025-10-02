@@ -1,6 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://gallery.voidtales.win/</loc>
+    <loc>https://gallery.voidtales.win/#img-31736163</loc>
+    <image:image>
+      <image:loc>https://gallery.voidtales.win/images/original/default/31736163-default.webp</image:loc>
+      <image:title>Default Screenshot #6</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://gallery.voidtales.win/#img-44215106</loc>
+    <image:image>
+      <image:loc>https://gallery.voidtales.win/images/original/default/44215106-default.webp</image:loc>
+      <image:title>Default Screenshot #5</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://gallery.voidtales.win/#img-64517921</loc>
+    <image:image>
+      <image:loc>https://gallery.voidtales.win/images/original/default/64517921-default.webp</image:loc>
+      <image:title>Default Screenshot #1</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://gallery.voidtales.win/#img-72382172</loc>
+    <image:image>
+      <image:loc>https://gallery.voidtales.win/images/original/default/72382172-default.webp</image:loc>
+      <image:title>Default Screenshot #3</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://gallery.voidtales.win/#img-96103542</loc>
+    <image:image>
+      <image:loc>https://gallery.voidtales.win/images/original/default/96103542-default.webp</image:loc>
+      <image:title>Default Screenshot #2</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://gallery.voidtales.win/#img-99323854</loc>
+    <image:image>
+      <image:loc>https://gallery.voidtales.win/images/original/default/99323854-default.webp</image:loc>
+      <image:title>Default Screenshot #4</image:title>
+    </image:image>
   </url>
 </urlset>

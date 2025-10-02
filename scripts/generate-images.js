@@ -93,4 +93,23 @@ const defaultEntries = defaultImages.map(file => {
 // 3. Combine and write
 const images = [...externalEntries, ...defaultEntries];
 fs.writeFileSync(outPath, JSON.stringify(images, null, 2), 'utf-8');
-console.log(`✔️ Wrote ${images.length} entries to public/images.json`);
+console.log(`✅ Wrote ${images.length} entries to public/images.json`);
+
+// Bild-Sitemap generieren
+const baseUrl = 'https://gallery.voidtales.win';
+let sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n`;
+
+images.forEach(img => {
+  sitemap += `  <url>\n`;
+  sitemap += `    <loc>${baseUrl}/#img-${img.id}</loc>\n`;
+  sitemap += `    <image:image>\n`;
+  sitemap += `      <image:loc>${baseUrl}${img.imageUrl}</image:loc>\n`;
+  if (img.caption) sitemap += `      <image:title>${img.caption}</image:title>\n`;
+  sitemap += `    </image:image>\n`;
+  sitemap += `  </url>\n`;
+});
+
+sitemap += `</urlset>\n`;
+
+fs.writeFileSync(path.join(process.cwd(), 'public/sitemap.xml'), sitemap, 'utf-8');
+console.log('✅ Image sitemap generated!');
