@@ -27,7 +27,7 @@
     "@astrojs/check": "^0.9.4",
     "@astrojs/preact": "^4.1.1",
     "@astrojs/sitemap": "^3.6.0",
-    "astro": "^5.14.3",
+    "astro": "^5.14.5",
     "axios": "^1.12.2",
     "cheerio": "^1.1.2",
     "dotenv": "^17.2.3",
@@ -37,7 +37,7 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.5",
+    "@biomejs/biome": "^2.2.6",
     "concurrently": "^9.2.1",
     "husky": "^9.1.7",
     "sharp": "^0.34.4",
