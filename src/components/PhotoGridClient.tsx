@@ -254,7 +254,7 @@ export default function PhotoGridClient({
 
     window._glightboxInstance = lightbox;
     setTimeout(() => setLightboxReady(true), 100); // Mark GLightbox as ready after init
-  }, [loadedPhotos]);
+  }, [loadedPhotos, visibleCount]);
 
   // Hash-Open: Open only once and only if GLightbox is ready and not already open
   useEffect(() => {
