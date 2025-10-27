@@ -21,3 +21,6 @@ public/images/thumbs/
 # End of .gitignore
 public/images.json
 scripts/generate-test-data.js
+generate_missing_thumbs.py
+.gitignore
+generate_test_data.py
