@@ -25,10 +25,10 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.5",
-    "@astrojs/preact": "^4.1.1",
+    "@astrojs/preact": "^4.1.2",
     "@astrojs/sitemap": "^3.6.0",
-    "astro": "^5.15.1",
-    "axios": "^1.13.0",
+    "astro": "^5.15.2",
+    "axios": "^1.13.1",
     "cheerio": "^1.1.2",
     "dotenv": "^17.2.3",
     "glightbox": "^3.3.1",
@@ -37,7 +37,7 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.3.1",
+    "@biomejs/biome": "^2.3.2",
     "concurrently": "^9.2.1",
     "husky": "^9.1.7",
     "sharp": "^0.34.4",
