@@ -27,7 +27,7 @@
     "@astrojs/check": "^0.9.5",
     "@astrojs/preact": "^4.1.2",
     "@astrojs/sitemap": "^3.6.0",
-    "astro": "^5.15.2",
+    "astro": "^5.15.6",
     "axios": "^1.13.1",
     "cheerio": "^1.1.2",
     "dotenv": "^17.2.3",
