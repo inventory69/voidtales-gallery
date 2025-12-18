@@ -1,5 +1,16 @@
 /* =================== LAYOUT =================== */
 
+/* CSS Variables for Skeleton Loader */
+:root {
+  --skeleton-base: #e0e0e0;
+  --skeleton-shimmer: #f0f0f0;
+}
+
+html.dark {
+  --skeleton-base: #2a2a2a;
+  --skeleton-shimmer: #3a3a3a;
+}
+
 .container {
   max-width: 1100px;
   margin: 28px auto;

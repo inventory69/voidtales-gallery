@@ -20,20 +20,43 @@
   overflow: hidden;
   border-radius: 8px;
   cursor: pointer;
-  background: transparent;
+  /* Skeleton loader as background */
+  background: linear-gradient(
+    90deg,
+    var(--skeleton-base) 0%,
+    var(--skeleton-shimmer) 50%,
+    var(--skeleton-base) 100%
+  );
+  background-size: 200% 100%;
+  animation: 
+    photo-in 0.7s cubic-bezier(.4,0,.2,1) forwards,
+    skeleton-loading 1.5s ease-in-out infinite;
+  animation-delay: var(--photo-delay, 0s), 0s;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.308);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   opacity: 0;
   transform: translateY(20px);
-  animation: photo-in 0.7s cubic-bezier(.4,0,.2,1) forwards;
-  animation-delay: var(--photo-delay, 0s);
 }
 
+/* Skeleton shimmer animation */
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Photo slide-in animation */
 @keyframes photo-in {
   to {
     opacity: 1;
     transform: none;
   }
+}
+
+/* Stop skeleton animation when image is loaded */
+.photo.loaded {
+  animation: photo-in 0.7s cubic-bezier(.4,0,.2,1) forwards;
+  animation-delay: var(--photo-delay, 0s);
+  background: transparent;
 }
 
 .photo:hover {
@@ -55,6 +78,12 @@ html.dark .photo:hover {
   height: 100%;
   object-fit: cover;
   display: block;
+  opacity: 0;
+  transition: opacity 0.3s ease-in;
+}
+
+.photo img.loaded {
+  opacity: 1;
 }
 
 /* Photo caption */
