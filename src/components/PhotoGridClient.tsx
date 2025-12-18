@@ -42,8 +42,39 @@ export default function PhotoGridClient({
   const [pendingHashId, setPendingHashId] = useState<string | null>(null);
   const [lightboxReady, setLightboxReady] = useState(false);
   const [gridKey, setGridKey] = useState(0);
+  const [imageLoadStates, setImageLoadStates] = useState<Record<string, 'loading' | 'loaded' | 'error'>>({});
   const sentinelRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
+
+  // Image load handlers
+  const handleImageLoad = (photoId: string) => {
+    setImageLoadStates(prev => ({ ...prev, [photoId]: 'loaded' }));
+    // Add loaded class to parent .photo container
+    const img = document.querySelector(`img[data-photo-id="${photoId}"]`);
+    if (img) {
+      const photoContainer = img.closest('.photo');
+      if (photoContainer) {
+        photoContainer.classList.add('loaded');
+      }
+      img.classList.add('loaded');
+    }
+  };
+
+  const handleImageError = (photoId: string) => {
+    setImageLoadStates(prev => ({ ...prev, [photoId]: 'error' }));
+    // Retry loading after delay
+    setTimeout(() => retryImageLoad(photoId), 2000);
+  };
+
+  const retryImageLoad = (photoId: string) => {
+    const img = document.querySelector(`img[data-photo-id="${photoId}"]`);
+    if (img instanceof HTMLImageElement) {
+      setImageLoadStates(prev => ({ ...prev, [photoId]: 'loading' }));
+      // Force reload by adding timestamp
+      const src = img.src.split('?')[0];
+      img.src = `${src}?retry=${Date.now()}`;
+    }
+  };
 
   // Show notification overlay inside GLightbox
   function showNotification(message: string, type: "success" | "error") {
@@ -336,10 +367,14 @@ export default function PhotoGridClient({
                   type="image/webp"
                 />
                 <img
+                  data-photo-id={photo.id}
                   src={photo.thumbPath}
                   srcSet={`${photo.thumbPath} 1x, ${photo.thumbPath?.replace("-400.webp", "-800.webp")} 2x`}
                   alt={photo.title}
                   loading={animate ? "eager" : "lazy"}
+                  onLoad={() => handleImageLoad(photo.id)}
+                  onError={() => handleImageError(photo.id)}
+                  className={imageLoadStates[photo.id] === 'loaded' ? 'loaded' : ''}
                 />
               </picture>
               {isStaffPhoto(photo) && (

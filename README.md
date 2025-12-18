@@ -2,6 +2,20 @@
 
 ![VoidTales Gallery Banner](./public/images/githeader.webp)
 
+> **⚠️ IMPORTANT NOTE FOR SELF-HOSTERS**  
+> This is a **static site generator** - it does NOT include:
+> - Automatic image upload functionality
+> - Image management UI or admin panel  
+> - Database or backend services
+> 
+> **You must manually:**
+> - Add images to `public/images/original/`
+> - Create markdown metadata files in `src/content/photos/`
+> - Run the thumbnail generation script
+> - Rebuild the site
+> 
+> If you need automated workflows, you'll need to build your own scripts or CI/CD pipelines. See [Automation Ideas](#-automation-ideas) for inspiration.
+
 A sleek, high-performance photo gallery built with [Astro](https://astro.build/), TypeScript, and vanilla CSS/JS.  
 Showcase your photos with modern design, automatic sorting, and seamless dark mode – no heavy frameworks, just pure speed.
 
@@ -256,6 +270,90 @@ We welcome contributions to improve VoidTales Gallery! Whether you're fixing bug
 - No heavy frameworks; stick to vanilla CSS/JS where possible.
 
 For questions, join our [Discord](https://discord.gg/QEMQsFect6) or open an issue. Thanks for contributing! 🚀
+
+---
+
+## 🤖 Automation Ideas
+
+Since this is a static site, here are some ways to automate image management if you're self-hosting:
+
+### 📸 GitHub Actions Workflow
+- Upload images via GitHub web interface or git push
+- Automatically generate thumbnails on push
+- Auto-commit generated files and metadata
+- Trigger rebuild and deployment
+
+**Example workflow:**
+```yaml
+name: Process New Images
+on:
+  push:
+    paths:
+      - 'public/images/original/**'
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Generate thumbnails
+        run: pnpm run gen:thumbs
+      - name: Commit generated files
+        run: |
+          git config user.name github-actions
+          git add public/images/thumbs
+          git commit -m "chore: generate thumbnails"
+          git push
+```
+
+### 🔧 Custom Upload Script
+- Build a simple Node.js/Python script
+- Extract metadata from EXIF data automatically
+- Create markdown files with proper frontmatter
+- Commit and push changes programmatically
+
+**Example concept:**
+```javascript
+// upload.js - Run locally to add images
+const sharp = require('sharp');
+const fs = require('fs');
+const path = require('path');
+
+async function processImage(imagePath) {
+  const metadata = await sharp(imagePath).metadata();
+  const id = path.basename(imagePath, path.extname(imagePath));
+  
+  // Generate thumbnails
+  await generateThumbnails(imagePath, id);
+  
+  // Create markdown file
+  const mdContent = `---
+id: "${id}"
+title: "${id}"
+slug: "${id}"
+date: "${new Date().toISOString()}"
+fullsizePath: "/images/original/${path.basename(imagePath)}"
+thumbPath: "/images/thumbs/${id}-400.webp"
+width: ${metadata.width}
+height: ${metadata.height}
+---`;
+  
+  fs.writeFileSync(`src/content/photos/${id}.md`, mdContent);
+}
+```
+
+### 🌐 External CMS Integration
+- Use a headless CMS (Strapi, Directus, Sanity)
+- Fetch images and metadata during Astro build process
+- Keep the static site benefits with dynamic content source
+- Use the existing external download feature as a starting point
+
+### 🐳 Docker + Watchtower Setup
+- Mount a volume for images
+- Add images via SFTP/FTP
+- Use inotify to watch for new files
+- Automatically trigger rebuild
+
+**This gallery does NOT provide these features out of the box.** You need to implement them yourself based on your infrastructure and requirements.
 
 ---
 
