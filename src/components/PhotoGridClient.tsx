@@ -198,6 +198,8 @@ export default function PhotoGridClient({
     const handleSort = (e: CustomEvent) => {
       setSortOption(e.detail.sortOption);
       setVisibleCount(20);
+      setPendingBatch(false);
+      setIsLoadingMore(false);
       setGridKey(prev => prev + 1);
 
       // Wenn random gewählt wurde, originalPhotos neu mischen!
@@ -257,7 +259,7 @@ export default function PhotoGridClient({
     return () => {
       if (observerRef.current) observerRef.current.disconnect();
     };
-  }, [isLoadingMore, pendingBatch, visibleCount, loadedPhotos.length, GridKey]);
+  }, [isLoadingMore, pendingBatch, visibleCount, loadedPhotos.length]);
 
   // GLightbox: always use loadedPhotos
   useEffect(() => {
