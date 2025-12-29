@@ -212,7 +212,7 @@ export default function PhotoGridClient({
   useEffect(() => {
     if (originalPhotos.length === 0) return;
       setLoadedPhotos(sortPhotos(originalPhotos, sortOption));
-  }, [originalPhotos, sortOption]);
+  }, [originalPhotos, sortOption, gridKey]);
 
   useEffect(() => {
     const handleRefresh = () => loadAndSetPhotos();
@@ -257,7 +257,7 @@ export default function PhotoGridClient({
     return () => {
       if (observerRef.current) observerRef.current.disconnect();
     };
-  }, [isLoadingMore, pendingBatch, visibleCount, loadedPhotos.length, GridKey]);
+  }, [isLoadingMore, pendingBatch, visibleCount, loadedPhotos.length, gridKey]);
 
   // GLightbox: always use loadedPhotos
   useEffect(() => {
