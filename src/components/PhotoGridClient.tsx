@@ -257,7 +257,7 @@ export default function PhotoGridClient({
     return () => {
       if (observerRef.current) observerRef.current.disconnect();
     };
-  }, [isLoadingMore, pendingBatch, visibleCount, loadedPhotos.length]);
+  }, [isLoadingMore, pendingBatch, visibleCount, loadedPhotos.length, GridKey]);
 
   // GLightbox: always use loadedPhotos
   useEffect(() => {
