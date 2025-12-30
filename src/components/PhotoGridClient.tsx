@@ -198,6 +198,8 @@ export default function PhotoGridClient({
     const handleSort = (e: CustomEvent) => {
       setSortOption(e.detail.sortOption);
       setVisibleCount(20);
+      setPendingBatch(false);
+      setIsLoadingMore(false);
       setGridKey(prev => prev + 1);
 
       // Wenn random gewählt wurde, originalPhotos neu mischen!
