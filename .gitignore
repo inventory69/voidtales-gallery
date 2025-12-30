@@ -18,9 +18,14 @@ node_modules/
 # Ignore generated image thumbnails
 public/images/thumbs/
 
-# End of .gitignore
+# Generated files (auto-created during build/dev)
 public/images.json
-scripts/generate-test-data.js
+public/sitemap.xml
+.thumbs_generated
+
+# Test data scripts (keep in version control but mark for reference)
+# scripts/generate-test-data.js is actually committed on purpose
 generate_missing_thumbs.py
-.gitignore
 generate_test_data.py
+
+# End of .gitignore
