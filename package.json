@@ -19,6 +19,8 @@
     "stylelint": "stylelint '**/*.{astro,css}'",
     "stylelint:fix": "stylelint '**/*.{astro,css}' --fix",
     "gen:thumbs": "node scripts/generate-thumbs.js",
+    "gen:testdata": "node scripts/generate-test-data.js",
+    "cleanup:testdata": "node scripts/generate-test-data.js --cleanup",
     "copy:md-files": "node scripts/copy-md-files.cjs",
     "copy:original-images": "node scripts/copy-original-images.cjs",
     "gen:imagejson": "node scripts/generate-images.js"
