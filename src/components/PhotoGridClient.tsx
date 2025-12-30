@@ -198,6 +198,8 @@ export default function PhotoGridClient({
     const handleSort = (e: CustomEvent) => {
       setSortOption(e.detail.sortOption);
       setVisibleCount(20);
+      setPendingBatch(false);
+      setIsLoadingMore(false);
       setGridKey(prev => prev + 1);
 
       // Wenn random gewählt wurde, originalPhotos neu mischen!
@@ -320,6 +322,7 @@ export default function PhotoGridClient({
   const loaderStyle = {
     fontFamily: siteConfig.fontFamily,
     gridColumn: "1 / -1",
+    order: 9999, // Ensures loader always appears after all photos, even during state updates
   };
 
   return (
