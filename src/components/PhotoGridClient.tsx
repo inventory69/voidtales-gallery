@@ -322,6 +322,7 @@ export default function PhotoGridClient({
   const loaderStyle = {
     fontFamily: siteConfig.fontFamily,
     gridColumn: "1 / -1",
+    order: 9999, // Ensures loader always appears after all photos, even during state updates
   };
 
   return (
